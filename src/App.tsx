@@ -143,7 +143,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen overflow-hidden bg-[#050711] text-slate-100">
+    <div className="min-h-screen overflow-x-hidden bg-[#050711] text-slate-100">
       <BackgroundFX />
       <Header
         menuOpen={menuOpen}
@@ -329,13 +329,13 @@ function Hero({ onHome, onWriteups }: HeroProps) {
             <Radar className="size-4" aria-hidden="true" />
             Security research portfolio
           </div>
-          <h1 className="max-w-4xl text-5xl font-semibold leading-[1.04] text-white sm:text-6xl lg:text-7xl">
+          <h1 className="max-w-4xl break-words text-4xl font-semibold leading-[1.04] text-white sm:text-6xl lg:text-7xl">
             {profile.name}{' '}
             <span className="block text-slate-300">
               ({profile.romanizedName})
             </span>
           </h1>
-          <p className="mt-5 max-w-2xl text-xl text-cyan-100">
+          <p className="mt-5 max-w-2xl text-lg text-cyan-100 sm:text-xl">
             {profile.title}
           </p>
           <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
@@ -570,23 +570,13 @@ function Contact() {
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {contactLinks.map((link) => {
           const Icon = contactIcons[link.label] ?? Globe2
-
-          return (
-            <a
-              className={`contact-card ${
-                link.active ? 'hover:border-cyan-300/40 hover:bg-cyan-300/10' : ''
-              }`}
-              href={link.href}
-              key={link.label}
-              onClick={(event) => {
-                if (!link.active) {
-                  event.preventDefault()
-                }
-              }}
-              rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
-              target={link.href.startsWith('http') ? '_blank' : undefined}
-              aria-disabled={!link.active}
-            >
+          const cardClass = `contact-card ${
+            link.active
+              ? 'hover:border-cyan-300/40 hover:bg-cyan-300/10'
+              : 'cursor-default opacity-75'
+          }`
+          const cardContent = (
+            <>
               <Icon className="size-5 text-cyan-200" aria-hidden="true" />
               <span className="mt-5 block text-sm text-slate-400">
                 {link.label}
@@ -594,6 +584,30 @@ function Contact() {
               <span className="mt-2 block break-words text-sm font-medium text-white">
                 {link.value}
               </span>
+            </>
+          )
+
+          if (!link.active || !link.href) {
+            return (
+              <div
+                className={cardClass}
+                key={link.label}
+                aria-disabled="true"
+              >
+                {cardContent}
+              </div>
+            )
+          }
+
+          return (
+            <a
+              className={cardClass}
+              href={link.href}
+              key={link.label}
+              rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+              target={link.href.startsWith('http') ? '_blank' : undefined}
+            >
+              {cardContent}
             </a>
           )
         })}

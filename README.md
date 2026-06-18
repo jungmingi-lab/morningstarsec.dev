@@ -106,10 +106,10 @@ npm run resume
 
 ## GitHub Pages Deployment
 
-1. Create a GitHub repository under `doahattu`, for example:
+1. Create or open this GitHub repository:
 
    ```text
-   https://github.com/doahattu/morningstarsec.dev
+   https://github.com/jungmingi-lab/morningstarsec.dev
    ```
 
 2. Push this project to the `main` branch:
@@ -117,9 +117,10 @@ npm run resume
    ```bash
    git init
    git branch -M main
-   git remote add origin https://github.com/doahattu/morningstarsec.dev.git
+   git remote remove origin || true
+   git remote add origin https://github.com/jungmingi-lab/morningstarsec.dev.git
    git add .
-   git commit -m "Initial MorningStarSec portfolio"
+   git commit -m "Prepare MorningStarSec production deployment"
    git push -u origin main
    ```
 
@@ -139,7 +140,7 @@ npm run resume
 
 8. Push to `main` or run the `Deploy to GitHub Pages` workflow manually from the `Actions` tab.
 
-The workflow builds `dist/`, uploads it as a Pages artifact, and deploys it. The build also copies `dist/index.html` to `dist/404.html` so clean SPA routes such as `/writeups` work on GitHub Pages.
+The workflow builds `dist/`, uploads it as a Pages artifact, and deploys it. Vite copies `public/CNAME` into `dist/CNAME`, and the build also copies `dist/index.html` to `dist/404.html` so clean SPA routes such as `/writeups` work on GitHub Pages.
 
 ## Cloudflare DNS Setup
 
@@ -154,39 +155,37 @@ Use Cloudflare as DNS for `morningstarsec.dev`, with GitHub Pages as the hosting
 
 ### 2. Add DNS Records
 
-Remove conflicting existing `A`, `AAAA`, or `CNAME` records for `@` and `www`, then add:
+Remove conflicting existing `A`, `AAAA`, or `CNAME` records for `@`, then add:
 
 | Type | Name | Content |
 | --- | --- | --- |
-| `A` | `@` | `185.199.108.153` |
-| `A` | `@` | `185.199.109.153` |
-| `A` | `@` | `185.199.110.153` |
-| `A` | `@` | `185.199.111.153` |
-| `AAAA` | `@` | `2606:50c0:8000::153` |
-| `AAAA` | `@` | `2606:50c0:8001::153` |
-| `AAAA` | `@` | `2606:50c0:8002::153` |
-| `AAAA` | `@` | `2606:50c0:8003::153` |
-| `CNAME` | `www` | `doahattu.github.io` |
+| `CNAME` | `@` | `jungmingi-lab.github.io` |
 
 Recommended initial Cloudflare settings:
 
-- `Proxy status`: `DNS only` for all GitHub Pages records while GitHub validates the domain and issues HTTPS.
+- `Proxy status`: `DNS only` while GitHub validates the domain and issues HTTPS.
 - `TTL`: `Auto`.
 
-Keep `www` pointed directly at `doahattu.github.io`, not at the repository path.
+Optional `www` record:
+
+| Type | Name | Content |
+| --- | --- | --- |
+| `CNAME` | `www` | `jungmingi-lab.github.io` |
+
+Keep any `www` record pointed directly at `jungmingi-lab.github.io`, not at the repository path.
 
 ### 3. Enable HTTPS
 
 1. In GitHub, open `Settings` -> `Pages`.
 2. Confirm the custom domain is `morningstarsec.dev`.
-3. Wait for the DNS check and certificate provisioning to complete. DNS propagation can take up to 24 hours.
+3. Wait for the DNS check and certificate provisioning to complete. DNS propagation can take a few minutes and may take up to 24 hours.
 4. Enable `Enforce HTTPS`.
-5. In Cloudflare, keep the DNS records as `DNS only` for the simplest setup.
+5. In Cloudflare, keep the records as `DNS only` for the simplest setup.
 
 Optional Cloudflare proxy mode after GitHub HTTPS is working:
 
 1. In Cloudflare, set `SSL/TLS` mode to `Full (strict)`.
-2. Change the `A`, `AAAA`, and `CNAME` records from `DNS only` to `Proxied`.
+2. Change the `CNAME` records from `DNS only` to `Proxied`.
 3. Re-test both `https://morningstarsec.dev` and `https://www.morningstarsec.dev`.
 
 If GitHub Pages reports DNS or certificate problems, switch the records back to `DNS only` until GitHub Pages is healthy.
@@ -196,20 +195,28 @@ If GitHub Pages reports DNS or certificate problems, switch the records back to 
 Run:
 
 ```bash
-dig morningstarsec.dev +noall +answer -t A
-dig morningstarsec.dev +noall +answer -t AAAA
-dig www.morningstarsec.dev +nostats +nocomments +nocmd
+dig morningstarsec.dev +noall +answer -t CNAME
+dig www.morningstarsec.dev +noall +answer -t CNAME
 curl -I https://morningstarsec.dev
 curl -I https://morningstarsec.dev/writeups
 ```
 
 Expected:
 
-- Apex `A` records resolve to GitHub Pages IPv4 addresses.
-- Apex `AAAA` records resolve to GitHub Pages IPv6 addresses.
-- `www` resolves through `doahattu.github.io`.
+- Apex `CNAME` resolves through `jungmingi-lab.github.io`.
+- Optional `www` resolves through `jungmingi-lab.github.io`.
 - `https://morningstarsec.dev` returns a successful HTTPS response.
 - `/writeups` loads the React writeup page.
+
+## Final Verification Checklist
+
+- Repository URL: `https://github.com/jungmingi-lab/morningstarsec.dev`
+- GitHub Pages URL: `https://jungmingi-lab.github.io/morningstarsec.dev/`
+- Custom domain URL: `https://morningstarsec.dev`
+- DNS record: `CNAME @ jungmingi-lab.github.io`, `DNS only`
+- Build command: `npm run build`
+- Deployment workflow: `.github/workflows/deploy.yml`
+- Manual actions: configure GitHub Pages source as `GitHub Actions`, set custom domain, then enable `Enforce HTTPS`
 
 ## Reference Docs
 

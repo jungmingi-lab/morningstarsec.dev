@@ -45,7 +45,7 @@ input {
 .section-shell {
   position: relative;
   z-index: 10;
-  width: min(100% - 2rem, 1180px);
+  width: min(calc(100% - 2rem), 1180px);
   margin-inline: auto;
 }
 
