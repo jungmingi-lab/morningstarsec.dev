@@ -3,6 +3,7 @@ export const WRITEUP_CATEGORIES = [
   'Pwn',
   'Reversing',
   'Forensics',
+  'Development',
   'Misc',
 ] as const
 

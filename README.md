@@ -80,6 +80,7 @@ Supported categories:
 - `Pwn`
 - `Reversing`
 - `Forensics`
+- `Development`
 - `Misc`
 
 The writeup page is available at:
