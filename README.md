@@ -83,6 +83,10 @@ Supported categories:
 - `Development`
 - `Misc`
 
+Each category can contain multiple Markdown files. Use Markdown headings such as
+`## Overview` and `## Technical Notes` inside each post to split detailed
+content into sections.
+
 The writeup page is available at:
 
 ```text

@@ -541,10 +541,10 @@ function WriteupsPreview({ onWriteups }: WriteupsPreviewProps) {
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-black/20 px-4 py-2 text-sm text-cyan-100">
               <FileText className="size-4" aria-hidden="true" />
-              CTF Writeups
+              Technical Notes
             </div>
             <h2 className="max-w-3xl text-3xl font-semibold text-white sm:text-4xl">
-              Markdown-based notes for Web, Pwn, Reversing, Forensics, and Misc.
+              Markdown-based notes for security research and development projects.
             </h2>
           </div>
           <a className="primary-btn w-full sm:w-fit" href="/writeups" onClick={onWriteups}>
@@ -664,9 +664,9 @@ function WriteupsPage({ route }: WriteupsPageProps) {
     <main className="section-shell pt-32 pb-24">
       <SectionHeading
         icon={BookOpen}
-        eyebrow="CTF Writeups"
+        eyebrow="Technical Notes"
         title="Searchable Markdown notes by category and tag."
-        description="A dedicated section for challenge analysis, methodology, and future competition writeups."
+        description="A dedicated section for challenge analysis, methodology, development logs, and project documentation."
       />
 
       <div className="mt-10 grid gap-4 lg:grid-cols-[360px_minmax(0,1fr)]">
