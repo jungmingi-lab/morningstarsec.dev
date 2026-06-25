@@ -81,6 +81,7 @@ Supported categories:
 - `Reversing`
 - `Forensics`
 - `Development`
+- `Dreamhack`
 - `Misc`
 
 Each category can contain multiple Markdown files. Use Markdown headings such as

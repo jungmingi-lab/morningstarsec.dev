@@ -4,6 +4,7 @@ export const WRITEUP_CATEGORIES = [
   'Reversing',
   'Forensics',
   'Development',
+  'Dreamhack',
   'Misc',
 ] as const
 
