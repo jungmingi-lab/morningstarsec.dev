@@ -1,7 +1,7 @@
 export const profile = {
   name: '정민기',
   romanizedName: 'Minki Jung',
-  handle: 'MorningStarSec',
+  handle: 'luxferre',
   title: 'Cybersecurity Student & Security Researcher',
   email: 'minki@morningstarsec.dev',
   github: 'https://github.com/jungmingi-lab',

@@ -1,4 +1,4 @@
-# MorningStarSec Portfolio
+# luxferre Portfolio
 
 Professional cybersecurity portfolio for `morningstarsec.dev`, built with React, TypeScript, Vite, Tailwind CSS, GitHub Pages, and GitHub Actions.
 
@@ -126,7 +126,7 @@ npm run resume
    git remote remove origin || true
    git remote add origin https://github.com/jungmingi-lab/morningstarsec.dev.git
    git add .
-   git commit -m "Prepare MorningStarSec production deployment"
+   git commit -m "Prepare luxferre production deployment"
    git push -u origin main
    ```
 

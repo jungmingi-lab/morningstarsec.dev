@@ -199,7 +199,7 @@ function Header({
           </span>
           <span className="leading-tight">
             <span className="block text-sm font-semibold text-white">
-              MorningStarSec
+              {profile.handle}
             </span>
             <span className="block text-xs text-slate-400">
               {profile.romanizedName}
@@ -842,7 +842,7 @@ function Footer() {
   return (
     <footer className="relative z-10 border-t border-white/10 px-4 py-8 text-sm text-slate-500">
       <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p>© 2026 MorningStarSec. Built with React, TypeScript, Vite, and Tailwind CSS.</p>
+        <p>© 2026 {profile.handle}. Built with React, TypeScript, Vite, and Tailwind CSS.</p>
         <a
           className="inline-flex items-center gap-2 text-slate-400 transition hover:text-cyan-100"
           href={profile.domain}
