@@ -14,7 +14,7 @@ const lines = [
   },
   { text: 'Email: minki@morningstarsec.dev', x: 72, y: 650, size: 11, font: 'F1' },
   { text: 'GitHub: https://github.com/doahattu', x: 72, y: 632, size: 11, font: 'F1' },
-  { text: 'Website: https://morningstarsec.dev', x: 72, y: 614, size: 11, font: 'F1' },
+  { text: 'Website: https://luxferre.cc', x: 72, y: 614, size: 11, font: 'F1' },
   { text: 'Education', x: 72, y: 570, size: 15, font: 'F2' },
   {
     text: 'Daejeon University, AISW (Artificial Intelligence Software) Department',

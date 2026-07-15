@@ -5,7 +5,7 @@ export const profile = {
   title: 'Cybersecurity Student & Security Researcher',
   email: 'minki@morningstarsec.dev',
   github: 'https://github.com/jungmingi-lab',
-  domain: 'https://morningstarsec.dev',
+  domain: 'https://luxferre.cc',
   university: 'Daejeon University',
   department: 'AISW (Artificial Intelligence Software) Department',
 }

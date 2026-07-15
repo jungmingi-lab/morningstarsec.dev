@@ -1,6 +1,6 @@
 # luxferre Portfolio
 
-Professional cybersecurity portfolio for `morningstarsec.dev`, built with React, TypeScript, Vite, Tailwind CSS, GitHub Pages, and GitHub Actions.
+Professional cybersecurity portfolio for `luxferre.cc`, built with React, TypeScript, Vite, Tailwind CSS, GitHub Pages, and GitHub Actions.
 
 ## Stack
 
@@ -91,7 +91,7 @@ content into sections.
 The writeup page is available at:
 
 ```text
-https://morningstarsec.dev/writeups
+https://luxferre.cc/writeups
 ```
 
 ## Resume
@@ -139,7 +139,7 @@ npm run resume
 6. Under `Custom domain`, enter:
 
    ```text
-   morningstarsec.dev
+   luxferre.cc
    ```
 
 7. Save the custom domain.
@@ -150,11 +150,11 @@ The workflow builds `dist/`, uploads it as a Pages artifact, and deploys it. Vit
 
 ## Cloudflare DNS Setup
 
-Use Cloudflare as DNS for `morningstarsec.dev`, with GitHub Pages as the hosting origin.
+Use Cloudflare as DNS for `luxferre.cc`, with GitHub Pages as the hosting origin.
 
 ### 1. Connect Cloudflare DNS
 
-1. Add `morningstarsec.dev` to Cloudflare.
+1. Add `luxferre.cc` to Cloudflare.
 2. At the domain registrar, replace the current nameservers with the two Cloudflare nameservers shown in the Cloudflare dashboard.
 3. Wait until Cloudflare marks the zone as active.
 4. In Cloudflare, open `DNS` -> `Records`.
@@ -165,7 +165,10 @@ Remove conflicting existing `A`, `AAAA`, or `CNAME` records for `@`, then add:
 
 | Type | Name | Content |
 | --- | --- | --- |
-| `CNAME` | `@` | `jungmingi-lab.github.io` |
+| `A` | `@` | `185.199.108.153` |
+| `A` | `@` | `185.199.109.153` |
+| `A` | `@` | `185.199.110.153` |
+| `A` | `@` | `185.199.111.153` |
 
 Recommended initial Cloudflare settings:
 
@@ -183,7 +186,7 @@ Keep any `www` record pointed directly at `jungmingi-lab.github.io`, not at the 
 ### 3. Enable HTTPS
 
 1. In GitHub, open `Settings` -> `Pages`.
-2. Confirm the custom domain is `morningstarsec.dev`.
+2. Confirm the custom domain is `luxferre.cc`.
 3. Wait for the DNS check and certificate provisioning to complete. DNS propagation can take a few minutes and may take up to 24 hours.
 4. Enable `Enforce HTTPS`.
 5. In Cloudflare, keep the records as `DNS only` for the simplest setup.
@@ -192,7 +195,7 @@ Optional Cloudflare proxy mode after GitHub HTTPS is working:
 
 1. In Cloudflare, set `SSL/TLS` mode to `Full (strict)`.
 2. Change the `CNAME` records from `DNS only` to `Proxied`.
-3. Re-test both `https://morningstarsec.dev` and `https://www.morningstarsec.dev`.
+3. Re-test both `https://luxferre.cc` and `https://www.luxferre.cc`.
 
 If GitHub Pages reports DNS or certificate problems, switch the records back to `DNS only` until GitHub Pages is healthy.
 
@@ -201,25 +204,25 @@ If GitHub Pages reports DNS or certificate problems, switch the records back to 
 Run:
 
 ```bash
-dig morningstarsec.dev +noall +answer -t CNAME
-dig www.morningstarsec.dev +noall +answer -t CNAME
-curl -I https://morningstarsec.dev
-curl -I https://morningstarsec.dev/writeups
+dig luxferre.cc +noall +answer -t A
+dig www.luxferre.cc +noall +answer -t CNAME
+curl -I https://luxferre.cc
+curl -I https://luxferre.cc/writeups
 ```
 
 Expected:
 
-- Apex `CNAME` resolves through `jungmingi-lab.github.io`.
+- Apex `A` records resolve to the GitHub Pages addresses.
 - Optional `www` resolves through `jungmingi-lab.github.io`.
-- `https://morningstarsec.dev` returns a successful HTTPS response.
+- `https://luxferre.cc` returns a successful HTTPS response.
 - `/writeups` loads the React writeup page.
 
 ## Final Verification Checklist
 
 - Repository URL: `https://github.com/jungmingi-lab/morningstarsec.dev`
 - GitHub Pages URL: `https://jungmingi-lab.github.io/morningstarsec.dev/`
-- Custom domain URL: `https://morningstarsec.dev`
-- DNS record: `CNAME @ jungmingi-lab.github.io`, `DNS only`
+- Custom domain URL: `https://luxferre.cc`
+- DNS records: GitHub Pages apex `A` records and `CNAME www jungmingi-lab.github.io`, all `DNS only`
 - Build command: `npm run build`
 - Deployment workflow: `.github/workflows/deploy.yml`
 - Manual actions: configure GitHub Pages source as `GitHub Actions`, set custom domain, then enable `Enforce HTTPS`
