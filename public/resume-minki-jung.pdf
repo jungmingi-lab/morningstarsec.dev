@@ -15,15 +15,15 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
 endobj
 6 0 obj
-<< /Length 1140 >>
+<< /Length 1109 >>
 stream
 BT /F2 26 Tf 72 720 Td (Minki Jung) Tj ET
 BT /F1 14 Tf 72 690 Td (Cybersecurity Student & Security Researcher) Tj ET
 BT /F1 11 Tf 72 650 Td (Email: minki@luxferre.cc) Tj ET
-BT /F1 11 Tf 72 632 Td (GitHub: https://github.com/doahattu) Tj ET
+BT /F1 11 Tf 72 632 Td (GitHub: https://github.com/jungmingi-lab) Tj ET
 BT /F1 11 Tf 72 614 Td (Website: https://luxferre.cc) Tj ET
 BT /F2 15 Tf 72 570 Td (Education) Tj ET
-BT /F1 11 Tf 72 548 Td (Daejeon University, AISW \(Artificial Intelligence Software\) Department) Tj ET
+BT /F1 11 Tf 72 548 Td (Daejeon University, AISW Department) Tj ET
 BT /F2 15 Tf 72 506 Td (Interests) Tj ET
 BT /F1 11 Tf 72 484 Td (Web Security, Vulnerability Research, CTF, Digital Forensics, AI Security) Tj ET
 BT /F2 15 Tf 72 442 Td (Projects) Tj ET
@@ -31,8 +31,8 @@ BT /F1 11 Tf 72 420 Td (MorningStar - Information ecosystem health analysis AI p
 BT /F1 11 Tf 72 402 Td (Parking King - Parking sharing and reservation service) Tj ET
 BT /F1 11 Tf 72 384 Td (AI-powered personalized meal recommendation service) Tj ET
 BT /F1 11 Tf 72 366 Td (IoT Hackathon - Time-series prediction and security challenge project) Tj ET
-BT /F2 15 Tf 72 320 Td (Note) Tj ET
-BT /F1 11 Tf 72 298 Td (Replace this starter PDF with the full resume before publishing applications.) Tj ET
+BT /F2 15 Tf 72 320 Td (Portfolio) Tj ET
+BT /F1 11 Tf 72 298 Td (Security, vulnerability research, CTF, AI, and software development work.) Tj ET
 endstream
 endobj
 xref
@@ -47,5 +47,5 @@ xref
 trailer
 << /Size 7 /Root 1 0 R >>
 startxref
-1588
+1557
 %%EOF

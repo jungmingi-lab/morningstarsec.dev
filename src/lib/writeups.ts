@@ -32,8 +32,9 @@ const modules = import.meta.glob<string>('../writeups/*.md', {
 })
 
 function parseFrontmatter(raw: string, filePath: string): Writeup {
-  const [, frontmatterBlock = '', body = raw] =
-    raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/) ?? []
+  const normalizedRaw = raw.replace(/\r\n?/g, '\n')
+  const [, frontmatterBlock = '', body = normalizedRaw] =
+    normalizedRaw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/) ?? []
   const frontmatter = frontmatterBlock
     .split('\n')
     .filter(Boolean)

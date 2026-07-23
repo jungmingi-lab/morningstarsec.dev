@@ -1,0 +1,139 @@
+{
+  "profile": {
+    "name": "정민기",
+    "romanizedName": "Minki Jung",
+    "handle": "luxferre",
+    "siteName": "정민기 포트폴리오",
+    "siteUrl": "https://luxferre.cc",
+    "title": "대전대학교 AISW학부 정보보안·AI 포트폴리오",
+    "description": "대전대학교 AISW학부 정민기의 공식 포트폴리오입니다. 정보보안, 취약점 분석, CTF, 인공지능 프로젝트와 수상 및 연구 활동을 소개합니다.",
+    "shortDescription": "대전대학교 AISW학부 정민기의 정보보안, CTF, AI 프로젝트와 활동을 소개합니다.",
+    "email": "minki@luxferre.cc",
+    "github": "https://github.com/jungmingi-lab",
+    "university": "대전대학교",
+    "department": "AISW학부",
+    "affiliation": "대전대학교 AISW학부",
+    "schoolUrl": "https://www.dju.ac.kr/",
+    "departmentUrl": "https://www.dju.ac.kr/aisw/main.do",
+    "ogImage": "/og-image-seo.png"
+  },
+  "interests": [
+    "정보보안",
+    "취약점 분석",
+    "CTF",
+    "인공지능",
+    "소프트웨어 개발"
+  ],
+  "skills": [
+    "React",
+    "TypeScript",
+    "Python",
+    "Linux",
+    "Burp Suite",
+    "Nmap",
+    "Wireshark",
+    "Ghidra",
+    "Digital Forensics",
+    "Threat Modeling",
+    "Secure Coding",
+    "Machine Learning"
+  ],
+  "projects": [
+    {
+      "name": "MorningStar",
+      "featured": true,
+      "eyebrow": "AI 연구 플랫폼",
+      "description": "온라인 정보 흐름의 신뢰도와 협업 신호, 공익 위험을 분석해 정보 생태계의 건강성을 살피는 AI 연구 플랫폼입니다.",
+      "stack": ["AI 분석", "데이터 파이프라인", "보안 연구"],
+      "status": "연구 플랫폼"
+    },
+    {
+      "name": "주차왕 (Parking King)",
+      "featured": false,
+      "eyebrow": "서비스 플랫폼",
+      "description": "실시간 주차 가능 정보, 공간 등록, 예약 흐름을 중심으로 설계한 주차 공유 및 예약 서비스입니다.",
+      "stack": ["예약 UX", "지도", "웹 애플리케이션"],
+      "status": "제품 프로토타입"
+    },
+    {
+      "name": "식탁 위의 처방",
+      "featured": false,
+      "eyebrow": "개인화 AI",
+      "description": "건강 목표와 식생활 맥락을 바탕으로 일상 식단을 제안하는 AI 기반 개인 맞춤형 식사 추천 서비스입니다.",
+      "stack": ["추천 AI", "건강 데이터", "모바일 UX"],
+      "status": "응용 AI 프로젝트"
+    },
+    {
+      "name": "IoT Hackathon",
+      "featured": false,
+      "eyebrow": "보안 챌린지",
+      "description": "센서 데이터 분석과 이상 징후 탐지를 결합해 시계열 예측과 IoT 보안을 다룬 해커톤 프로젝트입니다.",
+      "stack": ["IoT", "시계열", "보안"],
+      "status": "해커톤 프로젝트"
+    }
+  ],
+  "activities": [
+    {
+      "name": "2026 대전 동구 정책디자인단 정책 발굴 경진대회 금상",
+      "date": "2026-07",
+      "displayDate": "2026년 7월",
+      "team": "MorningStar 팀",
+      "description": "대전 동구 원도심 학생을 위한 ‘학원 없는 동네를 위한 AI 서술형 학습 피드백’ 정책을 제안해 금상을 수상했습니다.",
+      "evidenceLabel": "뉴시스 보도에서 수상 내용 확인",
+      "evidenceUrl": "https://www.newsis.com/view/NISX20260713_0003706518",
+      "articleTitle": "[교육소식]대전대 'AI 활용 사업계획서 작성·교차검증' 교육 등"
+    },
+    {
+      "name": "2026 HUSS 해커톤 경진대회 장려상",
+      "date": "2026-07",
+      "displayDate": "2026년 7월",
+      "description": "교육부와 한국연구재단이 함께하는 2026 HUSS 해커톤 경진대회에서 장려상을 수상했습니다.",
+      "evidenceLabel": "HUSS 공식 대회 안내",
+      "evidenceUrl": "https://www.huss.ac.kr/board.do?boardId=notice&contentId=sub0401&dataIdx=849&menuId=MENU_004001000000000&mode=view"
+    },
+    {
+      "name": "HyperSonic CTF 7위",
+      "date": "2026-06",
+      "displayDate": "2026년 6월",
+      "description": "HSPACE가 후원하고 해킹팀 HyperSonic이 출제·운영한 HyperSonic CTF에서 7위를 기록했습니다.",
+      "evidenceLabel": "HSPACE FORGE 대회 공식 페이지",
+      "evidenceUrl": "https://forge.hspace.io/competitions/69fd525e6cb856b6837dacba"
+    },
+    {
+      "name": "boro CTF 2026 Open Division 세계 6위",
+      "date": "2026-06",
+      "displayDate": "2026년 6월",
+      "description": "국제 온라인 CTF인 boro CTF 2026의 Open Division에서 세계 6위를 기록했습니다.",
+      "evidenceLabel": "boro CTF 공식 사이트",
+      "evidenceUrl": "https://boroctf.com/"
+    },
+    {
+      "name": "금융보안원 주최 AI 레드티밍 팀전 2위",
+      "description": "금융보안원이 주최한 AI 레드티밍 팀전에서 2위를 기록했습니다."
+    }
+  ],
+  "externalProfiles": [
+    {
+      "label": "GitHub 공식 프로필",
+      "value": "github.com/jungmingi-lab",
+      "href": "https://github.com/jungmingi-lab"
+    },
+    {
+      "label": "대전대학교 AI소프트웨어학부",
+      "value": "학부 공식 홈페이지",
+      "href": "https://www.dju.ac.kr/aisw/main.do"
+    }
+  ],
+  "contactLinks": [
+    {
+      "label": "Email",
+      "value": "minki@luxferre.cc",
+      "href": "mailto:minki@luxferre.cc"
+    },
+    {
+      "label": "GitHub",
+      "value": "github.com/jungmingi-lab",
+      "href": "https://github.com/jungmingi-lab"
+    }
+  ]
+}

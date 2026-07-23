@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && node scripts/create-spa-fallback.mjs",
+    "build": "tsc -b && vite build && node scripts/generate-seo-pages.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "resume": "node scripts/create-resume-pdf.mjs"
+    "resume": "node scripts/create-resume-pdf.mjs",
+    "test:seo": "node scripts/check-seo.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.20.0",

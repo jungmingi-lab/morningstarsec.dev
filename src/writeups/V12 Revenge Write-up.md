@@ -5,6 +5,7 @@ category: "Dreamhack"
 tags: [Dreamhack, pwnable, docker]
 difficulty: "platinum 4"
 readTime: "10 min read"
+summary: "Dreamhack V12 Revenge 문제의 패치된 V8 배열 shift 동작을 분석하고 익스플로잇 트리거까지 정리한 pwnable 풀이입니다."
 ---
 ## 0. 개념설명
 

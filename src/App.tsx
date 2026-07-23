@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  Award,
   BookOpen,
   BrainCircuit,
   Car,
@@ -8,8 +9,6 @@ import {
   Download,
   ExternalLink,
   FileText,
-  AtSign,
-  BriefcaseBusiness,
   GitBranch,
   Globe2,
   GraduationCap,
@@ -26,9 +25,11 @@ import {
 import { useEffect, useMemo, useState, type MouseEvent } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import cyberHero from './assets/cyber-hero.png'
+import cyberHero from './assets/cyber-hero-optimized.jpg'
 import {
+  activities,
   contactLinks,
+  externalProfiles,
   interests,
   profile,
   projects,
@@ -51,12 +52,10 @@ type CategoryFilter = 'All' | WriteupCategory
 const categoryOptions: CategoryFilter[] = ['All', ...WRITEUP_CATEGORIES]
 
 const projectIcons: LucideIcon[] = [BrainCircuit, Car, Utensils, Cpu]
+const featuredProjects = projects.filter((project) => project.featured)
 const contactIcons: Record<string, LucideIcon> = {
   Email: Mail,
   GitHub: GitBranch,
-  Blog: Globe2,
-  LinkedIn: BriefcaseBusiness,
-  'X (Twitter)': AtSign,
 }
 
 const matrixStreams = [
@@ -96,11 +95,154 @@ function scrollToSection(id: string) {
 }
 
 function formatDate(value: string) {
-  return new Intl.DateTimeFormat('en', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
+  return new Intl.DateTimeFormat('ko-KR', {
+    dateStyle: 'long',
   }).format(new Date(`${value}T00:00:00`))
+}
+
+function writeupPath(slug: string) {
+  return `/writeups/${encodeURIComponent(slug)}`
+}
+
+function canonicalForRoute(route: Route) {
+  if (route.page === 'home') {
+    return `${profile.siteUrl}/`
+  }
+
+  return route.slug
+    ? `${profile.siteUrl}${writeupPath(route.slug)}/`
+    : `${profile.siteUrl}/writeups/`
+}
+
+function setMetaContent(selector: string, content: string) {
+  document.head.querySelector<HTMLMetaElement>(selector)?.setAttribute('content', content)
+}
+
+function buildStructuredData(route: Route, selectedWriteup?: Writeup) {
+  const canonical = canonicalForRoute(route)
+  const websiteId = `${profile.siteUrl}/#website`
+  const personId = `${profile.siteUrl}/#person`
+
+  if (route.page === 'home') {
+    return {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          '@id': websiteId,
+          url: `${profile.siteUrl}/`,
+          name: profile.siteName,
+          alternateName: '정민기 공식 포트폴리오',
+          inLanguage: 'ko-KR',
+        },
+        {
+          '@type': 'ProfilePage',
+          '@id': `${profile.siteUrl}/#profilepage`,
+          url: `${profile.siteUrl}/`,
+          name: `정민기 | ${profile.title}`,
+          isPartOf: { '@id': websiteId },
+          mainEntity: { '@id': personId },
+          inLanguage: 'ko-KR',
+        },
+        {
+          '@type': 'Person',
+          '@id': personId,
+          name: profile.name,
+          alternateName: profile.romanizedName,
+          url: `${profile.siteUrl}/`,
+          description: profile.description,
+          affiliation: {
+            '@type': 'CollegeOrUniversity',
+            name: profile.university,
+            url: profile.schoolUrl,
+          },
+          knowsAbout: interests,
+          sameAs: [profile.github],
+          award: activities.map((activity) => activity.name),
+          subjectOf: activities.flatMap((activity) =>
+            activity.articleTitle && activity.evidenceUrl
+              ? [
+                  {
+                    '@type': 'NewsArticle',
+                    name: activity.articleTitle,
+                    url: activity.evidenceUrl,
+                  },
+                ]
+              : [],
+          ),
+        },
+      ],
+    }
+  }
+
+  if (selectedWriteup && route.slug) {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      '@id': `${canonical}#article`,
+      url: canonical,
+      headline: selectedWriteup.title,
+      description: selectedWriteup.summary,
+      datePublished: selectedWriteup.date,
+      inLanguage: 'ko-KR',
+      keywords: selectedWriteup.tags,
+      author: { '@id': personId },
+      isPartOf: { '@id': websiteId },
+      mainEntityOfPage: canonical,
+    }
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${canonical}#collection`,
+    url: canonical,
+    name: '정민기 정보보안 글 | CTF·취약점 분석·개발 기록',
+    description:
+      '정민기의 CTF 풀이, 취약점 분석, 디지털 포렌식, AI 보안 및 소프트웨어 개발 기록입니다.',
+    isPartOf: { '@id': websiteId },
+    author: { '@id': personId },
+    inLanguage: 'ko-KR',
+  }
+}
+
+function Seo({ route }: { route: Route }) {
+  useEffect(() => {
+    const selectedWriteup = route.slug
+      ? writeups.find((writeup) => writeup.slug === route.slug)
+      : undefined
+    const title = selectedWriteup
+      ? `${selectedWriteup.title} | 정민기 정보보안 포트폴리오`
+      : route.page === 'writeups'
+        ? '정민기 정보보안 글 | CTF·취약점 분석·개발 기록'
+        : `정민기 | ${profile.title}`
+    const description = selectedWriteup
+      ? selectedWriteup.summary
+      : route.page === 'writeups'
+        ? '정민기의 CTF 풀이, 취약점 분석, 디지털 포렌식, AI 보안 및 소프트웨어 개발 기록입니다.'
+        : profile.description
+    const canonical = canonicalForRoute(route)
+
+    document.documentElement.lang = 'ko'
+    document.title = title
+    document.head
+      .querySelector<HTMLLinkElement>('link[rel="canonical"]')
+      ?.setAttribute('href', canonical)
+    setMetaContent('meta[name="description"]', description)
+    setMetaContent('meta[property="og:type"]', selectedWriteup ? 'article' : route.page === 'home' ? 'profile' : 'website')
+    setMetaContent('meta[property="og:title"]', title)
+    setMetaContent('meta[property="og:description"]', description)
+    setMetaContent('meta[property="og:url"]', canonical)
+    setMetaContent('meta[name="twitter:title"]', title)
+    setMetaContent('meta[name="twitter:description"]', description)
+
+    const jsonLd = document.head.querySelector<HTMLScriptElement>('#portfolio-json-ld')
+    if (jsonLd) {
+      jsonLd.textContent = JSON.stringify(buildStructuredData(route, selectedWriteup))
+    }
+  }, [route])
+
+  return null
 }
 
 function App() {
@@ -136,7 +278,7 @@ function App() {
 
   const goWriteups = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
-    window.history.pushState({}, '', '/writeups')
+    window.history.pushState({}, '', '/writeups/')
     setRoute({ page: 'writeups' })
     setMenuOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -144,6 +286,7 @@ function App() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#050711] text-slate-100">
+      <Seo route={route} />
       <BackgroundFX />
       <Header
         menuOpen={menuOpen}
@@ -159,6 +302,7 @@ function App() {
           <Hero onHome={goHome} onWriteups={goWriteups} />
           <About />
           <Projects />
+          <Activities />
           <WriteupsPreview onWriteups={goWriteups} />
           <Contact />
         </main>
@@ -188,7 +332,10 @@ function Header({
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#050711]/70 backdrop-blur-2xl">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <nav
+        aria-label="주요 메뉴"
+        className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
+      >
         <a
           className="flex items-center gap-3 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-300"
           href="/"
@@ -199,54 +346,61 @@ function Header({
           </span>
           <span className="leading-tight">
             <span className="block text-sm font-semibold text-white">
-              {profile.handle}
+              {profile.name}
             </span>
             <span className="block text-xs text-slate-400">
-              {profile.romanizedName}
+              {profile.handle}
             </span>
           </span>
         </a>
 
         <div className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1 md:flex">
           <a className={navClass} href="/" onClick={(event) => onHome(event)}>
-            Home
+            홈
           </a>
           <a
             className={navClass}
             href="/#about"
             onClick={(event) => onHome(event, 'about')}
           >
-            About
+            소개
           </a>
           <a
             className={navClass}
             href="/#projects"
             onClick={(event) => onHome(event, 'projects')}
           >
-            Projects
+            프로젝트
+          </a>
+          <a
+            className={navClass}
+            href="/#activities"
+            onClick={(event) => onHome(event, 'activities')}
+          >
+            수상·활동
           </a>
           <a
             className={`${navClass} ${
               route.page === 'writeups' ? 'bg-cyan-300/10 text-cyan-100' : ''
             }`}
-            href="/writeups"
+            href="/writeups/"
             onClick={onWriteups}
           >
-            Writeups
+            연구·글
           </a>
           <a
             className={navClass}
             href="/#contact"
             onClick={(event) => onHome(event, 'contact')}
           >
-            Contact
+            연락
           </a>
         </div>
 
         <a
           className="hidden items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-100 transition hover:border-cyan-200/60 hover:bg-cyan-300/20 md:inline-flex"
           href={profile.github}
-          rel="noreferrer"
+          rel="noopener noreferrer"
           target="_blank"
         >
           <GitBranch className="size-4" aria-hidden="true" />
@@ -258,7 +412,7 @@ function Header({
           type="button"
           onClick={onMenuToggle}
           aria-expanded={menuOpen}
-          aria-label="Toggle navigation menu"
+          aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
         >
           {menuOpen ? (
             <X className="size-5" aria-hidden="true" />
@@ -272,31 +426,38 @@ function Header({
         <div className="border-t border-white/10 bg-[#080b16]/95 px-4 py-4 md:hidden">
           <div className="mx-auto grid max-w-7xl gap-2">
             <a className={navClass} href="/" onClick={(event) => onHome(event)}>
-              Home
+              홈
             </a>
             <a
               className={navClass}
               href="/#about"
               onClick={(event) => onHome(event, 'about')}
             >
-              About
+              소개
             </a>
             <a
               className={navClass}
               href="/#projects"
               onClick={(event) => onHome(event, 'projects')}
             >
-              Projects
+              프로젝트
             </a>
-            <a className={navClass} href="/writeups" onClick={onWriteups}>
-              Writeups
+            <a
+              className={navClass}
+              href="/#activities"
+              onClick={(event) => onHome(event, 'activities')}
+            >
+              수상·활동
+            </a>
+            <a className={navClass} href="/writeups/" onClick={onWriteups}>
+              연구·글
             </a>
             <a
               className={navClass}
               href="/#contact"
               onClick={(event) => onHome(event, 'contact')}
             >
-              Contact
+              연락
             </a>
           </div>
         </div>
@@ -320,6 +481,9 @@ function Hero({ onHome, onWriteups }: HeroProps) {
         className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-55 mix-blend-screen"
         src={cyberHero}
         alt=""
+        width="1672"
+        height="941"
+        fetchPriority="high"
         aria-hidden="true"
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(34,211,238,0.18),transparent_28%),linear-gradient(90deg,#050711_0%,rgba(5,7,17,0.9)_38%,rgba(5,7,17,0.54)_100%)]" />
@@ -327,7 +491,7 @@ function Hero({ onHome, onWriteups }: HeroProps) {
         <div className="max-w-3xl">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-100 shadow-[0_0_40px_rgba(34,211,238,0.12)]">
             <Radar className="size-4" aria-hidden="true" />
-            Security research portfolio
+            정민기 공식 포트폴리오
           </div>
           <h1 className="max-w-4xl break-words text-4xl font-semibold leading-[1.04] text-white sm:text-6xl lg:text-7xl">
             {profile.name}{' '}
@@ -336,23 +500,24 @@ function Hero({ onHome, onWriteups }: HeroProps) {
             </span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-cyan-100 sm:text-xl">
-            {profile.title}
+            {profile.affiliation}
           </p>
           <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
-            Building a practical foundation in web security, vulnerability
-            research, CTF problem solving, digital forensics, and AI security
-            through projects and technical writeups.
+            정민기는 대전대학교 AISW학부에서 정보보안과 취약점 분석을
+            중심으로 CTF, 인공지능 및 소프트웨어 프로젝트를 수행하고
+            있습니다. 이 사이트는 프로젝트, 수상, 연구 및 학습 기록을
+            정리한 공식 포트폴리오입니다.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <a className="primary-btn" href="/resume-minki-jung.pdf" download>
               <Download className="size-5" aria-hidden="true" />
-              Download Resume
+              프로필 PDF 다운로드
             </a>
             <a
               className="secondary-btn"
               href={profile.github}
-              rel="noreferrer"
+              rel="noopener noreferrer"
               target="_blank"
             >
               <GitBranch className="size-5" aria-hidden="true" />
@@ -364,7 +529,7 @@ function Hero({ onHome, onWriteups }: HeroProps) {
               onClick={(event) => onHome(event, 'contact')}
             >
               <Mail className="size-5" aria-hidden="true" />
-              Contact
+              공개 연락 수단
             </a>
           </div>
         </div>
@@ -375,7 +540,7 @@ function Hero({ onHome, onWriteups }: HeroProps) {
             <span className="size-3 rounded-full bg-amber-300" />
             <span className="size-3 rounded-full bg-emerald-300" />
             <span className="ml-3 font-mono text-xs text-slate-500">
-              research.log
+              profile.log
             </span>
           </div>
           <div className="space-y-4 font-mono text-sm leading-7 text-slate-300">
@@ -383,10 +548,10 @@ function Hero({ onHome, onWriteups }: HeroProps) {
               <span className="text-cyan-300">$</span> whoami
             </p>
             <p className="text-slate-100">
-              {profile.romanizedName} - cybersecurity student
+              {profile.name} ({profile.romanizedName}) - {profile.affiliation}
             </p>
             <p className="terminal-line">
-              <span className="text-cyan-300">$</span> focus --list
+              <span className="text-cyan-300">$</span> interests --list
             </p>
             <div className="grid gap-2">
               {interests.map((interest) => (
@@ -400,10 +565,10 @@ function Hero({ onHome, onWriteups }: HeroProps) {
             </div>
             <a
               className="mt-2 inline-flex items-center gap-2 text-cyan-200 transition hover:text-white"
-              href="/writeups"
+              href="/writeups/"
               onClick={onWriteups}
             >
-              open /writeups <ArrowRight className="size-4" aria-hidden="true" />
+              연구 및 기술 기록 열기 <ArrowRight className="size-4" aria-hidden="true" />
             </a>
           </div>
         </div>
@@ -417,9 +582,9 @@ function About() {
     <section id="about" className="section-shell scroll-mt-24 py-24">
       <SectionHeading
         icon={GraduationCap}
-        eyebrow="About"
-        title="Security research foundation with applied AI context."
-        description="A portfolio centered on rigorous learning, practical projects, and clear technical communication."
+        eyebrow="소개"
+        title="정보보안과 AI를 함께 탐구하는 대전대학교 AISW학부 학생"
+        description="취약점 분석과 CTF 문제 해결을 바탕으로 디지털 포렌식, AI 보안, 소프트웨어 개발까지 학습하고 프로젝트로 구현합니다."
       />
 
       <div className="mt-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
@@ -428,9 +593,21 @@ function About() {
             <GraduationCap className="size-6" aria-hidden="true" />
           </div>
           <h3 className="text-2xl font-semibold text-white">
-            {profile.university}
+            {profile.affiliation}
           </h3>
-          <p className="mt-3 text-slate-300">{profile.department}</p>
+          <p className="mt-3 leading-7 text-slate-300">
+            정보보안과 취약점 분석을 중심으로 인공지능 및 소프트웨어 개발
+            역량을 함께 쌓고 있습니다.
+          </p>
+          <a
+            className="mt-4 inline-flex items-center gap-2 text-sm text-cyan-200 transition hover:text-white"
+            href={profile.departmentUrl}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            대전대학교 AI소프트웨어학부 공식 홈페이지
+            <ExternalLink className="size-4" aria-hidden="true" />
+          </a>
           <div className="mt-8 grid gap-3">
             {interests.map((interest) => (
               <div
@@ -451,7 +628,7 @@ function About() {
         <div className="glass-panel p-6">
           <div className="flex items-center gap-3">
             <Code2 className="size-5 text-cyan-200" aria-hidden="true" />
-            <h3 className="text-xl font-semibold text-white">Skills</h3>
+            <h3 className="text-xl font-semibold text-white">기술 및 도구</h3>
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
             {skills.map((skill) => (
@@ -462,9 +639,9 @@ function About() {
           </div>
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {[
-              ['Research', 'Vulnerability notes, CTF methodology'],
-              ['Engineering', 'React, TypeScript, practical web apps'],
-              ['Analysis', 'Forensics, traffic review, AI risk thinking'],
+              ['연구', '취약점 분석 기록과 CTF 문제 해결 방법론'],
+              ['개발', 'React, TypeScript 기반 웹 애플리케이션'],
+              ['분석', '디지털 포렌식, 트래픽 분석, AI 위험 검토'],
             ].map(([label, value]) => (
               <div
                 className="rounded-lg border border-white/10 bg-[#0b1020]/70 p-4"
@@ -486,13 +663,13 @@ function Projects() {
     <section id="projects" className="section-shell scroll-mt-24 py-24">
       <SectionHeading
         icon={Cpu}
-        eyebrow="Projects"
-        title="Applied systems across AI, services, and security challenges."
-        description="Selected work that connects software engineering, applied AI, and security-oriented analysis."
+        eyebrow="대표 프로젝트"
+        title="AI, 서비스 개발, 보안 문제 해결을 연결한 프로젝트"
+        description="소프트웨어 개발과 응용 AI, 보안 관점의 분석을 함께 다룬 정민기의 대표 작업입니다."
       />
 
       <div className="mt-12 grid gap-5 md:grid-cols-2">
-        {projects.map((project, index) => {
+        {featuredProjects.map((project, index) => {
           const Icon = projectIcons[index] ?? Cpu
 
           return (
@@ -529,6 +706,83 @@ function Projects() {
   )
 }
 
+function Activities() {
+  return (
+    <section id="activities" className="section-shell scroll-mt-24 py-24">
+      <SectionHeading
+        icon={Award}
+        eyebrow="수상 및 활동"
+        title="공개 근거로 확인할 수 있는 수상 기록"
+        description="대회명과 결과를 공개 보도 자료에 연결해 확인할 수 있도록 정리했습니다."
+      />
+
+      <div className="mt-12 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+        {activities.map((activity) => (
+          <article className="project-card" key={activity.name}>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-sm font-medium text-cyan-200">
+                  {activity.date && activity.displayDate ? (
+                    <time dateTime={activity.date}>{activity.displayDate}</time>
+                  ) : (
+                    <span>수상 기록</span>
+                  )}
+                  {activity.team ? ` · ${activity.team}` : ''}
+                </p>
+                <h3 className="mt-2 text-2xl font-semibold text-white">
+                  {activity.name}
+                </h3>
+              </div>
+              <span className="grid size-12 shrink-0 place-items-center rounded-lg border border-purple-300/20 bg-purple-300/10 text-purple-100">
+                <Award className="size-6" aria-hidden="true" />
+              </span>
+            </div>
+            <p className="mt-5 leading-7 text-slate-300">
+              {activity.description}
+            </p>
+            {activity.evidenceUrl && activity.evidenceLabel ? (
+              <a
+                className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-cyan-200 transition hover:text-white"
+                href={activity.evidenceUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {activity.evidenceLabel}
+                <ExternalLink className="size-4" aria-hidden="true" />
+              </a>
+            ) : null}
+          </article>
+        ))}
+
+        <div className="glass-panel p-6">
+          <div className="flex items-center gap-3">
+            <Globe2 className="size-5 text-cyan-200" aria-hidden="true" />
+            <h3 className="text-xl font-semibold text-white">외부 공식 링크</h3>
+          </div>
+          <div className="mt-6 grid gap-3">
+            {externalProfiles.map((externalProfile) => (
+              <a
+                className="rounded-lg border border-white/10 bg-white/[0.04] px-4 py-4 transition hover:border-cyan-300/40 hover:bg-cyan-300/10"
+                href={externalProfile.href}
+                key={externalProfile.label}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span className="block font-medium text-white">
+                  {externalProfile.label}
+                </span>
+                <span className="mt-2 block text-sm text-slate-400">
+                  {externalProfile.value}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 type WriteupsPreviewProps = {
   onWriteups: (event: MouseEvent<HTMLAnchorElement>) => void
 }
@@ -541,14 +795,14 @@ function WriteupsPreview({ onWriteups }: WriteupsPreviewProps) {
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-black/20 px-4 py-2 text-sm text-cyan-100">
               <FileText className="size-4" aria-hidden="true" />
-              Technical Notes
+              연구 및 학습 기록
             </div>
             <h2 className="max-w-3xl text-3xl font-semibold text-white sm:text-4xl">
-              Markdown-based notes for security research and development projects.
+              CTF 풀이, 취약점 분석, 디지털 포렌식, AI 보안 및 개발 과정을 기록합니다.
             </h2>
           </div>
-          <a className="primary-btn w-full sm:w-fit" href="/writeups" onClick={onWriteups}>
-            Browse Writeups
+          <a className="primary-btn w-full sm:w-fit" href="/writeups/" onClick={onWriteups}>
+            전체 기술 기록 보기
             <ArrowRight className="size-5" aria-hidden="true" />
           </a>
         </div>
@@ -562,19 +816,16 @@ function Contact() {
     <section id="contact" className="section-shell scroll-mt-24 py-24">
       <SectionHeading
         icon={Mail}
-        eyebrow="Contact"
-        title="Open to security research, CTF collaboration, and project conversations."
-        description="Direct contact channels and placeholders for future public profiles."
+        eyebrow="공개 연락 수단"
+        title="정보보안 연구, CTF, 프로젝트에 관한 대화"
+        description="현재 이 사이트에서 공개한 이메일과 GitHub 프로필을 통해 연락할 수 있습니다."
       />
 
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mt-12 grid gap-4 sm:grid-cols-2">
         {contactLinks.map((link) => {
           const Icon = contactIcons[link.label] ?? Globe2
-          const cardClass = `contact-card ${
-            link.active
-              ? 'hover:border-cyan-300/40 hover:bg-cyan-300/10'
-              : 'cursor-default opacity-75'
-          }`
+          const cardClass =
+            'contact-card hover:border-cyan-300/40 hover:bg-cyan-300/10'
           const cardContent = (
             <>
               <Icon className="size-5 text-cyan-200" aria-hidden="true" />
@@ -587,24 +838,12 @@ function Contact() {
             </>
           )
 
-          if (!link.active || !link.href) {
-            return (
-              <div
-                className={cardClass}
-                key={link.label}
-                aria-disabled="true"
-              >
-                {cardContent}
-              </div>
-            )
-          }
-
           return (
             <a
               className={cardClass}
               href={link.href}
               key={link.label}
-              rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+              rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
               target={link.href.startsWith('http') ? '_blank' : undefined}
             >
               {cardContent}
@@ -646,16 +885,17 @@ function WriteupsPage({ route }: WriteupsPageProps) {
     })
   }, [category, query])
 
-  const selectedWriteup =
-    writeups.find((writeup) => writeup.slug === route.slug) ??
-    filteredWriteups[0]
+  const selectedWriteup = route.slug
+    ? writeups.find((writeup) => writeup.slug === route.slug)
+    : filteredWriteups[0]
+  const ArticleHeading = route.slug ? 'h1' : 'h2'
 
   const selectWriteup = (
     event: MouseEvent<HTMLAnchorElement>,
     writeup: Writeup,
   ) => {
     event.preventDefault()
-    window.history.pushState({}, '', `/writeups/${writeup.slug}`)
+    window.history.pushState({}, '', `${writeupPath(writeup.slug)}/`)
     window.dispatchEvent(new PopStateEvent('popstate'))
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -664,9 +904,10 @@ function WriteupsPage({ route }: WriteupsPageProps) {
     <main className="section-shell pt-32 pb-24">
       <SectionHeading
         icon={BookOpen}
-        eyebrow="Technical Notes"
-        title="Searchable Markdown notes by category and tag."
-        description="A dedicated section for challenge analysis, methodology, development logs, and project documentation."
+        eyebrow="연구 및 기술 기록"
+        title={route.slug ? '정민기의 정보보안·개발 기록' : '정민기 정보보안 글과 CTF·취약점 분석 기록'}
+        description="CTF 문제 풀이, 취약점 분석 방법론, 디지털 포렌식, AI 보안 및 프로젝트 개발 과정을 분류와 태그로 탐색할 수 있습니다."
+        headingLevel={route.slug ? 'h2' : 'h1'}
       />
 
       <div className="mt-10 grid gap-4 lg:grid-cols-[360px_minmax(0,1fr)]">
@@ -679,7 +920,8 @@ function WriteupsPage({ route }: WriteupsPageProps) {
             <input
               className="h-12 w-full rounded-lg border border-white/10 bg-white/[0.06] pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/40 focus:bg-white/[0.08]"
               type="search"
-              placeholder="Search writeups, tags, techniques"
+              aria-label="기술 기록 검색"
+              placeholder="제목, 태그, 기법 검색"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -710,7 +952,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
                     ? 'border-cyan-300/45 bg-cyan-300/[0.09]'
                     : 'border-white/10 bg-white/[0.04]'
                 }`}
-                href={`/writeups/${writeup.slug}`}
+                href={`${writeupPath(writeup.slug)}/`}
                 key={writeup.slug}
                 onClick={(event) => selectWriteup(event, writeup)}
               >
@@ -738,9 +980,9 @@ function WriteupsPage({ route }: WriteupsPageProps) {
                 <span>{formatDate(selectedWriteup.date)}</span>
                 <span>{selectedWriteup.readTime}</span>
               </div>
-              <h1 className="mt-6 text-3xl font-semibold leading-tight text-white sm:text-5xl">
+              <ArticleHeading className="mt-6 text-3xl font-semibold leading-tight text-white sm:text-5xl">
                 {selectedWriteup.title}
-              </h1>
+              </ArticleHeading>
               <p className="mt-5 max-w-3xl leading-7 text-slate-300">
                 {selectedWriteup.summary}
               </p>
@@ -758,7 +1000,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
                     a: ({ href, children, ...props }) => (
                       <a
                         href={href}
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         target={href?.startsWith('http') ? '_blank' : undefined}
                         {...props}
                       >
@@ -775,7 +1017,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
             <div className="grid min-h-[420px] place-items-center text-center">
               <div>
                 <Terminal className="mx-auto size-10 text-slate-500" aria-hidden="true" />
-                <p className="mt-4 text-slate-300">No writeups found.</p>
+                <p className="mt-4 text-slate-300">조건에 맞는 기술 기록이 없습니다.</p>
               </div>
             </div>
           )}
@@ -790,23 +1032,27 @@ type SectionHeadingProps = {
   eyebrow: string
   title: string
   description: string
+  headingLevel?: 'h1' | 'h2'
 }
 
 function SectionHeading({
   description,
   eyebrow,
+  headingLevel = 'h2',
   icon: Icon,
   title,
 }: SectionHeadingProps) {
+  const Heading = headingLevel
+
   return (
     <div className="max-w-3xl">
       <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm text-cyan-100">
         <Icon className="size-4" aria-hidden="true" />
         {eyebrow}
       </div>
-      <h2 className="text-3xl font-semibold leading-tight text-white sm:text-5xl">
+      <Heading className="text-3xl font-semibold leading-tight text-white sm:text-5xl">
         {title}
-      </h2>
+      </Heading>
       <p className="mt-5 text-base leading-8 text-slate-300 sm:text-lg">
         {description}
       </p>
@@ -842,12 +1088,12 @@ function Footer() {
   return (
     <footer className="relative z-10 border-t border-white/10 px-4 py-8 text-sm text-slate-500">
       <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p>© 2026 {profile.handle}. Built with React, TypeScript, Vite, and Tailwind CSS.</p>
+        <p>© 2026 {profile.name}. 정민기 공식 포트폴리오.</p>
         <a
           className="inline-flex items-center gap-2 text-slate-400 transition hover:text-cyan-100"
-          href={profile.domain}
+          href={`${profile.siteUrl}/`}
         >
-          {profile.domain.replace('https://', '')}
+          {profile.siteUrl.replace('https://', '')}
           <ExternalLink className="size-4" aria-hidden="true" />
         </a>
       </div>

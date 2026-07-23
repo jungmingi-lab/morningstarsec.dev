@@ -1,6 +1,6 @@
-# luxferre Portfolio
+# 정민기 포트폴리오
 
-Professional cybersecurity portfolio for `luxferre.cc`, built with React, TypeScript, Vite, Tailwind CSS, GitHub Pages, and GitHub Actions.
+대전대학교 AISW학부 정민기의 정보보안·AI 공식 포트폴리오입니다. React, TypeScript, Vite, Tailwind CSS, GitHub Pages, GitHub Actions로 구성되어 있습니다.
 
 ## Stack
 
@@ -20,13 +20,17 @@ Professional cybersecurity portfolio for `luxferre.cc`, built with React, TypeSc
 ├── public/
 │   ├── CNAME
 │   ├── favicon.svg
-│   ├── og-image.png
+│   ├── og-image-seo.png
+│   ├── robots.txt
+│   ├── sitemap.xml
 │   └── resume-minki-jung.pdf
 ├── scripts/
+│   ├── check-seo.mjs
 │   ├── create-resume-pdf.mjs
-│   └── create-spa-fallback.mjs
+│   └── generate-seo-pages.mjs
 ├── src/
-│   ├── assets/cyber-hero.png
+│   ├── assets/cyber-hero-optimized.jpg
+│   ├── data/portfolio.json
 │   ├── data/portfolio.ts
 │   ├── lib/writeups.ts
 │   ├── writeups/*.md
@@ -44,6 +48,7 @@ Professional cybersecurity portfolio for `luxferre.cc`, built with React, TypeSc
 npm install
 npm run dev
 npm run build
+npm run test:seo
 ```
 
 Preview the production build:
@@ -91,7 +96,7 @@ content into sections.
 The writeup page is available at:
 
 ```text
-https://luxferre.cc/writeups
+https://luxferre.cc/writeups/
 ```
 
 ## Resume
@@ -102,9 +107,9 @@ The download button points to:
 public/resume-minki-jung.pdf
 ```
 
-A starter PDF is generated. Replace it with the final resume before using it for applications.
+저장소에 공개된 프로필 정보를 바탕으로 간단한 프로필 PDF를 생성합니다. 지원서 등에 사용하기 전에는 내용을 직접 검토하세요.
 
-To regenerate the starter PDF:
+To regenerate the profile PDF:
 
 ```bash
 npm run resume
@@ -146,7 +151,7 @@ npm run resume
 
 8. Push to `main` or run the `Deploy to GitHub Pages` workflow manually from the `Actions` tab.
 
-The workflow builds `dist/`, uploads it as a Pages artifact, and deploys it. Vite copies `public/CNAME` into `dist/CNAME`, and the build also copies `dist/index.html` to `dist/404.html` so clean SPA routes such as `/writeups` work on GitHub Pages.
+The workflow builds `dist/`, uploads it as a Pages artifact, and deploys it. Vite copies `public/CNAME` into `dist/CNAME`. The post-build generator creates real static files for `/writeups/` and every writeup route, plus `sitemap.xml`, `robots.txt`, and a dedicated noindex `404.html`.
 
 ## Cloudflare DNS Setup
 

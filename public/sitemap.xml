@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://luxferre.cc/</loc>
+  </url>
+  <url>
+    <loc>https://luxferre.cc/writeups/</loc>
+  </url>
+  <url>
+    <loc>https://luxferre.cc/writeups/V12%20Revenge%20Write-up/</loc>
+  </url>
+  <url>
+    <loc>https://luxferre.cc/writeups/development-bareungrip-features/</loc>
+  </url>
+  <url>
+    <loc>https://luxferre.cc/writeups/development-bareungrip/</loc>
+  </url>
+  <url>
+    <loc>https://luxferre.cc/writeups/web-session-signals/</loc>
+  </url>
+  <url>
+    <loc>https://luxferre.cc/writeups/pwn-stack-notes/</loc>
+  </url>
+  <url>
+    <loc>https://luxferre.cc/writeups/reversing-config-parser/</loc>
+  </url>
+  <url>
+    <loc>https://luxferre.cc/writeups/forensics-timeline-recovery/</loc>
+  </url>
+  <url>
+    <loc>https://luxferre.cc/writeups/misc-ai-prompt-safety/</loc>
+  </url>
+</urlset>
