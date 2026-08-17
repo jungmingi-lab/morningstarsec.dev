@@ -727,7 +727,6 @@ function Activities() {
                   ) : (
                     <span>수상 기록</span>
                   )}
-                  {activity.team ? ` · ${activity.team}` : ''}
                 </p>
                 <h3 className="mt-2 text-2xl font-semibold text-white">
                   {activity.name}
