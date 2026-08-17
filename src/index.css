@@ -128,6 +128,7 @@ input {
 }
 
 .project-card,
+.activity-card,
 .contact-card,
 .writeup-card {
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -147,7 +148,15 @@ input {
   padding: 1.5rem;
 }
 
+.activity-card {
+  height: 320px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
 .project-card:hover,
+.activity-card:hover,
 .contact-card:hover,
 .writeup-card:hover {
   transform: translateY(-3px);

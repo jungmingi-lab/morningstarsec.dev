@@ -718,7 +718,7 @@ function Activities() {
 
       <div className="mt-12 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
         {activities.map((activity) => (
-          <article className="project-card" key={activity.name}>
+          <article className="activity-card" key={activity.name}>
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-cyan-200">
@@ -737,12 +737,12 @@ function Activities() {
                 <Award className="size-6" aria-hidden="true" />
               </span>
             </div>
-            <p className="mt-5 leading-7 text-slate-300">
+            <p className="mt-5 line-clamp-4 leading-7 text-slate-300">
               {activity.description}
             </p>
             {activity.evidenceUrl && activity.evidenceLabel ? (
               <a
-                className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-cyan-200 transition hover:text-white"
+                className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-medium text-cyan-200 transition hover:text-white"
                 href={activity.evidenceUrl}
                 rel="noopener noreferrer"
                 target="_blank"
