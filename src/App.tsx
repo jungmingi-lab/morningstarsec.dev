@@ -25,7 +25,7 @@ import {
 import { useEffect, useMemo, useState, type MouseEvent } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import cyberHero from './assets/cyber-hero-optimized.jpg'
+import cyberHero from './assets/cyber-hero-generated.png'
 import {
   activities,
   contactLinks,
