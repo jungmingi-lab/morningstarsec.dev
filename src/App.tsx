@@ -502,8 +502,8 @@ function Hero({ onHome, onWriteups }: HeroProps) {
             {profile.affiliation}
           </p>
           <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
-            정민기는 대전대학교 AISW학부에서 정보보안과 취약점 분석을
-            중심으로 CTF, 인공지능 및 소프트웨어 프로젝트를 수행하고
+            정보보안과 취약점 분석을 중심으로 CTF, 연구 활동을 진행하고
+            있습니다. 더불어 개발 활동과 다양한 대외활동에 참여하고
             있습니다. 이 사이트는 프로젝트, 수상, 연구 및 학습 기록을
             정리한 공식 포트폴리오입니다.
           </p>
