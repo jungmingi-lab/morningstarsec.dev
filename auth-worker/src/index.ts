@@ -89,14 +89,17 @@ async function startAuth(url: URL, env: Env): Promise<Response> {
     return errorResponse('Invalid provider')
   }
 
-  if (!env.GITHUB_OAUTH_ID || !env.GITHUB_OAUTH_SECRET) {
+  const clientId = env.GITHUB_OAUTH_ID?.trim()
+  const clientSecret = env.GITHUB_OAUTH_SECRET?.trim()
+
+  if (!clientId || !clientSecret) {
     return errorResponse('OAuth provider is not configured', 500)
   }
 
   const state = randomToken()
   const authorizeUrl = new URL(GITHUB_AUTHORIZE_URL)
   authorizeUrl.search = new URLSearchParams({
-    client_id: env.GITHUB_OAUTH_ID,
+    client_id: clientId,
     redirect_uri: callbackUrl(url),
     scope:
       env.GITHUB_REPO_PRIVATE === '1' ? 'repo,user' : 'public_repo,user',
@@ -114,10 +117,17 @@ async function exchangeCode(
   code: string,
   env: Env,
 ): Promise<string> {
+  const clientId = env.GITHUB_OAUTH_ID?.trim()
+  const clientSecret = env.GITHUB_OAUTH_SECRET?.trim()
+
+  if (!clientId || !clientSecret) {
+    throw new Error('OAuth provider is not configured')
+  }
+
   const response = await fetch(GITHUB_TOKEN_URL, {
     body: new URLSearchParams({
-      client_id: env.GITHUB_OAUTH_ID,
-      client_secret: env.GITHUB_OAUTH_SECRET,
+      client_id: clientId,
+      client_secret: clientSecret,
       code,
       redirect_uri: callbackUrl(url),
     }),
