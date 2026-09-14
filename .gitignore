@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+auth-worker/.dev.vars
+auth-worker/.wrangler
 
 # Editor directories and files
 .vscode/*

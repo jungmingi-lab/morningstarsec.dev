@@ -93,6 +93,12 @@ const titles = new Map()
 for (const htmlPath of htmlFiles) {
   const route = relative(distDirectory, htmlPath).replaceAll('\\', '/')
   const html = readFileSync(htmlPath, 'utf8')
+
+  // The Decap CMS admin is intentionally noindex and is not a public content route.
+  if (route.startsWith('admin/')) {
+    continue
+  }
+
   const title = matchContent(html, /<title>([\s\S]*?)<\/title>/i)
   const description = metaContent(html, 'name', 'description')
   const robots = metaContent(html, 'name', 'robots')

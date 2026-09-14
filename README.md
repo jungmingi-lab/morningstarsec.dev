@@ -117,6 +117,25 @@ The GitHub backend requires an OAuth authentication service. Keep the OAuth
 client secret outside this repository; only the public client configuration
 belongs in `public/admin/config.yml`.
 
+For the current GitHub Pages deployment, the OAuth proxy source is in
+`auth-worker/` and is designed for the Cloudflare Workers Free plan. Deploy
+the Worker to `decap-auth.luxferre.cc`, then set `GITHUB_OAUTH_ID` and
+`GITHUB_OAUTH_SECRET` as Cloudflare Worker secrets. The GitHub OAuth App must
+use this callback URL:
+
+```text
+https://decap-auth.luxferre.cc/callback
+```
+
+From the `auth-worker/` directory, the Worker can be checked and deployed with:
+
+```bash
+npx wrangler deploy --dry-run
+npx wrangler secret put GITHUB_OAUTH_ID
+npx wrangler secret put GITHUB_OAUTH_SECRET
+npx wrangler deploy
+```
+
 ## Resume
 
 The download button points to:

@@ -2,8 +2,8 @@ backend:
   name: github
   repo: jungmingi-lab/morningstarsec.dev
   branch: main
-  base_url: https://api.netlify.com
-  auth_endpoint: auth
+  base_url: https://decap-auth.luxferre.cc
+  auth_endpoint: /auth
   squash_merges: true
 
 publish_mode: editorial_workflow
