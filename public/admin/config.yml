@@ -1,0 +1,82 @@
+backend:
+  name: github
+  repo: jungmingi-lab/morningstarsec.dev
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+  squash_merges: true
+
+publish_mode: editorial_workflow
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "writeups"
+    label: "기술 기록"
+    label_singular: "기술 기록"
+    folder: "src/writeups"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{category}} · {{title}}"
+    fields:
+      - label: "제목"
+        name: "title"
+        widget: "string"
+        required: true
+      - label: "작성일"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        required: true
+      - label: "분류"
+        name: "category"
+        widget: "select"
+        options:
+          - "Web"
+          - "Pwn"
+          - "Reversing"
+          - "Forensics"
+          - "Development"
+          - "Security"
+          - "Dreamhack"
+          - "Misc"
+        default: "Security"
+        required: true
+      - label: "태그"
+        name: "tags"
+        widget: "list"
+        default: [Security]
+        summary: "{{fields.tag}}"
+        field:
+          label: "태그"
+          name: "tag"
+          widget: "string"
+      - label: "난이도 / 유형"
+        name: "difficulty"
+        widget: "select"
+        options:
+          - "Research"
+          - "Project"
+          - "Easy"
+          - "Medium"
+          - "Hard"
+          - "Practice"
+        default: "Research"
+      - label: "예상 읽기 시간"
+        name: "readTime"
+        widget: "string"
+        default: "5 min read"
+      - label: "요약"
+        name: "summary"
+        widget: "text"
+        required: true
+      - label: "본문"
+        name: "body"
+        widget: "markdown"
+        required: true

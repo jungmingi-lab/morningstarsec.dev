@@ -86,6 +86,7 @@ Supported categories:
 - `Reversing`
 - `Forensics`
 - `Development`
+- `Security`
 - `Dreamhack`
 - `Misc`
 
@@ -98,6 +99,23 @@ The writeup page is available at:
 ```text
 https://luxferre.cc/writeups/
 ```
+
+## Decap CMS
+
+The Decap CMS editor is available at:
+
+```text
+https://luxferre.cc/admin/
+```
+
+The editor creates and updates Markdown files under `src/writeups/` using the
+GitHub backend. Editorial workflow is enabled, so a new post is saved as a
+Pull Request and is published after it is approved and merged. The existing
+GitHub Actions workflow then builds and deploys the site automatically.
+
+The GitHub backend requires an OAuth authentication service. Keep the OAuth
+client secret outside this repository; only the public client configuration
+belongs in `public/admin/config.yml`.
 
 ## Resume
 
