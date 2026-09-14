@@ -197,9 +197,8 @@ function buildStructuredData(route: Route, selectedWriteup?: Writeup) {
     '@type': 'CollectionPage',
     '@id': `${canonical}#collection`,
     url: canonical,
-    name: '정민기 정보보안 글 | CTF·취약점 분석·개발 기록',
-    description:
-      '정민기의 CTF 풀이, 취약점 분석, 디지털 포렌식, AI 보안 및 소프트웨어 개발 기록입니다.',
+    name: '정보보안 개발 기록',
+    description: '취약점 분석 방법론, 프로젝트 개발 과정을 서술합니다.',
     isPartOf: { '@id': websiteId },
     author: { '@id': personId },
     inLanguage: 'ko-KR',
@@ -214,12 +213,12 @@ function Seo({ route }: { route: Route }) {
     const title = selectedWriteup
       ? `${selectedWriteup.title} | 정민기 정보보안 포트폴리오`
       : route.page === 'writeups'
-        ? '정민기 정보보안 글 | CTF·취약점 분석·개발 기록'
+        ? '정보보안 개발 기록'
         : `정민기 | ${profile.title}`
     const description = selectedWriteup
       ? selectedWriteup.summary
       : route.page === 'writeups'
-        ? '정민기의 CTF 풀이, 취약점 분석, 디지털 포렌식, AI 보안 및 소프트웨어 개발 기록입니다.'
+        ? '취약점 분석 방법론, 프로젝트 개발 과정을 서술합니다.'
         : profile.description
     const canonical = canonicalForRoute(route)
 
@@ -797,7 +796,7 @@ function WriteupsPreview({ onWriteups }: WriteupsPreviewProps) {
               연구 및 학습 기록
             </div>
             <h2 className="max-w-3xl text-3xl font-semibold text-white sm:text-4xl">
-              CTF 풀이, 취약점 분석, 디지털 포렌식, AI 보안 및 개발 과정을 기록합니다.
+              취약점 분석 방법론, 프로젝트 개발 과정을 서술합니다.
             </h2>
           </div>
           <a className="primary-btn w-full sm:w-fit" href="/writeups/" onClick={onWriteups}>
@@ -904,8 +903,8 @@ function WriteupsPage({ route }: WriteupsPageProps) {
       <SectionHeading
         icon={BookOpen}
         eyebrow="연구 및 기술 기록"
-        title={route.slug ? '정민기의 정보보안·개발 기록' : '정민기 정보보안 글과 CTF·취약점 분석 기록'}
-        description="CTF 문제 풀이, 취약점 분석 방법론, 디지털 포렌식, AI 보안 및 프로젝트 개발 과정을 분류와 태그로 탐색할 수 있습니다."
+        title="정보보안 개발 기록"
+        description="취약점 분석 방법론, 프로젝트 개발 과정을 서술합니다."
         headingLevel={route.slug ? 'h2' : 'h1'}
       />
 
