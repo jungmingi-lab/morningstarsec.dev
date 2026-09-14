@@ -66,11 +66,18 @@ function callbackPage(status: 'success' | 'error', payload: unknown): Response {
   <body>
     <p>Returning to Decap CMS…</p>
     <script>
+      const cmsOrigin = ${JSON.stringify(CMS_ORIGIN)};
       const message = 'authorization:github:${status}:' + ${JSON.stringify(serializedPayload)};
       if (window.opener) {
-        window.opener.postMessage(message, ${JSON.stringify(CMS_ORIGIN)});
+        const sendAuthorization = (event) => {
+          if (event.origin !== cmsOrigin || event.data !== 'authorizing:github') return;
+          window.opener.postMessage(message, cmsOrigin);
+          window.close();
+        };
+
+        window.addEventListener('message', sendAuthorization, { once: true });
+        window.opener.postMessage('authorizing:github', cmsOrigin);
       }
-      window.close();
     </script>
   </body>
 </html>`
