@@ -285,7 +285,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#050711] text-slate-100">
+    <div className="site-shell min-h-screen overflow-x-hidden text-slate-100">
       <Seo route={route} />
       <BackgroundFX />
       <Header
