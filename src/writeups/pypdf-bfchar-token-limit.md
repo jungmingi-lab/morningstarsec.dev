@@ -1,14 +1,16 @@
 ---
-title: "pypdf: /ToUnicode bfchar 토큰 길이 검증 누락으로 인한 메모리 고갈"
+title: "CVE-2026-102995 | pypdf: /ToUnicode bfchar 토큰 길이 검증 누락으로 인한 메모리 고갈"
 date: "2026-09-14"
 category: "Security"
-tags: [Security, pypdf, Python, DoS, Responsible Disclosure]
+tags: [Security, CVE-2026-102995, pypdf, Python, DoS, Responsible Disclosure]
 difficulty: "Research"
 readTime: "8 min read"
-summary: "pypdf의 /ToUnicode bfchar 파서가 개별 토큰 크기를 제한하지 않아, 조작된 PDF의 텍스트 추출 과정에서 과도한 메모리를 사용할 수 있었던 문제를 분석하고 패치까지 확인한 기록입니다."
+summary: "CVE-2026-102995로 등록된 취약점입니다. pypdf의 /ToUnicode bfchar 파서가 개별 토큰 크기를 제한하지 않아, 조작된 PDF의 텍스트 추출 과정에서 과도한 메모리를 사용할 수 있었던 문제를 분석하고 패치까지 확인한 기록입니다."
 ---
 
 ## 요약
+
+> 2026-10-01 업데이트: 공식 보안 권고에서 **CVE-2026-102995** 배정을 확인했습니다. 제보자: `jungmingi-lab`.
 
 `pypdf`의 `/ToUnicode` CMap 처리 코드에서 `bfchar` 항목의 개별 토큰 길이를 제한하지 않는 문제를 확인했습니다. 공격자가 조작한 PDF를 애플리케이션이 `extract_text()`로 처리하면, 압축된 작은 입력이 큰 문자열 디코딩과 임시 객체 할당으로 확장되어 메모리 사용량과 처리 시간이 증가할 수 있었습니다.
 
@@ -22,7 +24,7 @@ summary: "pypdf의 /ToUnicode bfchar 파서가 개별 토큰 크기를 제한하
 | 분류 | CWE-400: Uncontrolled Resource Consumption |
 | 영향 버전 | pypdf `< 6.18.1` |
 | 수정 버전 | pypdf `6.18.1` 이상 |
-| CVE | 이 글 작성 시점인 2026-09-14 기준 미배정 |
+| CVE | [CVE-2026-102995](https://www.cve.org/CVERecord?id=CVE-2026-102995) |
 | 수정 PR | [py-pdf/pypdf #4071](https://github.com/py-pdf/pypdf/pull/4071) |
 
 ## 영향 범위
@@ -114,6 +116,7 @@ pypdf `6.18.1`에서는 `bfchar`의 각 소스 토큰과 대상 토큰을 디코
 | 2026-09-09 | 영향 버전과 공개 API 경로를 확인하고 비공개 제보 절차로 전달 |
 | 2026-09-11 | GHSA가 공개되고 pypdf `6.18.1` 패치 버전이 반영됨 |
 | 2026-09-14 | CMS 게시용 초안 작성 |
+| 2026-10-01 | 공식 보안 권고의 CVE 배정 정보 확인 및 반영 |
 
 ## 참고 자료
 

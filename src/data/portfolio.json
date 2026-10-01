@@ -66,6 +66,14 @@
   ],
   "activities": [
     {
+      "name": "pypdf 보안 취약점 제보 · CVE 3건 배정",
+      "date": "2026-10-01",
+      "displayDate": "2026년 10월 확인",
+      "description": "pypdf의 자원 고갈 및 처리 지연 취약점을 제보해 CVE-2026-102995, CVE-2026-102996, CVE-2026-102999가 배정되었습니다. 세 건 모두 공식 보안 권고에 jungmingi-lab이 제보자로 기록되어 있으며, 각각 6.18.1과 6.19.0에서 수정되었습니다.",
+      "evidenceLabel": "CVE 목록과 공식 보안 권고 확인",
+      "evidenceUrl": "https://luxferre.cc/writeups/pypdf-cve-assignments/"
+    },
+    {
       "name": "AISW 학부연구생",
       "description": "Supabase에서의 RLS 보안 정책을 연구하고 있습니다."
     },

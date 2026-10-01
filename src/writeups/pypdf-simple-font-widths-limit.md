@@ -1,14 +1,16 @@
 ---
-title: "pypdf: simple font /Widths 배열 제한 누락으로 인한 메모리 고갈"
+title: "CVE-2026-102996 | pypdf: simple font /Widths 배열 제한 누락으로 인한 메모리 고갈"
 date: "2026-09-14"
 category: "Security"
-tags: [Security, pypdf, Python, PDF, DoS, Responsible Disclosure]
+tags: [Security, CVE-2026-102996, pypdf, Python, PDF, DoS, Responsible Disclosure]
 difficulty: "Research"
 readTime: "8 min read"
-summary: "pypdf가 simple font의 /Widths 배열을 제한 없이 순회하던 문제를 확인하고, 압축된 PDF에서의 메모리·처리 시간 영향을 측정한 뒤 6.18.1 패치까지 확인한 기록입니다."
+summary: "CVE-2026-102996로 등록된 취약점입니다. pypdf가 simple font의 /Widths 배열을 제한 없이 순회하던 문제를 확인하고, 압축된 PDF에서의 메모리·처리 시간 영향을 측정한 뒤 6.18.1 패치까지 확인한 기록입니다."
 ---
 
 ## 요약
+
+> 2026-10-01 업데이트: 공식 보안 권고에서 **CVE-2026-102996** 배정을 확인했습니다. 제보자: `jungmingi-lab`.
 
 `pypdf`는 PDF 폰트의 문자 폭 정보를 읽어 텍스트 추출과 폰트 처리를 수행합니다. 기존 코드에는 CID 폰트의 `/W` 데이터에 대한 항목 수 제한이 있었지만, simple font의 `/Widths` 배열을 처리하는 형제 경로에는 같은 제한이 적용되지 않았습니다.
 
@@ -22,7 +24,7 @@ summary: "pypdf가 simple font의 /Widths 배열을 제한 없이 순회하던 �
 | 분류 | CWE-400: Uncontrolled Resource Consumption |
 | 영향 버전 | pypdf `< 6.18.1` |
 | 수정 버전 | pypdf `6.18.1` 이상 |
-| CVE | 이 글 작성 시점인 2026-09-14 기준 미배정 |
+| CVE | [CVE-2026-102996](https://www.cve.org/CVERecord?id=CVE-2026-102996) |
 | 수정 PR | [py-pdf/pypdf #4072](https://github.com/py-pdf/pypdf/pull/4072) |
 
 ## 영향 범위
@@ -118,6 +120,7 @@ pypdf `6.18.1`에서는 simple font의 `/Widths` 배열을 문자별 폭 사전�
 | 2026-09-10 | `/Widths` 배열의 무제한 순회와 공개 텍스트 추출 경로를 확인하고 비공개 제보 절차로 전달 |
 | 2026-09-11 | GHSA가 공개되고 pypdf `6.18.1` 패치 버전이 반영됨 |
 | 2026-09-14 | CMS 게시용 초안 작성 |
+| 2026-10-01 | 공식 보안 권고의 CVE 배정 정보 확인 및 반영 |
 
 ## 참고 자료
 
