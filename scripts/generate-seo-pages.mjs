@@ -135,7 +135,7 @@ function routeMetadata(route) {
       ogDescription: WRITEUPS_DESCRIPTION,
       ogType: 'website',
       robots: 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1',
-      title: '정민기 정보보안 글 | CTF·취약점 분석·개발 기록',
+      title: '공부 기록',
     }
   }
 
@@ -404,7 +404,7 @@ function renderWriteupList() {
   return `${STATIC_START}
     ${renderStaticHeader()}
     <main class="section-shell pt-32 pb-24">
-      <h1 class="text-4xl font-semibold text-white">정민기 정보보안 글과 CTF·취약점 분석 기록</h1>
+      <h1 class="text-4xl font-semibold text-white">공부 기록</h1>
       <p class="mt-5 max-w-3xl leading-8 text-slate-300">${WRITEUPS_DESCRIPTION}</p>
       <section aria-label="기술 기록 목록" class="mt-10 grid gap-4">${cards}</section>
     </main>
