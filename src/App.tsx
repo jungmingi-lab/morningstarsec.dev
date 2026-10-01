@@ -218,7 +218,7 @@ function Seo({ route }: { route: Route }) {
     const title = selectedWriteup
       ? `${selectedWriteup.title} | 정민기 정보보안 포트폴리오`
       : route.page === 'writeups'
-        ? '공부 기록'
+        ? '공부 기록 | 정민기'
         : `정민기 | ${profile.title}`
     const description = selectedWriteup
       ? selectedWriteup.summary

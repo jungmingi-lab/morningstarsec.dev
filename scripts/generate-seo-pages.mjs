@@ -135,7 +135,7 @@ function routeMetadata(route) {
       ogDescription: WRITEUPS_DESCRIPTION,
       ogType: 'website',
       robots: 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1',
-      title: '공부 기록',
+      title: '공부 기록 | 정민기',
     }
   }
 
