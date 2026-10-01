@@ -908,8 +908,8 @@ function WriteupsPage({ route }: WriteupsPageProps) {
         headingLevel={route.slug ? 'h2' : 'h1'}
       />
 
-      <div className="mt-10 grid gap-4 lg:grid-cols-[360px_minmax(0,1fr)]">
-        <aside className="space-y-5">
+      <div className="mt-10 flex min-w-0 flex-col gap-6">
+        <nav aria-label="기술 기록 탐색" className="glass-panel min-w-0 space-y-4 p-4 sm:p-5">
           <div className="relative">
             <Search
               className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-500"
@@ -942,16 +942,17 @@ function WriteupsPage({ route }: WriteupsPageProps) {
             ))}
           </div>
 
-          <div className="space-y-3">
+          <div className="flex gap-3 overflow-x-auto py-1" tabIndex={0} aria-label="기술 기록 목록">
             {filteredWriteups.map((writeup) => (
               <a
-                className={`writeup-card ${
+                className={`writeup-card w-64 shrink-0 sm:w-72 ${
                   selectedWriteup?.slug === writeup.slug
                     ? 'border-cyan-300/45 bg-cyan-300/[0.09]'
                     : 'border-white/10 bg-white/[0.04]'
                 }`}
                 href={`${writeupPath(writeup.slug)}/`}
                 key={writeup.slug}
+                aria-current={selectedWriteup?.slug === writeup.slug ? 'page' : undefined}
                 onClick={(event) => selectWriteup(event, writeup)}
               >
                 <span className="text-xs font-medium text-cyan-200">
@@ -960,17 +961,17 @@ function WriteupsPage({ route }: WriteupsPageProps) {
                 <span className="mt-2 block text-base font-semibold text-white">
                   {writeup.title}
                 </span>
-                <span className="mt-2 block text-sm leading-6 text-slate-400">
-                  {writeup.summary}
-                </span>
               </a>
             ))}
           </div>
-        </aside>
+          {filteredWriteups.length === 0 ? (
+            <p className="text-sm text-slate-400">조건에 맞는 기술 기록이 없습니다.</p>
+          ) : null}
+        </nav>
 
-        <section className="glass-panel min-h-[620px] p-5 sm:p-8">
+        <section className="glass-panel min-h-[620px] min-w-0 p-5 sm:p-8 lg:p-10">
           {selectedWriteup ? (
-            <article>
+            <article className="min-w-0 [overflow-wrap:anywhere]">
               <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400">
                 <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-cyan-100">
                   {selectedWriteup.category}
@@ -995,6 +996,11 @@ function WriteupsPage({ route }: WriteupsPageProps) {
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
+                    table: ({ children, ...props }) => (
+                      <div className="markdown-table-scroll" role="region" aria-label="본문 표 — 좌우로 스크롤할 수 있습니다" tabIndex={0}>
+                        <table {...props}>{children}</table>
+                      </div>
+                    ),
                     a: ({ href, children, ...props }) => (
                       <a
                         href={href}
