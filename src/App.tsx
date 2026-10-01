@@ -49,7 +49,12 @@ type Route = {
 
 type CategoryFilter = 'All' | WriteupCategory
 
-const categoryOptions: CategoryFilter[] = ['All', ...WRITEUP_CATEGORIES]
+const categoryOptions: CategoryFilter[] = [
+  'All',
+  ...WRITEUP_CATEGORIES.filter((category) =>
+    writeups.some((writeup) => writeup.category === category),
+  ),
+]
 
 const projectIcons: LucideIcon[] = [BrainCircuit, Car, Utensils, Cpu]
 const featuredProjects = projects.filter((project) => project.featured)
