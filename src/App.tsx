@@ -197,7 +197,7 @@ function buildStructuredData(route: Route, selectedWriteup?: Writeup) {
     '@type': 'CollectionPage',
     '@id': `${canonical}#collection`,
     url: canonical,
-    name: '정보보안 개발 기록',
+    name: '공부 기록',
     description: '취약점 분석 방법론, 프로젝트 개발 과정을 서술합니다.',
     isPartOf: { '@id': websiteId },
     author: { '@id': personId },
@@ -213,7 +213,7 @@ function Seo({ route }: { route: Route }) {
     const title = selectedWriteup
       ? `${selectedWriteup.title} | 정민기 정보보안 포트폴리오`
       : route.page === 'writeups'
-        ? '정보보안 개발 기록'
+        ? '공부 기록'
         : `정민기 | ${profile.title}`
     const description = selectedWriteup
       ? selectedWriteup.summary
@@ -903,7 +903,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
       <SectionHeading
         icon={BookOpen}
         eyebrow="연구 및 기술 기록"
-        title="정보보안 개발 기록"
+        title="공부 기록"
         description="취약점 분석 방법론, 프로젝트 개발 과정을 서술합니다."
         headingLevel={route.slug ? 'h2' : 'h1'}
       />
