@@ -6,7 +6,6 @@ import {
   Car,
   Code2,
   Cpu,
-  Download,
   ExternalLink,
   FileText,
   GitBranch,
@@ -553,7 +552,6 @@ function About() {
             대전대학교 AI소프트웨어학부 공식 홈페이지
             <ExternalLink className="size-4" aria-hidden="true" />
           </a>
-          <a className="secondary-btn mt-6" href="/resume-minki-jung.pdf" download><Download className="size-4" aria-hidden="true" /> 프로필 PDF 다운로드</a>
           <div className="mt-8 grid gap-3">
             {interests.map((interest) => (
               <div
