@@ -317,88 +317,83 @@ function Header({
   onMenuToggle,
   onWriteups,
 }: HeaderProps) {
-  const navClass =
-    'rounded-full px-3 py-2 text-sm text-slate-300 transition hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-300'
+  const navClass = 'panel-nav-link'
 
   return (
     <header className="site-header fixed inset-x-0 top-0 z-50">
       <nav
         aria-label="주요 메뉴"
-        className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8"
       >
         <a
-          className="flex items-center gap-3 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-300"
+          className="brand-lockup flex items-center gap-3"
           href="/"
           onClick={(event) => onHome(event)}
         >
-          <span className="brand-symbol" aria-hidden="true">
-            <span />
-          </span>
+          <img className="brand-logo" src="/favicon.svg" alt="" />
           <span className="leading-tight">
-            <span className="brand-name block text-sm font-semibold text-white">
-              LUXFERRE<span className="brand-dot">.</span>
+            <span className="brand-name block text-sm font-semibold">
+              luxferre<span className="brand-prompt">@kali</span>
             </span>
-            <span className="block text-xs text-slate-400">
-              SECURITY & AI RESEARCH
+            <span className="brand-path block text-xs">
+              ~/security-lab
             </span>
           </span>
         </a>
 
         <div className="desktop-nav hidden items-center gap-1 p-1 md:flex">
           <a className={navClass} href="/" onClick={(event) => onHome(event)}>
-            홈
+            <span aria-hidden="true">~/</span> 홈
           </a>
           <a
             className={navClass}
             href="/#about"
             onClick={(event) => onHome(event, 'about')}
           >
-            소개
+            <span aria-hidden="true">$</span> 소개
           </a>
           <a
             className={navClass}
             href="/#projects"
             onClick={(event) => onHome(event, 'projects')}
           >
-            프로젝트
+            <span aria-hidden="true">./</span> 프로젝트
           </a>
           <a
             className={navClass}
             href="/#activities"
             onClick={(event) => onHome(event, 'activities')}
           >
-            수상·활동
+            <span aria-hidden="true">#</span> 수상·활동
           </a>
           <a
-            className={`${navClass} ${
-              route.page === 'writeups' ? 'bg-cyan-300/10 text-cyan-100' : ''
-            }`}
+            className={`${navClass} ${route.page === 'writeups' ? 'is-active' : ''}`}
             href="/writeups/"
             onClick={onWriteups}
           >
-            연구·글
+            <span aria-hidden="true">&gt;</span> 연구·글
           </a>
           <a
             className={navClass}
             href="/#contact"
             onClick={(event) => onHome(event, 'contact')}
           >
-            연락
+            <span aria-hidden="true">@</span> 연락
           </a>
         </div>
 
         <a
-          className="header-github hidden items-center gap-2 px-4 py-2 text-sm font-medium md:inline-flex"
+          className="header-github hidden items-center gap-2 px-3 py-2 text-sm font-medium md:inline-flex"
           href={profile.github}
           rel="noopener noreferrer"
           target="_blank"
         >
           <GitBranch className="size-4" aria-hidden="true" />
-          GitHub
+          git://github
         </a>
 
         <button
-          className="grid size-10 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-slate-200 md:hidden"
+          className="mobile-menu-button grid size-10 place-items-center md:hidden"
           type="button"
           onClick={onMenuToggle}
           aria-expanded={menuOpen}
@@ -414,41 +409,41 @@ function Header({
       </nav>
 
       {menuOpen ? (
-        <div id="mobile-navigation" className="mobile-navigation border-t border-white/10 px-4 py-4 md:hidden">
+        <div id="mobile-navigation" className="mobile-navigation px-4 py-4 md:hidden">
           <div className="mx-auto grid max-w-7xl gap-2">
             <a className={navClass} href="/" onClick={(event) => onHome(event)}>
-              홈
+              ~/ 홈
             </a>
             <a
               className={navClass}
               href="/#about"
               onClick={(event) => onHome(event, 'about')}
             >
-              소개
+              $ 소개
             </a>
             <a
               className={navClass}
               href="/#projects"
               onClick={(event) => onHome(event, 'projects')}
             >
-              프로젝트
+              ./ 프로젝트
             </a>
             <a
               className={navClass}
               href="/#activities"
               onClick={(event) => onHome(event, 'activities')}
             >
-              수상·활동
+              # 수상·활동
             </a>
             <a className={navClass} href="/writeups/" onClick={onWriteups}>
-              연구·글
+              &gt; 연구·글
             </a>
             <a
               className={navClass}
               href="/#contact"
               onClick={(event) => onHome(event, 'contact')}
             >
-              연락
+              @ 연락
             </a>
           </div>
         </div>
@@ -465,57 +460,68 @@ type HeroProps = {
 function Hero({ onHome, onWriteups }: HeroProps) {
   return (
     <section id="home" className="hero">
-      <div className="hero-orbit" aria-hidden="true">
-        <svg viewBox="0 0 1200 720" fill="none">
-          <defs>
-            <linearGradient id="orbit-red" x1="170" y1="80" x2="1000" y2="630" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#ff1846" stopOpacity="0" />
-              <stop offset=".4" stopColor="#ff1846" />
-              <stop offset=".7" stopColor="#ff627e" />
-              <stop offset="1" stopColor="#ff1846" stopOpacity="0" />
-            </linearGradient>
-            <linearGradient id="orbit-blue" x1="200" y1="650" x2="1000" y2="60" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#0070ff" stopOpacity="0" />
-              <stop offset=".45" stopColor="#307bff" />
-              <stop offset="1" stopColor="#0070ff" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <g className="orbit-traces" stroke="url(#orbit-red)">
-            <ellipse cx="600" cy="360" rx="460" ry="182" transform="rotate(-26 600 360)" />
-            <ellipse cx="600" cy="360" rx="425" ry="155" transform="rotate(-26 600 360)" strokeDasharray="2 7" />
-            <ellipse cx="600" cy="360" rx="490" ry="205" transform="rotate(-26 600 360)" strokeOpacity=".3" />
-          </g>
-          <g stroke="url(#orbit-blue)">
-            <ellipse cx="600" cy="360" rx="425" ry="170" transform="rotate(32 600 360)" />
-            <ellipse cx="600" cy="360" rx="455" ry="193" transform="rotate(32 600 360)" strokeOpacity=".3" />
-          </g>
-          <circle cx="600" cy="360" r="256" stroke="#a5b4fc" strokeOpacity=".1" strokeDasharray="2 10" />
-          <path d="M600 65v26M600 629v26M285 360h26M889 360h26" stroke="#b5bdcc" strokeOpacity=".4" />
-        </svg>
-      </div>
       <div className="hero-content section-shell">
-        <p className="hero-kicker"><span className="signal-dot" /> INDEPENDENT SECURITY RESEARCH</p>
-        <h1 className="hero-wordmark" aria-label="LUXFERRE — 정민기 정보보안 포트폴리오">
-          <span data-text="LUXFERRE">LUXFERRE</span><span className="hero-period" aria-hidden="true">_</span>
-        </h1>
-        <p className="hero-subtitle">QUESTION. BREAK. <span>UNDERSTAND.</span></p>
-        <div className="hero-identity">
-          <p>{profile.name} <span>/ {profile.romanizedName}</span></p>
-          <span className="hero-identity-divider" aria-hidden="true" />
-          <p>{profile.affiliation}</p>
-        </div>
-        <p className="hero-description">시스템의 경계를 탐구하고, 취약점의 본질을 이해합니다.<br className="hidden sm:block" /> 정보보안 · CTF · AI 보안 연구와 개발의 기록.</p>
-        <div className="hero-actions">
-          <a className="primary-btn" href="/writeups/" onClick={onWriteups}>연구 기록 살펴보기 <ArrowRight className="size-4" aria-hidden="true" /></a>
-          <a className="secondary-btn" href="/#about" onClick={(event) => onHome(event, 'about')}>소개 <ArrowRight className="size-4" aria-hidden="true" /></a>
+        <div className="terminal-window hero-terminal">
+          <TerminalBar title="luxferre@kali: ~/portfolio" meta="bash — 132×38" />
+          <div className="hero-terminal-body">
+            <p className="terminal-command"><span>luxferre@kali</span>:<b>~</b>$ ./boot-profile.sh</p>
+            <div className="boot-sequence" aria-hidden="true">
+              <span>[ <b>OK</b> ] loading security research profile</span>
+              <span>[ <b>OK</b> ] mounting writeups and project logs</span>
+              <span>[ <b>OK</b> ] interface ready</span>
+            </div>
+
+            <div className="hero-identity-grid">
+              <div className="hero-logo-frame">
+                <img src="/favicon.svg" alt="Luxferre 로고" />
+                <span>NODE_01</span>
+              </div>
+              <div className="hero-copy">
+                <p className="hero-kicker"><span className="signal-dot" /> SYSTEM ONLINE · INDEPENDENT SECURITY RESEARCH</p>
+                <h1 className="hero-wordmark">LUXFERRE<span aria-hidden="true">_</span></h1>
+                <p className="hero-subtitle">QUESTION <i>/</i> BREAK <i>/</i> <span>UNDERSTAND</span></p>
+                <div className="hero-identity">
+                  <p>{profile.name} <span>/ {profile.romanizedName}</span></p>
+                  <p>{profile.affiliation}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="terminal-output">
+              <p><span className="output-key">mission</span><span>시스템의 경계를 탐구하고 취약점의 본질을 이해합니다.</span></p>
+              <p><span className="output-key">scope</span><span>정보보안 · CTF · AI 보안 연구 · 소프트웨어 개발</span></p>
+              <p><span className="output-key">status</span><span className="status-online">available for collaboration</span></p>
+            </div>
+
+            <div className="hero-actions">
+              <a className="primary-btn" href="/writeups/" onClick={onWriteups}><span>$</span> open ./writeups <ArrowRight className="size-4" aria-hidden="true" /></a>
+              <a className="secondary-btn" href="/#about" onClick={(event) => onHome(event, 'about')}><span>$</span> whoami <ArrowRight className="size-4" aria-hidden="true" /></a>
+            </div>
+            <p className="terminal-cursor" aria-hidden="true"><span>luxferre@kali</span>:<b>~</b>$ <i /></p>
+          </div>
         </div>
       </div>
       <div className="hero-bottom section-shell">
-        <span>SECURITY / CTF / ARTIFICIAL INTELLIGENCE</span>
+        <span><b>eth0</b> CONNECTED</span>
         <a href="/#about" onClick={(event) => onHome(event, 'about')}>SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a>
-        <span>DAEJEON, KR <span className="text-accent">↗</span></span>
+        <span>DAEJEON, KR · UTC+09:00</span>
       </div>
     </section>
+  )
+}
+
+type TerminalBarProps = {
+  title: string
+  meta?: string
+}
+
+function TerminalBar({ title, meta }: TerminalBarProps) {
+  return (
+    <div className="terminal-bar">
+      <div className="window-controls" aria-hidden="true"><span /><span /><span /></div>
+      <span className="terminal-title">{title}</span>
+      <span className="terminal-meta">{meta ?? 'bash'}</span>
+    </div>
   )
 }
 
@@ -530,7 +536,9 @@ function About() {
       />
 
       <div className="mt-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="glass-panel p-6">
+        <div className="terminal-window about-panel">
+          <TerminalBar title="root@luxferre: ~/about/identity" />
+          <div className="panel-content">
           <div className="mb-6 grid size-12 place-items-center rounded-lg border border-purple-300/25 bg-purple-300/10 text-purple-100">
             <GraduationCap className="size-6" aria-hidden="true" />
           </div>
@@ -565,9 +573,12 @@ function About() {
               </div>
             ))}
           </div>
+          </div>
         </div>
 
-        <div className="glass-panel p-6">
+        <div className="terminal-window about-panel">
+          <TerminalBar title="root@luxferre: ~/about/toolkit" meta="packages.list" />
+          <div className="panel-content">
           <div className="flex items-center gap-3">
             <Code2 className="size-5 text-cyan-200" aria-hidden="true" />
             <h3 className="text-xl font-semibold text-white">기술 및 도구</h3>
@@ -594,6 +605,7 @@ function About() {
               </div>
             ))}
           </div>
+          </div>
         </div>
       </div>
     </section>
@@ -612,7 +624,7 @@ function Projects() {
 
       <div className="mt-12 grid gap-5 md:grid-cols-2">
         {featuredProjects.length === 0 ? (
-          <div className="glass-panel p-8 md:col-span-2">
+          <div className="terminal-window p-8 md:col-span-2">
             <p className="text-sm text-slate-400">공개 프로젝트를 정리하고 있습니다. 연구 및 개발 과정은 기술 기록에서 확인할 수 있습니다.</p>
             <a className="mt-4 inline-flex items-center gap-2 text-sm text-cyan-200" href="/writeups/">기술 기록 보기 <ArrowRight className="size-4" aria-hidden="true" /></a>
           </div>
@@ -621,7 +633,9 @@ function Projects() {
           const Icon = projectIcons[index] ?? Cpu
 
           return (
-            <article className="project-card" key={project.name}>
+            <article className="terminal-window project-card" key={project.name}>
+              <TerminalBar title={`luxferre@kali: ~/projects/${String(index + 1).padStart(2, '0')}`} meta={project.status} />
+              <div className="card-content">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-sm font-medium text-cyan-200">
@@ -646,6 +660,7 @@ function Projects() {
                 ))}
               </div>
               <p className="mt-6 text-sm text-slate-500">{project.status}</p>
+              </div>
             </article>
           )
         })}
@@ -665,8 +680,10 @@ function Activities() {
       />
 
       <div className="activity-grid mt-12 grid gap-5 lg:grid-cols-2">
-        {activities.map((activity) => (
-          <article className="activity-card" key={activity.name}>
+        {activities.map((activity, index) => (
+          <article className="terminal-window activity-card" key={activity.name}>
+            <TerminalBar title={`root@luxferre: /var/log/milestone-${String(index + 1).padStart(2, '0')}`} meta="read-only" />
+            <div className="card-content">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-cyan-200">
@@ -698,10 +715,13 @@ function Activities() {
                 <ExternalLink className="size-4" aria-hidden="true" />
               </a>
             ) : null}
+            </div>
           </article>
         ))}
 
-        <div className="glass-panel p-6">
+        <div className="terminal-window external-links-panel">
+          <TerminalBar title="root@luxferre: ~/links/verified" meta="2 entries" />
+          <div className="panel-content">
           <div className="flex items-center gap-3">
             <Globe2 className="size-5 text-cyan-200" aria-hidden="true" />
             <h3 className="text-xl font-semibold text-white">외부 공식 링크</h3>
@@ -724,6 +744,7 @@ function Activities() {
               </a>
             ))}
           </div>
+          </div>
         </div>
       </div>
     </section>
@@ -738,18 +759,21 @@ function WriteupsPreview({ onWriteups }: WriteupsPreviewProps) {
   return (
     <section className="section-shell research-section py-24">
       <SectionHeading icon={FileText} eyebrow="연구 및 기술 기록" title="RESEARCH LOG" description="취약점의 발견부터 원인 분석과 패치 검증까지, 연구 과정을 기록합니다." />
-      <div className="research-list mt-12">
-        {writeups.slice(0, 3).map((writeup, index) => (
-          <a className="research-row" href={`${writeupPath(writeup.slug)}/`} key={writeup.slug}>
-            <span className="research-number">0{index + 1}</span>
-            <div>
-              <span className="research-meta">{writeup.category} <span>/</span> {formatDate(writeup.date)}</span>
-              <h3>{writeup.title}</h3>
-              <p>{writeup.summary}</p>
-            </div>
-            <ArrowRight className="research-arrow size-5" aria-hidden="true" />
-          </a>
-        ))}
+      <div className="terminal-window research-terminal mt-12">
+        <TerminalBar title="luxferre@kali: ~/writeups" meta={`${writeups.length} records`} />
+        <div className="research-list">
+          {writeups.slice(0, 3).map((writeup, index) => (
+            <a className="research-row" href={`${writeupPath(writeup.slug)}/`} key={writeup.slug}>
+              <span className="research-number">0{index + 1}</span>
+              <div>
+                <span className="research-meta">{writeup.category} <span>/</span> {formatDate(writeup.date)}</span>
+                <h3>{writeup.title}</h3>
+                <p>{writeup.summary}</p>
+              </div>
+              <ArrowRight className="research-arrow size-5" aria-hidden="true" />
+            </a>
+          ))}
+        </div>
       </div>
       <a className="secondary-btn mt-8" href="/writeups/" onClick={onWriteups}>전체 기술 기록 보기 <ArrowRight className="size-4" aria-hidden="true" /></a>
     </section>
@@ -769,10 +793,11 @@ function Contact() {
       <div className="mt-12 grid gap-4 sm:grid-cols-2">
         {contactLinks.map((link) => {
           const Icon = contactIcons[link.label] ?? Globe2
-          const cardClass =
-            'contact-card hover:border-cyan-300/40 hover:bg-cyan-300/10'
+          const cardClass = 'terminal-window contact-card'
           const cardContent = (
             <>
+              <TerminalBar title={`connect --${link.label.toLowerCase()}`} meta="external" />
+              <div className="contact-card-content">
               <Icon className="size-5 text-cyan-200" aria-hidden="true" />
               <span className="mt-5 block text-sm text-slate-400">
                 {link.label}
@@ -780,6 +805,7 @@ function Contact() {
               <span className="mt-2 block break-words text-sm font-medium text-white">
                 {link.value}
               </span>
+              </div>
             </>
           )
 
@@ -856,7 +882,9 @@ function WriteupsPage({ route }: WriteupsPageProps) {
       />
 
       <div className="mt-10 flex min-w-0 flex-col gap-6">
-        <nav aria-label="기술 기록 탐색" className="glass-panel min-w-0 space-y-4 p-4 sm:p-5">
+        <nav aria-label="기술 기록 탐색" className="terminal-window writeup-explorer min-w-0">
+          <TerminalBar title="root@luxferre: ~/writeups/index" meta={`${filteredWriteups.length} shown`} />
+          <div className="explorer-content space-y-4">
           <div className="relative">
             <Search
               className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-500"
@@ -882,6 +910,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
                 }`}
                 key={item}
                 type="button"
+                aria-pressed={category === item}
                 onClick={() => setCategory(item)}
               >
                 {item}
@@ -914,9 +943,12 @@ function WriteupsPage({ route }: WriteupsPageProps) {
           {filteredWriteups.length === 0 ? (
             <p className="text-sm text-slate-400">조건에 맞는 기술 기록이 없습니다.</p>
           ) : null}
+          </div>
         </nav>
 
-        <section className="glass-panel min-h-[620px] min-w-0 p-5 sm:p-8 lg:p-10">
+        <section className="terminal-window article-terminal min-h-[620px] min-w-0">
+          <TerminalBar title={selectedWriteup ? `vim ~/writeups/${selectedWriteup.slug}.md` : 'vim ~/writeups/empty'} meta={selectedWriteup ? 'utf-8' : 'no buffer'} />
+          <div className="article-shell">
           {selectedWriteup ? (
             <article className="min-w-0 [overflow-wrap:anywhere]">
               <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400">
@@ -972,6 +1004,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
               </div>
             </div>
           )}
+          </div>
         </section>
       </div>
     </main>
@@ -997,9 +1030,9 @@ function SectionHeading({
 
   return (
     <div className="section-heading">
-      <div className="section-eyebrow">
+      <div className="section-prompt">
         <Icon className="size-4" aria-hidden="true" />
-        {eyebrow}
+        <span>root@luxferre</span>:<b>~/{eyebrow}</b>$
       </div>
       <Heading className="section-title">
         {title}
@@ -1024,11 +1057,11 @@ function BackgroundFX() {
 
 function Footer() {
   return (
-    <footer className="relative z-10 border-t border-white/10 px-4 py-8 text-sm text-slate-500">
+    <footer className="system-footer relative z-10 px-4 py-5 text-sm">
       <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p><span className="footer-wordmark">LUXFERRE.</span> © 2026 {profile.name}</p>
+        <p><span className="footer-status" /> <span className="footer-wordmark">LUXFERRE@KALI</span> © 2026 {profile.name}</p>
         <a
-          className="inline-flex items-center gap-2 text-slate-400 transition hover:text-cyan-100"
+          className="inline-flex items-center gap-2 transition"
           href={`${profile.siteUrl}/`}
         >
           {profile.siteUrl.replace('https://', '')}
