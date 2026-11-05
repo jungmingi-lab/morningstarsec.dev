@@ -1,5 +1,37 @@
 @import "tailwindcss";
 
+.shell-desktop { min-height: 100svh; padding: clamp(12px, 5vw, 70px); display: grid; align-items: center; position: relative; z-index: 10; }
+.interactive-shell { width: min(100%, 1040px); margin: auto; border: 1px solid #343b48; border-radius: 7px; background: #101318; box-shadow: 0 24px 80px #0008; overflow: hidden; font-family: Consolas, "Cascadia Code", monospace; }
+.shell-titlebar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #242830; color: #aeb6c3; font-size: 12px; }
+.shell-titlebar img { width: 20px; height: 20px; }
+.shell-titlebar > span:last-child { margin-left: auto; letter-spacing: 10px; }
+.shell-screen { height: min(76svh, 760px); min-height: 360px; overflow-y: auto; padding: clamp(16px, 3vw, 32px); color: #d0d5dd; font-size: 14px; line-height: 1.8; scrollbar-color: #414855 #101318; }
+.shell-screen h1 { font-size: 18px; font-weight: 600; color: #e6eaf0; }
+.shell-muted, .shell-files small { color: #8b95a5; }
+.shell-welcome { margin: 16px 0 28px; }
+.shell-welcome button, .shell-files a { color: #8ebcfa; text-decoration: underline; }
+.shell-entry { margin-bottom: 24px; }
+.shell-echo { overflow-wrap: anywhere; }
+.shell-echo > span, .shell-prompt label span { color: #78c7a0; }
+.shell-result { margin-top: 8px; overflow-wrap: anywhere; }
+.shell-result pre { white-space: pre-wrap; font: inherit; }
+.shell-prompt { display: flex; align-items: baseline; gap: 10px; }
+.shell-prompt label { flex-shrink: 0; }
+.shell-prompt input { width: 100%; min-width: 0; border: 0; background: transparent; color: #e6eaf0; font: inherit; caret-color: #78c7a0; }
+.shell-prompt button { color: #8b95a5; padding: 0 8px; }
+.shell-result .section-shell { width: 100%; padding: 0; }
+.shell-result .section-prompt, .shell-result .terminal-bar, .shell-result .section-title { display: none; }
+.shell-result .terminal-window { background: none; border: 0; box-shadow: none; border-radius: 0; min-height: 0; }
+.shell-result .terminal-window::after, .shell-result .contact-card-content::after { display: none; }
+.shell-result .terminal-window:hover { transform: none; }
+.shell-result .panel-content, .shell-result .card-content, .shell-result .contact-card-content { padding: 12px 0; min-height: 0; }
+.shell-result .grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.shell-result .mt-12, .shell-result .mt-10 { margin-top: 16px; }
+.shell-result h3 { font-size: 16px; }
+.shell-result p { font-size: 13px; }
+.shell-result svg { display: none; }
+@media (max-width: 480px) { .shell-desktop { padding: 8px; } .shell-screen { height: calc(100svh - 65px); font-size: 12px; } }
+
 @theme {
   --color-cyan-100: #d9f8ff;
   --color-cyan-200: #73e7ff;

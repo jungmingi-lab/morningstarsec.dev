@@ -7,7 +7,6 @@ import {
   Code2,
   Cpu,
   ExternalLink,
-  FileText,
   GitBranch,
   Globe2,
   GraduationCap,
@@ -22,6 +21,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useMemo, useState, type MouseEvent } from 'react'
 import ReactMarkdown from 'react-markdown'
+import TerminalHome from './TerminalHome'
 import remarkGfm from 'remark-gfm'
 import {
   activities,
@@ -277,27 +277,20 @@ function App() {
     <div className="site-shell min-h-screen overflow-x-hidden text-slate-100">
       <a className="skip-link" href="#main-content">본문으로 바로가기</a>
       <Seo route={route} />
-      <BackgroundFX />
-      <Header
+      {route.page === 'writeups' && <BackgroundFX />}
+      {route.page === 'writeups' && <Header
         menuOpen={menuOpen}
         route={route}
         onHome={goHome}
         onMenuToggle={() => setMenuOpen((isOpen) => !isOpen)}
         onWriteups={goWriteups}
-      />
+      />}
       {route.page === 'writeups' ? (
         <WriteupsPage route={route} />
       ) : (
-        <main id="main-content" tabIndex={-1}>
-          <Hero onHome={goHome} onWriteups={goWriteups} />
-          <About />
-          <Projects />
-          <Activities />
-          <WriteupsPreview onWriteups={goWriteups} />
-          <Contact />
-        </main>
+        <TerminalHome sections={{ whoami: <About />, projects: <Projects />, activities: <Activities />, contact: <Contact /> }} />
       )}
-      <Footer />
+      {route.page === 'writeups' && <Footer />}
     </div>
   )
 }
@@ -452,63 +445,6 @@ function Header({
   )
 }
 
-type HeroProps = {
-  onHome: (event: MouseEvent<HTMLAnchorElement>, targetId?: string) => void
-  onWriteups: (event: MouseEvent<HTMLAnchorElement>) => void
-}
-
-function Hero({ onHome, onWriteups }: HeroProps) {
-  return (
-    <section id="home" className="hero">
-      <div className="hero-content section-shell">
-        <div className="terminal-window hero-terminal">
-          <TerminalBar title="luxferre@kali: ~/portfolio" meta="bash — 132×38" />
-          <div className="hero-terminal-body">
-            <p className="terminal-command"><span>luxferre@kali</span>:<b>~</b>$ ./boot-profile.sh</p>
-            <div className="boot-sequence" aria-hidden="true">
-              <span>[ <b>OK</b> ] loading security research profile</span>
-              <span>[ <b>OK</b> ] mounting writeups and project logs</span>
-              <span>[ <b>OK</b> ] interface ready</span>
-            </div>
-
-            <div className="hero-identity-grid">
-              <div className="hero-logo-frame">
-                <img src="/favicon.svg" alt="Luxferre 로고" />
-                <span>NODE_01</span>
-              </div>
-              <div className="hero-copy">
-                <p className="hero-kicker"><span className="signal-dot" /> SYSTEM ONLINE · INDEPENDENT SECURITY RESEARCH</p>
-                <h1 className="hero-wordmark">LUXFERRE<span aria-hidden="true">_</span></h1>
-                <p className="hero-subtitle">QUESTION <i>/</i> BREAK <i>/</i> <span>UNDERSTAND</span></p>
-                <div className="hero-identity">
-                  <p>{profile.name} <span>/ {profile.romanizedName}</span></p>
-                  <p>{profile.affiliation}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="terminal-output">
-              <p><span className="output-key">mission</span><span>시스템의 경계를 탐구하고 취약점의 본질을 이해합니다.</span></p>
-              <p><span className="output-key">scope</span><span>정보보안 · CTF · AI 보안 연구 · 소프트웨어 개발</span></p>
-              <p><span className="output-key">status</span><span className="status-online">available for collaboration</span></p>
-            </div>
-
-            <div className="hero-actions">
-              <a className="primary-btn" href="/writeups/" onClick={onWriteups}><span>$</span> open ./writeups <ArrowRight className="size-4" aria-hidden="true" /></a>
-              <a className="secondary-btn" href="/#about" onClick={(event) => onHome(event, 'about')}><span>$</span> whoami <ArrowRight className="size-4" aria-hidden="true" /></a>
-            </div>
-            <p className="terminal-cursor" aria-hidden="true"><span>luxferre@kali</span>:<b>~</b>$ <i /></p>
-          </div>
-        </div>
-      </div>
-      <div className="hero-bottom section-shell">
-        <span><b>eth0</b> CONNECTED</span>
-        <a href="/#about" onClick={(event) => onHome(event, 'about')}>SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a>
-        <span>DAEJEON, KR · UTC+09:00</span>
-      </div>
-    </section>
-  )
-}
 
 type TerminalBarProps = {
   title: string
@@ -751,34 +687,6 @@ function Activities() {
   )
 }
 
-type WriteupsPreviewProps = {
-  onWriteups: (event: MouseEvent<HTMLAnchorElement>) => void
-}
-
-function WriteupsPreview({ onWriteups }: WriteupsPreviewProps) {
-  return (
-    <section className="section-shell research-section py-24">
-      <SectionHeading icon={FileText} eyebrow="연구 및 기술 기록" title="RESEARCH LOG" description="취약점의 발견부터 원인 분석과 패치 검증까지, 연구 과정을 기록합니다." />
-      <div className="terminal-window research-terminal mt-12">
-        <TerminalBar title="luxferre@kali: ~/writeups" meta={`${writeups.length} records`} />
-        <div className="research-list">
-          {writeups.slice(0, 3).map((writeup, index) => (
-            <a className="research-row" href={`${writeupPath(writeup.slug)}/`} key={writeup.slug}>
-              <span className="research-number">0{index + 1}</span>
-              <div>
-                <span className="research-meta">{writeup.category} <span>/</span> {formatDate(writeup.date)}</span>
-                <h3>{writeup.title}</h3>
-                <p>{writeup.summary}</p>
-              </div>
-              <ArrowRight className="research-arrow size-5" aria-hidden="true" />
-            </a>
-          ))}
-        </div>
-      </div>
-      <a className="secondary-btn mt-8" href="/writeups/" onClick={onWriteups}>전체 기술 기록 보기 <ArrowRight className="size-4" aria-hidden="true" /></a>
-    </section>
-  )
-}
 
 function Contact() {
   return (
