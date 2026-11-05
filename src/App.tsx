@@ -44,13 +44,11 @@ type Route = {
   slug?: string
 }
 
-type CategoryFilter = 'All' | WriteupCategory
+type CategoryFilter = '전체' | WriteupCategory
 
 const categoryOptions: CategoryFilter[] = [
-  'All',
-  ...WRITEUP_CATEGORIES.filter((category) =>
-    writeups.some((writeup) => writeup.category === category),
-  ),
+  '전체',
+  ...WRITEUP_CATEGORIES,
 ]
 
 const projectIcons: LucideIcon[] = [BrainCircuit, Car, Utensils, Cpu]
@@ -808,13 +806,13 @@ type WriteupsPageProps = {
 
 function WriteupsPage({ route }: WriteupsPageProps) {
   const [query, setQuery] = useState('')
-  const [category, setCategory] = useState<CategoryFilter>('All')
+  const [category, setCategory] = useState<CategoryFilter>('전체')
 
   const filteredWriteups = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
 
     return writeups.filter((writeup) => {
-      const matchesCategory = category === 'All' || writeup.category === category
+      const matchesCategory = category === '전체' || writeup.category === category
       const searchableText = [
         writeup.title,
         writeup.summary,

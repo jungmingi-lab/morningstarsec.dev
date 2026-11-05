@@ -1,7 +1,7 @@
 ---
 title: "CVE-2026-102995 | pypdf: /ToUnicode bfchar 토큰 길이 검증 누락으로 인한 메모리 고갈"
 date: "2026-09-14"
-category: "Security"
+category: "BugbBounty"
 tags: [Security, CVE-2026-102995, pypdf, Python, DoS, Responsible Disclosure]
 difficulty: "Research"
 readTime: "8 min read"

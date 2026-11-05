@@ -1,7 +1,7 @@
 ---
 title: "Bareungrip: 출시 대기중"
 date: "2026-09-14"
-category: "Development"
+category: "개발"
 tags: [Development, Bareungrip, Coming Soon]
 difficulty: "Project"
 readTime: "1 min read"

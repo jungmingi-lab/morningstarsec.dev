@@ -1,7 +1,7 @@
 ---
 title: "CVE-2026-102996 | pypdf: simple font /Widths 배열 제한 누락으로 인한 메모리 고갈"
 date: "2026-09-14"
-category: "Security"
+category: "BugbBounty"
 tags: [Security, CVE-2026-102996, pypdf, Python, PDF, DoS, Responsible Disclosure]
 difficulty: "Research"
 readTime: "8 min read"

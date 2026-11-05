@@ -1,7 +1,7 @@
 ---
 title: "CVE-2026-102999 | pypdf: 첨부 파일 매핑의 반복 탐색으로 인한 처리 지연"
 date: "2026-10-01"
-category: "Security"
+category: "BugbBounty"
 tags: [Security, CVE-2026-102999, pypdf, Python, PDF, DoS, Responsible Disclosure]
 difficulty: "Research"
 readTime: "5 min read"

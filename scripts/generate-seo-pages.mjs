@@ -98,7 +98,7 @@ function parseWriteup(fileName) {
     slug,
     title: String(metadata.title),
     date: String(metadata.date),
-    category: String(metadata.category ?? 'Misc'),
+    category: String(metadata.category ?? '블로그/기술문서'),
     tags: Array.isArray(metadata.tags) ? metadata.tags : [],
     difficulty: String(metadata.difficulty ?? 'Practice'),
     readTime: String(metadata.readTime ?? ''),

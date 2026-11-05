@@ -67,7 +67,7 @@ Each post supports frontmatter:
 ---
 title: "Web Lab: Session Signal Review"
 date: "2026-02-14"
-category: "Web"
+category: "CTF/Wargame"
 tags: [Web, Auth, Cookies]
 difficulty: "Easy"
 readTime: "4 min read"
@@ -81,14 +81,12 @@ Markdown content here.
 
 Supported categories:
 
-- `Web`
-- `Pwn`
-- `Reversing`
-- `Forensics`
-- `Development`
-- `Security`
-- `Dreamhack`
-- `Misc`
+- `개발`
+- `CTF/Wargame`
+- `BugbBounty`
+- `블로그/기술문서`
+- `논문/컨퍼런스`
+- `공모전/자격증`
 
 Each category can contain multiple Markdown files. Use Markdown headings such as
 `## Overview` and `## Technical Notes` inside each post to split detailed

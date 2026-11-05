@@ -1,12 +1,10 @@
 export const WRITEUP_CATEGORIES = [
-  'Web',
-  'Pwn',
-  'Reversing',
-  'Forensics',
-  'Development',
-  'Security',
-  'Dreamhack',
-  'Misc',
+  '개발',
+  'CTF/Wargame',
+  'BugbBounty',
+  '블로그/기술문서',
+  '논문/컨퍼런스',
+  '공모전/자격증',
 ] as const
 
 export type WriteupCategory = (typeof WRITEUP_CATEGORIES)[number]
@@ -81,13 +79,13 @@ function parseFrontmatterValue(value: string): FrontmatterValue {
 }
 
 function normalizeCategory(value: FrontmatterValue | undefined): WriteupCategory {
-  const category = String(value ?? 'Misc')
+  const category = String(value ?? '블로그/기술문서')
 
   if (WRITEUP_CATEGORIES.includes(category as WriteupCategory)) {
     return category as WriteupCategory
   }
 
-  return 'Misc'
+  return '블로그/기술문서'
 }
 
 function normalizeTags(value: FrontmatterValue | undefined): string[] {
