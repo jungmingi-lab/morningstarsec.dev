@@ -86,7 +86,7 @@ Supported categories:
 - `BugbBounty`
 - `블로그/기술문서`
 - `논문/컨퍼런스`
-- `공모전/자격증`
+- `경력/공모전`
 
 Each category can contain multiple Markdown files. Use Markdown headings such as
 `## Overview` and `## Technical Notes` inside each post to split detailed

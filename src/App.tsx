@@ -35,7 +35,7 @@ const categoryOptions: CategoryFilter[] = [
   '전체',
   ...WRITEUP_CATEGORIES,
 ]
-const achievementCategories = ['CTF/Wargame', '공모전/자격증'] as const
+const achievementCategories = ['CTF/Wargame', '경력/공모전'] as const
 
 function readRoute(): Route {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'

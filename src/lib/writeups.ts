@@ -4,7 +4,7 @@ export const WRITEUP_CATEGORIES = [
   'BugbBounty',
   '블로그/기술문서',
   '논문/컨퍼런스',
-  '공모전/자격증',
+  '경력/공모전',
 ] as const
 
 export type WriteupCategory = (typeof WRITEUP_CATEGORIES)[number]

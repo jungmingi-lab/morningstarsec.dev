@@ -306,7 +306,7 @@ function renderStaticFooter() {
 }
 
 function renderHome() {
-  const achievementGroups = ['CTF/Wargame', '공모전/자격증']
+  const achievementGroups = ['CTF/Wargame', '경력/공모전']
     .map((category) => {
       const results = activities.filter((activity) => activity.category === category)
       if (!results.length) return ''
