@@ -6,8 +6,8 @@
     "siteName": "정민기 포트폴리오",
     "siteUrl": "https://luxferre.cc",
     "title": "대전대학교 AISW학부 정보보안·AI 포트폴리오",
-    "description": "대전대학교 AISW학부 정민기의 공식 포트폴리오입니다. 정보보안, 취약점 분석, CTF, 인공지능 프로젝트와 수상 및 연구 활동을 소개합니다.",
-    "shortDescription": "대전대학교 AISW학부 정민기의 정보보안, CTF, AI 프로젝트와 활동을 소개합니다.",
+    "description": "대전대학교 AISW학부 정민기의 포트폴리오 · 정보보안·취약점 분석·CTF·인공지능 프로젝트·수상 및 연구 활동 기록",
+    "shortDescription": "대전대학교 AISW학부 정민기의 정보보안 연구 · CTF · AI 프로젝트 · 활동 기록",
     "email": "minki@luxferre.cc",
     "github": "https://github.com/jungmingi-lab",
     "university": "대전대학교",
@@ -43,24 +43,36 @@
       "name": "주차왕 (Parking King)",
       "featured": false,
       "eyebrow": "서비스 플랫폼",
-      "description": "실시간 주차 가능 정보, 공간 등록, 예약 흐름을 중심으로 설계한 주차 공유 및 예약 서비스입니다.",
-      "stack": ["예약 UX", "지도", "웹 애플리케이션"],
+      "description": "실시간 주차 가능 정보, 공간 등록, 예약 흐름을 중심으로 설계한 주차 공유 및 예약 서비스",
+      "stack": [
+        "예약 UX",
+        "지도",
+        "웹 애플리케이션"
+      ],
       "status": "제품 프로토타입"
     },
     {
       "name": "식탁 위의 처방",
       "featured": false,
       "eyebrow": "개인화 AI",
-      "description": "건강 목표와 식생활 맥락을 바탕으로 일상 식단을 제안하는 AI 기반 개인 맞춤형 식사 추천 서비스입니다.",
-      "stack": ["추천 AI", "건강 데이터", "모바일 UX"],
+      "description": "건강 목표와 식생활 맥락을 바탕으로 일상 식단을 제안하는 AI 기반 개인 맞춤형 식사 추천 서비스",
+      "stack": [
+        "추천 AI",
+        "건강 데이터",
+        "모바일 UX"
+      ],
       "status": "응용 AI 프로젝트"
     },
     {
       "name": "IoT Hackathon",
       "featured": false,
       "eyebrow": "보안 챌린지",
-      "description": "센서 데이터 분석과 이상 징후 탐지를 결합해 시계열 예측과 IoT 보안을 다룬 해커톤 프로젝트입니다.",
-      "stack": ["IoT", "시계열", "보안"],
+      "description": "센서 데이터 분석과 이상 징후 탐지를 결합해 시계열 예측과 IoT 보안을 다룬 해커톤 프로젝트",
+      "stack": [
+        "IoT",
+        "시계열",
+        "보안"
+      ],
       "status": "해커톤 프로젝트"
     }
   ],
@@ -69,33 +81,33 @@
       "name": "pypdf 보안 취약점 제보 · CVE 3건 배정",
       "date": "2026-10-01",
       "displayDate": "2026년 10월 확인",
-      "description": "pypdf의 자원 고갈 및 처리 지연 취약점을 제보해 CVE-2026-102995, CVE-2026-102996, CVE-2026-102999가 배정되었습니다. 세 건 모두 공식 보안 권고에 jungmingi-lab이 제보자로 기록되어 있으며, 각각 6.18.1과 6.19.0에서 수정되었습니다.",
+      "description": "pypdf 자원 고갈·처리 지연 취약점 제보와 CVE-2026-102995·CVE-2026-102996·CVE-2026-102999 배정 · 공식 권고 제보자 jungmingi-lab · 수정 버전 6.18.1 및 6.19.0",
       "evidenceLabel": "CVE 목록과 공식 보안 권고 확인",
       "evidenceUrl": "https://luxferre.cc/writeups/pypdf-cve-assignments/"
     },
     {
       "name": "AISW 학부연구생",
-      "description": "Supabase에서의 RLS 보안 정책을 연구하고 있습니다."
+      "description": "Supabase RLS 보안 정책 연구"
     },
     {
       "name": "한국장학재단 산하 AI학업 충남여고 멘토",
-      "description": "한국장학재단 산하 AI학업 프로그램에서 충남여고 학생들을 멘토링했습니다."
+      "description": "한국장학재단 산하 AI학업 프로그램 · 충남여고 학생 멘토링"
     },
     {
       "name": "2026 산학공동 리빙랩 경진대회 최우수상",
       "date": "2026",
       "displayDate": "2026년",
-      "description": "2026 산학공동 리빙랩 경진대회에서 최우수상을 수상했습니다."
+      "description": "2026 산학공동 리빙랩 경진대회 최우수상"
     },
     {
       "name": "대전대학교 launchpad 창업경진대회 최우수상",
-      "description": "대전대학교 launchpad 창업경진대회에서 최우수상을 수상했습니다."
+      "description": "대전대학교 Launchpad 창업경진대회 최우수상"
     },
     {
       "name": "2026 대전 동구 정책디자인단 정책 발굴 경진대회 금상",
       "date": "2026-07",
       "displayDate": "2026년 7월",
-      "description": "대전 동구 원도심 학생을 위한 ‘학원 없는 동네를 위한 AI 서술형 학습 피드백’ 정책을 제안해 금상을 수상했습니다.",
+      "description": "대전 동구 원도심 학생 대상 ‘학원 없는 동네를 위한 AI 서술형 학습 피드백’ 정책 제안 · 금상",
       "evidenceLabel": "뉴시스 보도에서 수상 내용 확인",
       "evidenceUrl": "https://www.newsis.com/view/NISX20260713_0003706518",
       "articleTitle": "[교육소식]대전대 'AI 활용 사업계획서 작성·교차검증' 교육 등"
@@ -104,7 +116,7 @@
       "name": "2026 HUSS 해커톤 경진대회 장려상",
       "date": "2026-07",
       "displayDate": "2026년 7월",
-      "description": "교육부와 한국연구재단이 함께하는 2026 HUSS 해커톤 경진대회에서 장려상을 수상했습니다.",
+      "description": "교육부·한국연구재단 주관 2026 HUSS 해커톤 경진대회 장려상",
       "evidenceLabel": "HUSS 공식 대회 안내",
       "evidenceUrl": "https://www.huss.ac.kr/board.do?boardId=notice&contentId=sub0401&dataIdx=849&menuId=MENU_004001000000000&mode=view"
     },
@@ -112,7 +124,7 @@
       "name": "HyperSonic CTF 7위",
       "date": "2026-06",
       "displayDate": "2026년 6월",
-      "description": "HSPACE가 후원하고 해킹팀 HyperSonic이 출제·운영한 HyperSonic CTF에서 7위를 기록했습니다.",
+      "description": "HSPACE 후원 · 해킹팀 HyperSonic 출제·운영 HyperSonic CTF 7위",
       "evidenceLabel": "HSPACE FORGE 대회 공식 페이지",
       "evidenceUrl": "https://forge.hspace.io/competitions/69fd525e6cb856b6837dacba"
     },
@@ -120,13 +132,13 @@
       "name": "boro CTF 2026 Open Division 세계 6위",
       "date": "2026-06",
       "displayDate": "2026년 6월",
-      "description": "국제 온라인 CTF인 boro CTF 2026의 Open Division에서 세계 6위를 기록했습니다.",
+      "description": "국제 온라인 boro CTF 2026 Open Division 세계 6위",
       "evidenceLabel": "boro CTF 공식 사이트",
       "evidenceUrl": "https://boroctf.com/"
     },
     {
       "name": "금융보안원 주최 AI 레드티밍 팀전 2위",
-      "description": "금융보안원이 주최한 AI 레드티밍 팀전에서 2위를 기록했습니다."
+      "description": "금융보안원 주최 AI 레드티밍 팀전 2위"
     }
   ],
   "externalProfiles": [

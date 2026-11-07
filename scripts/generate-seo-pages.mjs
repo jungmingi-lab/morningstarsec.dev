@@ -19,7 +19,7 @@ const { activities, contactLinks, externalProfiles, interests, profile, projects
 
 const HOME_DESCRIPTION = profile.description
 const WRITEUPS_DESCRIPTION =
-  '정민기의 CTF 풀이, 취약점 분석, 디지털 포렌식, AI 보안 및 소프트웨어 개발 기록입니다.'
+  '정민기의 CTF 풀이, 취약점 분석, 디지털 포렌식, AI 보안 및 소프트웨어 개발 기록'
 const ROBOTS_CONTENT =
   'User-agent: *\nAllow: /\n\nSitemap: https://luxferre.cc/sitemap.xml\n'
 const HEAD_START = '<!-- seo-head:start -->'
@@ -152,11 +152,11 @@ function routeMetadata(route) {
 
   return {
     canonical: `${profile.siteUrl}/404.html`,
-    description: '요청한 페이지를 찾을 수 없습니다.',
-    ogDescription: '요청한 페이지를 찾을 수 없습니다.',
+    description: '요청한 페이지 없음',
+    ogDescription: '요청한 페이지 없음',
     ogType: 'website',
     robots: 'noindex,follow',
-    title: `페이지를 찾을 수 없습니다 | ${profile.siteName}`,
+    title: `페이지 없음 | ${profile.siteName}`,
   }
 }
 
@@ -362,7 +362,7 @@ function renderHome() {
         <p class="text-cyan-200">정민기 공식 포트폴리오</p>
         <h1 class="mt-4 text-5xl font-semibold text-white">${escapeHtml(profile.name)} <span class="text-slate-300">(${escapeHtml(profile.romanizedName)})</span></h1>
         <p class="mt-4 text-xl text-cyan-100">${escapeHtml(profile.affiliation)}</p>
-        <p class="mt-6 max-w-3xl leading-8 text-slate-300">정민기는 대전대학교 AISW학부에서 정보보안과 취약점 분석을 중심으로 CTF, 인공지능 및 소프트웨어 프로젝트를 수행하고 있습니다. 이 사이트는 프로젝트, 수상, 연구 및 학습 기록을 정리한 공식 포트폴리오입니다.</p>
+        <p class="mt-6 max-w-3xl leading-8 text-slate-300">대전대학교 AISW학부 정민기의 정보보안, CTF, 인공지능 및 소프트웨어 개발 기록</p>
       </section>
       <section id="about" class="section-shell py-20">
         <h2 class="text-3xl font-semibold text-white">전문 분야</h2>
@@ -513,8 +513,8 @@ function renderNotFound() {
     ${renderStaticHeader()}
     <main class="section-shell pt-32 pb-24">
       <p class="text-cyan-200">404</p>
-      <h1 class="mt-4 text-4xl font-semibold text-white">페이지를 찾을 수 없습니다</h1>
-      <p class="mt-5 text-slate-300">주소가 변경되었거나 존재하지 않는 페이지입니다.</p>
+      <h1 class="mt-4 text-4xl font-semibold text-white">페이지 없음</h1>
+      <p class="mt-5 text-slate-300">주소가 변경되었거나 존재하지 않는 페이지</p>
       <a class="primary-btn mt-8" href="/">정민기 포트폴리오 홈으로 이동</a>
     </main>
     ${renderStaticFooter()}

@@ -1,21 +1,10 @@
 import {
-  ArrowRight,
-  Award,
   BookOpen,
-  BrainCircuit,
-  Car,
-  Code2,
-  Cpu,
   ExternalLink,
   GitBranch,
-  Globe2,
-  GraduationCap,
-  Mail,
   Menu,
   Search,
-  ShieldCheck,
   Terminal,
-  Utensils,
   X,
   type LucideIcon,
 } from 'lucide-react'
@@ -51,12 +40,7 @@ const categoryOptions: CategoryFilter[] = [
   ...WRITEUP_CATEGORIES,
 ]
 
-const projectIcons: LucideIcon[] = [BrainCircuit, Car, Utensils, Cpu]
 const featuredProjects = projects.filter((project) => project.featured)
-const contactIcons: Record<string, LucideIcon> = {
-  Email: Mail,
-  GitHub: GitBranch,
-}
 
 function readRoute(): Route {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
@@ -188,7 +172,7 @@ function buildStructuredData(route: Route, selectedWriteup?: Writeup) {
     '@id': `${canonical}#collection`,
     url: canonical,
     name: '공부 기록',
-    description: '취약점 분석 방법론, 프로젝트 개발 과정을 서술합니다.',
+    description: '취약점 분석과 프로젝트 개발 기록',
     isPartOf: { '@id': websiteId },
     author: { '@id': personId },
     inLanguage: 'ko-KR',
@@ -208,7 +192,7 @@ function Seo({ route }: { route: Route }) {
     const description = selectedWriteup
       ? selectedWriteup.summary
       : route.page === 'writeups'
-        ? '취약점 분석 방법론, 프로젝트 개발 과정을 서술합니다.'
+        ? '취약점 분석과 프로젝트 개발 기록'
         : profile.description
     const canonical = canonicalForRoute(route)
 
@@ -462,276 +446,49 @@ function TerminalBar({ title, meta }: TerminalBarProps) {
 }
 
 function About() {
-  return (
-    <section id="about" className="section-shell scroll-mt-24 py-24">
-      <SectionHeading
-        icon={GraduationCap}
-        eyebrow="소개"
-        title="BEYOND THE SURFACE"
-        description="대전대학교 AISW학부에서 정보보안과 AI를 탐구합니다. 취약점 분석과 CTF 문제 해결을 바탕으로 디지털 포렌식, AI 보안, 소프트웨어 개발까지 학습하고 구현합니다."
-      />
-
-      <div className="mt-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="terminal-window about-panel">
-          <TerminalBar title="root@luxferre: ~/about/identity" />
-          <div className="panel-content">
-          <div className="mb-6 grid size-12 place-items-center rounded-lg border border-purple-300/25 bg-purple-300/10 text-purple-100">
-            <GraduationCap className="size-6" aria-hidden="true" />
-          </div>
-          <h3 className="text-2xl font-semibold text-white">
-            {profile.affiliation}
-          </h3>
-          <p className="mt-3 leading-7 text-slate-300">
-            정보보안과 취약점 분석을 중심으로 인공지능 및 소프트웨어 개발
-            역량을 함께 쌓고 있습니다.
-          </p>
-          <a
-            className="mt-4 inline-flex items-center gap-2 text-sm text-cyan-200 transition hover:text-white"
-            href={profile.departmentUrl}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            대전대학교 AI소프트웨어학부 공식 홈페이지
-            <ExternalLink className="size-4" aria-hidden="true" />
-          </a>
-          <div className="mt-8 grid gap-3">
-            {interests.map((interest) => (
-              <div
-                className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3"
-                key={interest}
-              >
-                <span className="grid size-8 place-items-center rounded-lg bg-cyan-300/10 text-cyan-200">
-                  <ShieldCheck className="size-4" aria-hidden="true" />
-                </span>
-                <span className="text-sm font-medium text-slate-200">
-                  {interest}
-                </span>
-              </div>
-            ))}
-          </div>
-          </div>
-        </div>
-
-        <div className="terminal-window about-panel">
-          <TerminalBar title="root@luxferre: ~/about/toolkit" meta="packages.list" />
-          <div className="panel-content">
-          <div className="flex items-center gap-3">
-            <Code2 className="size-5 text-cyan-200" aria-hidden="true" />
-            <h3 className="text-xl font-semibold text-white">기술 및 도구</h3>
-          </div>
-          <div className="mt-6 flex flex-wrap gap-3">
-            {skills.map((skill) => (
-              <span className="skill-badge" key={skill}>
-                {skill}
-              </span>
-            ))}
-          </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            {[
-              ['연구', '취약점 분석 기록과 CTF 문제 해결 방법론'],
-              ['개발', 'React, TypeScript 기반 웹 애플리케이션'],
-              ['분석', '디지털 포렌식, 트래픽 분석, AI 위험 검토'],
-            ].map(([label, value]) => (
-              <div
-                className="rounded-lg border border-white/10 bg-[#0b1020]/70 p-4"
-                key={label}
-              >
-                <p className="text-sm text-slate-400">{label}</p>
-                <p className="mt-3 text-sm leading-6 text-slate-200">{value}</p>
-              </div>
-            ))}
-          </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
+  return <section id="about" className="shell-document">
+    <h2>{profile.name} · {profile.affiliation}</h2>
+    <p>정보보안·AI 학부 연구 · Supabase RLS 보안 정책 연구</p>
+    <dl className="shell-facts">
+      <dt>관심 분야</dt><dd>{interests.join(' · ')}</dd>
+      <dt>기술 및 도구</dt><dd>{skills.join(' · ')}</dd>
+    </dl>
+    <a href={profile.departmentUrl} target="_blank" rel="noopener noreferrer">대전대학교 AI소프트웨어학부</a>
+  </section>
 }
 
 function Projects() {
-  return (
-    <section id="projects" className="section-shell scroll-mt-24 py-24">
-      <SectionHeading
-        icon={Cpu}
-        eyebrow="대표 프로젝트"
-        title="SELECTED WORK"
-        description="소프트웨어 개발과 응용 AI, 보안 관점의 분석을 함께 다룬 정민기의 대표 작업입니다."
-      />
-
-      <div className="mt-12 grid gap-5 md:grid-cols-2">
-        {featuredProjects.length === 0 ? (
-          <div className="terminal-window p-8 md:col-span-2">
-            <p className="text-sm text-slate-400">공개 프로젝트를 정리하고 있습니다. 연구 및 개발 과정은 기술 기록에서 확인할 수 있습니다.</p>
-            <a className="mt-4 inline-flex items-center gap-2 text-sm text-cyan-200" href="/writeups/">기술 기록 보기 <ArrowRight className="size-4" aria-hidden="true" /></a>
-          </div>
-        ) : null}
-        {featuredProjects.map((project, index) => {
-          const Icon = projectIcons[index] ?? Cpu
-
-          return (
-            <article className="terminal-window project-card" key={project.name}>
-              <TerminalBar title={`luxferre@kali: ~/projects/${String(index + 1).padStart(2, '0')}`} meta={project.status} />
-              <div className="card-content">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm font-medium text-cyan-200">
-                    {project.eyebrow}
-                  </p>
-                  <h3 className="mt-2 text-2xl font-semibold text-white">
-                    {project.name}
-                  </h3>
-                </div>
-                <span className="grid size-12 shrink-0 place-items-center rounded-lg border border-blue-300/20 bg-blue-300/10 text-blue-100">
-                  <Icon className="size-6" aria-hidden="true" />
-                </span>
-              </div>
-              <p className="mt-5 leading-7 text-slate-300">
-                {project.description}
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {project.stack.map((item) => (
-                  <span className="mini-badge" key={item}>
-                    {item}
-                  </span>
-                ))}
-              </div>
-              <p className="mt-6 text-sm text-slate-500">{project.status}</p>
-              </div>
-            </article>
-          )
-        })}
-      </div>
-    </section>
-  )
+  return <section id="projects" className="shell-document">
+    <h2>개발 프로젝트</h2>
+    {featuredProjects.length ? featuredProjects.map(project => <article key={project.name}>
+      <h3>{project.name}</h3><p>{project.description}</p>
+      <p className="shell-muted">{project.stack.join(' · ')} / {project.status}</p>
+    </article>) : <p className="shell-muted">프로젝트 목록 준비 중</p>}
+    <a href="/writeups/">연구 및 개발 기록</a>
+  </section>
 }
 
 function Activities() {
-  return (
-    <section id="activities" className="section-shell scroll-mt-24 py-24">
-      <SectionHeading
-        icon={Award}
-        eyebrow="수상 및 활동"
-        title="MILESTONES"
-        description="대회명과 결과를 공개 보도 자료에 연결해 확인할 수 있도록 정리했습니다."
-      />
-
-      <div className="activity-grid mt-12 grid gap-5 lg:grid-cols-2">
-        {activities.map((activity, index) => (
-          <article className="terminal-window activity-card" key={activity.name}>
-            <TerminalBar title={`root@luxferre: /var/log/milestone-${String(index + 1).padStart(2, '0')}`} meta="read-only" />
-            <div className="card-content">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm font-medium text-cyan-200">
-                  {activity.date && activity.displayDate ? (
-                    <time dateTime={activity.date}>{activity.displayDate}</time>
-                  ) : (
-                    <span>활동 기록</span>
-                  )}
-                </p>
-                <h3 className="mt-2 text-2xl font-semibold text-white">
-                  {activity.name}
-                </h3>
-              </div>
-              <span className="grid size-12 shrink-0 place-items-center rounded-lg border border-purple-300/20 bg-purple-300/10 text-purple-100">
-                <Award className="size-6" aria-hidden="true" />
-              </span>
-            </div>
-            <p className="mt-5 leading-7 text-slate-300">
-              {activity.description}
-            </p>
-            {activity.evidenceUrl && activity.evidenceLabel ? (
-              <a
-                className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-medium text-cyan-200 transition hover:text-white"
-                href={activity.evidenceUrl}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {activity.evidenceLabel}
-                <ExternalLink className="size-4" aria-hidden="true" />
-              </a>
-            ) : null}
-            </div>
-          </article>
-        ))}
-
-        <div className="terminal-window external-links-panel">
-          <TerminalBar title="root@luxferre: ~/links/verified" meta="2 entries" />
-          <div className="panel-content">
-          <div className="flex items-center gap-3">
-            <Globe2 className="size-5 text-cyan-200" aria-hidden="true" />
-            <h3 className="text-xl font-semibold text-white">외부 공식 링크</h3>
-          </div>
-          <div className="mt-6 grid gap-3">
-            {externalProfiles.map((externalProfile) => (
-              <a
-                className="rounded-lg border border-white/10 bg-white/[0.04] px-4 py-4 transition hover:border-cyan-300/40 hover:bg-cyan-300/10"
-                href={externalProfile.href}
-                key={externalProfile.label}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <span className="block font-medium text-white">
-                  {externalProfile.label}
-                </span>
-                <span className="mt-2 block text-sm text-slate-400">
-                  {externalProfile.value}
-                </span>
-              </a>
-            ))}
-          </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
+  return <section id="activities" className="shell-document">
+    <h2>수상 및 활동</h2>
+    {activities.map(activity => <article key={activity.name}>
+      {activity.displayDate && <p className="shell-muted">{activity.displayDate}</p>}
+      <h3>{activity.name}</h3>
+      <p>{activity.description}</p>
+      {activity.evidenceUrl && <a href={activity.evidenceUrl} target="_blank" rel="noopener noreferrer">{activity.evidenceLabel}</a>}
+    </article>)}
+    <h3>공식 프로필</h3>
+    {externalProfiles.map(link => <p key={link.href}><a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></p>)}
+  </section>
 }
 
-
 function Contact() {
-  return (
-    <section id="contact" className="section-shell scroll-mt-24 py-24">
-      <SectionHeading
-        icon={Mail}
-        eyebrow="공개 연락 수단"
-        title="LET’S CONNECT"
-        description="현재 이 사이트에서 공개한 이메일과 GitHub 프로필을 통해 연락할 수 있습니다."
-      />
-
-      <div className="mt-12 grid gap-4 sm:grid-cols-2">
-        {contactLinks.map((link) => {
-          const Icon = contactIcons[link.label] ?? Globe2
-          const cardClass = 'terminal-window contact-card'
-          const cardContent = (
-            <>
-              <TerminalBar title={`connect --${link.label.toLowerCase()}`} meta="external" />
-              <div className="contact-card-content">
-              <Icon className="size-5 text-cyan-200" aria-hidden="true" />
-              <span className="mt-5 block text-sm text-slate-400">
-                {link.label}
-              </span>
-              <span className="mt-2 block break-words text-sm font-medium text-white">
-                {link.value}
-              </span>
-              </div>
-            </>
-          )
-
-          return (
-            <a
-              className={cardClass}
-              href={link.href}
-              key={link.label}
-              rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              target={link.href.startsWith('http') ? '_blank' : undefined}
-            >
-              {cardContent}
-            </a>
-          )
-        })}
-      </div>
-    </section>
-  )
+  return <section id="contact" className="shell-document">
+    <h2>연락처</h2>
+    <dl className="shell-facts">{contactLinks.map(link => <div key={link.label}>
+      <dt>{link.label}</dt><dd><a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{link.value}</a></dd>
+    </div>)}</dl>
+  </section>
 }
 
 type WriteupsPageProps = {
@@ -784,8 +541,8 @@ function WriteupsPage({ route }: WriteupsPageProps) {
       <SectionHeading
         icon={BookOpen}
         eyebrow="연구 및 기술 기록"
-        title="RESEARCH LOG"
-        description="취약점 분석 방법론, 프로젝트 개발 과정을 서술합니다."
+        title="연구 및 기술 기록"
+        description="취약점 분석 · 프로젝트 개발 기록"
         headingLevel={route.slug ? 'h2' : 'h1'}
       />
 
@@ -802,7 +559,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
               className="h-12 w-full rounded-lg border border-white/10 bg-white/[0.06] pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/40 focus:bg-white/[0.08]"
               type="search"
               aria-label="기술 기록 검색"
-              placeholder="제목, 태그, 기법 검색"
+              placeholder="제목 · 태그 · 기법 검색"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -849,7 +606,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
             ))}
           </div>
           {filteredWriteups.length === 0 ? (
-            <p className="text-sm text-slate-400">조건에 맞는 기술 기록이 없습니다.</p>
+            <p className="text-sm text-slate-400">검색 결과 없음</p>
           ) : null}
           </div>
         </nav>
@@ -884,7 +641,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
                   remarkPlugins={[remarkGfm]}
                   components={{
                     table: ({ children, ...props }) => (
-                      <div className="markdown-table-scroll" role="region" aria-label="본문 표 — 좌우로 스크롤할 수 있습니다" tabIndex={0}>
+                      <div className="markdown-table-scroll" role="region" aria-label="본문 표 · 좌우 스크롤" tabIndex={0}>
                         <table {...props}>{children}</table>
                       </div>
                     ),
@@ -908,7 +665,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
             <div className="grid min-h-[420px] place-items-center text-center">
               <div>
                 <Terminal className="mx-auto size-10 text-slate-500" aria-hidden="true" />
-                <p className="mt-4 text-slate-300">조건에 맞는 기술 기록이 없습니다.</p>
+                <p className="mt-4 text-slate-300">검색 결과 없음</p>
               </div>
             </div>
           )}
