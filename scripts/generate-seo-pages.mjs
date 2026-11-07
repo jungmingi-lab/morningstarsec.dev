@@ -135,7 +135,7 @@ function routeMetadata(route) {
       ogDescription: WRITEUPS_DESCRIPTION,
       ogType: 'website',
       robots: 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1',
-      title: '공부 기록 | 정민기',
+      title: '연구 노트 | 정민기',
     }
   }
 
@@ -296,7 +296,7 @@ function renderStaticHeader() {
         <a href="/#about">소개</a>
         <a href="/#projects">프로젝트</a>
         <a href="/#activities">수상 및 활동</a>
-        <a href="/writeups/">연구 및 기술 기록</a>
+        <a href="/writeups/">연구 노트</a>
         <a href="/#contact">연락</a>
       </nav>
     </header>`
@@ -377,9 +377,9 @@ function renderHome() {
         <div class="mt-10">${activityCards}</div>
       </section>
       <section class="section-shell py-20">
-        <h2 class="text-3xl font-semibold text-white">연구 및 학습 기록</h2>
+        <h2 class="text-3xl font-semibold text-white">연구 노트</h2>
         <ul class="mt-6 space-y-4">${writeupLinks}</ul>
-        <a class="mt-8 inline-block text-cyan-200" href="/writeups/">전체 기술 기록 보기</a>
+        <a class="mt-8 inline-block text-cyan-200" href="/writeups/">전체 연구 노트</a>
       </section>
       <section id="contact" class="section-shell py-20">
         <h2 class="text-3xl font-semibold text-white">외부 공식 프로필과 공개 연락 수단</h2>
@@ -404,9 +404,9 @@ function renderWriteupList() {
   return `${STATIC_START}
     ${renderStaticHeader()}
     <main class="section-shell pt-32 pb-24">
-      <h1 class="text-4xl font-semibold text-white">공부 기록</h1>
+      <h1 class="text-4xl font-semibold text-white">연구 노트</h1>
       <p class="mt-5 max-w-3xl leading-8 text-slate-300">${WRITEUPS_DESCRIPTION}</p>
-      <section aria-label="기술 기록 목록" class="mt-10 grid gap-4">${cards}</section>
+      <section aria-label="연구 노트 목록" class="mt-10 grid gap-4">${cards}</section>
     </main>
     ${renderStaticFooter()}
     ${STATIC_END}`
@@ -502,7 +502,7 @@ function renderArticle(writeup) {
         <p class="mt-4 text-sm text-slate-400">${writeup.tags.map((tag) => `#${escapeHtml(tag)}`).join(' ')}</p>
         <div class="markdown-body mt-10">${renderMarkdown(writeup.content)}</div>
       </article>
-      <a class="mt-10 inline-block text-cyan-200" href="/writeups/">정민기 연구 및 기술 기록으로 돌아가기</a>
+      <a class="mt-10 inline-block text-cyan-200" href="/writeups/">연구 노트 목록으로 돌아가기</a>
     </main>
     ${renderStaticFooter()}
     ${STATIC_END}`

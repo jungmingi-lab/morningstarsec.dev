@@ -171,7 +171,7 @@ function buildStructuredData(route: Route, selectedWriteup?: Writeup) {
     '@type': 'CollectionPage',
     '@id': `${canonical}#collection`,
     url: canonical,
-    name: '공부 기록',
+    name: '연구 노트',
     description: '취약점 분석과 프로젝트 개발 기록',
     isPartOf: { '@id': websiteId },
     author: { '@id': personId },
@@ -187,7 +187,7 @@ function Seo({ route }: { route: Route }) {
     const title = selectedWriteup
       ? `${selectedWriteup.title} | 정민기 정보보안 포트폴리오`
       : route.page === 'writeups'
-        ? '공부 기록 | 정민기'
+        ? '연구 노트 | 정민기'
         : `정민기 | ${profile.title}`
     const description = selectedWriteup
       ? selectedWriteup.summary
@@ -430,21 +430,6 @@ function Header({
 }
 
 
-type TerminalBarProps = {
-  title: string
-  meta?: string
-}
-
-function TerminalBar({ title, meta }: TerminalBarProps) {
-  return (
-    <div className="terminal-bar">
-      <div className="window-controls" aria-hidden="true"><span /><span /><span /></div>
-      <span className="terminal-title">{title}</span>
-      <span className="terminal-meta">{meta ?? 'bash'}</span>
-    </div>
-  )
-}
-
 function About() {
   return <section id="about" className="shell-document">
     <h2>{profile.name} · {profile.affiliation}</h2>
@@ -540,103 +525,90 @@ function WriteupsPage({ route }: WriteupsPageProps) {
     <main id="main-content" tabIndex={-1} className="section-shell writeups-page pt-32 pb-24">
       <SectionHeading
         icon={BookOpen}
-        eyebrow="연구 및 기술 기록"
-        title="연구 및 기술 기록"
-        description="취약점 분석 · 프로젝트 개발 기록"
+        eyebrow="연구 노트"
+        title="연구 노트"
+        description="보안과 개발 과정에서 확인한 기술 기록"
         headingLevel={route.slug ? 'h2' : 'h1'}
       />
 
-      <div className="mt-10 flex min-w-0 flex-col gap-6">
-        <nav aria-label="기술 기록 탐색" className="terminal-window writeup-explorer min-w-0">
-          <TerminalBar title="root@luxferre: ~/writeups/index" meta={`${filteredWriteups.length} shown`} />
-          <div className="explorer-content space-y-4">
-          <div className="relative">
-            <Search
-              className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-500"
-              aria-hidden="true"
-            />
-            <input
-              className="h-12 w-full rounded-lg border border-white/10 bg-white/[0.06] pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/40 focus:bg-white/[0.08]"
-              type="search"
-              aria-label="기술 기록 검색"
-              placeholder="제목 · 태그 · 기법 검색"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-            />
+      <div className="writeups-layout">
+        <nav aria-label="연구 노트 탐색" className="writeup-explorer">
+          <div className="notebook-panel-heading">
+            <h2>노트 탐색</h2>
+            <span>{filteredWriteups.length}건</span>
           </div>
+          <div className="explorer-content">
+            <label className="notebook-search">
+              <Search className="size-4" aria-hidden="true" />
+              <input
+                type="search"
+                aria-label="연구 노트 검색"
+                placeholder="제목 · 태그 · 기법"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+              />
+            </label>
 
-          <div className="flex flex-wrap gap-2">
-            {categoryOptions.map((item) => (
-              <button
-                className={`filter-chip ${
-                  category === item
-                    ? 'border-cyan-300/50 bg-cyan-300/15 text-cyan-100'
-                    : 'border-white/10 bg-white/[0.04] text-slate-300'
-                }`}
-                key={item}
-                type="button"
-                aria-pressed={category === item}
-                onClick={() => setCategory(item)}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
+            <div className="writeup-categories" aria-label="카테고리">
+              {categoryOptions.map((item) => (
+                <button
+                  className="filter-chip"
+                  key={item}
+                  type="button"
+                  aria-pressed={category === item}
+                  onClick={() => setCategory(item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
 
-          <div className="flex gap-3 overflow-x-auto py-1" tabIndex={0} aria-label="기술 기록 목록">
-            {filteredWriteups.map((writeup) => (
-              <a
-                className={`writeup-card w-64 shrink-0 sm:w-72 ${
-                  selectedWriteup?.slug === writeup.slug
-                    ? 'border-cyan-300/45 bg-cyan-300/[0.09]'
-                    : 'border-white/10 bg-white/[0.04]'
-                }`}
-                href={`${writeupPath(writeup.slug)}/`}
-                key={writeup.slug}
-                aria-current={selectedWriteup?.slug === writeup.slug ? 'page' : undefined}
-                onClick={(event) => selectWriteup(event, writeup)}
-              >
-                <span className="text-xs font-medium text-cyan-200">
-                  {writeup.category} / {writeup.difficulty}
-                </span>
-                <span className="mt-2 block text-base font-semibold text-white">
-                  {writeup.title}
-                </span>
-              </a>
-            ))}
-          </div>
-          {filteredWriteups.length === 0 ? (
-            <p className="text-sm text-slate-400">검색 결과 없음</p>
-          ) : null}
+            <div className="writeup-list" tabIndex={0} aria-label="연구 노트 목록">
+              {filteredWriteups.map((writeup) => (
+                <a
+                  className="writeup-card"
+                  href={`${writeupPath(writeup.slug)}/`}
+                  key={writeup.slug}
+                  aria-current={selectedWriteup?.slug === writeup.slug ? 'page' : undefined}
+                  onClick={(event) => selectWriteup(event, writeup)}
+                >
+                  <span className="writeup-card-meta">{writeup.category} · {formatDate(writeup.date)}</span>
+                  <span className="writeup-card-title">{writeup.title}</span>
+                  <span className="writeup-card-summary">{writeup.summary}</span>
+                </a>
+              ))}
+              {filteredWriteups.length === 0 ? (
+                <p className="notebook-empty">검색 결과 없음</p>
+              ) : null}
+            </div>
           </div>
         </nav>
 
-        <section className="terminal-window article-terminal min-h-[620px] min-w-0">
-          <TerminalBar title={selectedWriteup ? `vim ~/writeups/${selectedWriteup.slug}.md` : 'vim ~/writeups/empty'} meta={selectedWriteup ? 'utf-8' : 'no buffer'} />
+        <section className="notebook-article">
           <div className="article-shell">
           {selectedWriteup ? (
             <article className="min-w-0 [overflow-wrap:anywhere]">
-              <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400">
-                <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-cyan-100">
+              <div className="notebook-article-meta">
+                <span className="notebook-category">
                   {selectedWriteup.category}
                 </span>
                 <span>{formatDate(selectedWriteup.date)}</span>
                 <span>{selectedWriteup.readTime}</span>
               </div>
-              <ArticleHeading className="mt-6 text-3xl font-semibold leading-tight text-white sm:text-5xl">
+              <ArticleHeading className="notebook-article-title">
                 {selectedWriteup.title}
               </ArticleHeading>
-              <p className="mt-5 max-w-3xl leading-7 text-slate-300">
+              <p className="notebook-article-summary">
                 {selectedWriteup.summary}
               </p>
-              <div className="mt-6 flex flex-wrap gap-2">
+              <div className="notebook-tags">
                 {selectedWriteup.tags.map((tag) => (
                   <span className="mini-badge" key={tag}>
                     #{tag}
                   </span>
                 ))}
               </div>
-              <div className="markdown-body mt-10">
+              <div className="markdown-body">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
