@@ -40,41 +40,21 @@ a { text-underline-offset: 4px; }
 .skip-link { position: fixed; top: -90px; left: 20px; z-index: 100; padding: 12px 18px; color: var(--bg); background: var(--blue); }
 .skip-link:focus { top: 12px; }
 
-/* A single terminal; content appears only after a command. */
-.shell-desktop { min-height: 100svh; padding: clamp(12px, 5vw, 70px); display: grid; align-items: center; }
-.interactive-shell { width: min(100%, 1040px); margin: auto; border: 1px solid var(--line); border-radius: 5px; background: var(--bg); overflow: hidden; font-family: var(--mono); }
-.shell-titlebar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--bar); color: var(--muted); font-size: 12px; }
-.shell-titlebar img { width: 20px; height: 20px; }
-.shell-titlebar > span:last-child { margin-left: auto; letter-spacing: 10px; }
-.shell-screen { height: min(76svh, 760px); min-height: 360px; overflow-y: auto; scrollbar-gutter: stable; padding: clamp(18px, 3vw, 32px); color: var(--text); font-size: 14px; line-height: 1.85; scrollbar-color: var(--line) var(--bg); }
-.shell-screen h1 { font-size: 20px; font-weight: 600; letter-spacing: -.025em; }
-.shell-muted, .shell-files small { color: var(--muted); }
-.shell-welcome { margin: 20px 0 32px; }
-.shell-welcome button { min-height: 32px; color: var(--blue); text-decoration: underline; }
-.shell-entry { margin-bottom: 28px; }
-.shell-echo { overflow-wrap: anywhere; }
-.shell-echo > span, .shell-prompt label span { color: var(--green); }
-.shell-result { margin-top: 12px; overflow-wrap: anywhere; font-family: var(--sans); font-size: 15px; line-height: 1.9; }
-.shell-result pre { white-space: pre-wrap; font: 13px/2 var(--mono); }
-.shell-notice { color: var(--amber); }
-.shell-files p { margin-block: 10px; }
-.shell-files small { display: block; padding-left: 3ch; font-size: 12px; }
-.shell-files a, .shell-document a { color: var(--blue); text-decoration: underline; }
-.shell-files a:hover, .shell-document a:hover { color: var(--text); }
-.shell-document { max-width: 80ch; }
-.shell-document h2, .shell-document h3 { font-size: 15px; font-weight: 600; letter-spacing: -.015em; }
-.shell-document > p, .shell-document article > p { margin-block: 8px; }
-.shell-document article { margin-block: 24px; }
-.shell-document article + article { padding-top: 20px; border-top: 1px solid var(--line); }
-.shell-facts { display: grid; grid-template-columns: 12ch minmax(0, 1fr); gap: 12px; margin: 20px 0; }
-.shell-facts > div { display: contents; }
-.shell-facts dt { color: var(--muted); }
-.shell-prompt { display: flex; align-items: baseline; gap: 10px; }
-.shell-prompt label { flex-shrink: 0; }
-.shell-prompt input { flex: 1; width: 0; min-width: 0; border: 0; background: transparent; color: var(--text); font: inherit; caret-color: var(--green); }
-.shell-prompt button { color: var(--muted); min-width: 40px; min-height: 40px; }
-
-/* Kali desktop panel and editor windows. */
+/* Kali desktop panel and research notebook. */
+.home-page { min-height: calc(100svh - 68px); display: grid; place-items: center; padding: clamp(40px, 8vw, 100px) 24px; }
+.home-hero { width: min(100%, 780px); margin: auto; padding: 8px 0 8px clamp(20px, 4vw, 38px); border-left: 2px solid var(--blue); }
+.home-eyebrow { display: flex; align-items: center; gap: 10px; color: var(--blue); font: 12px var(--mono); letter-spacing: .08em; }
+.home-eyebrow > span { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+.home-hero h1 { margin: 28px 0 0; color: var(--text); font-size: clamp(42px, 8vw, 72px); font-weight: 600; letter-spacing: -.055em; line-height: 1.15; }
+.home-affiliation { margin: 16px 0 0; color: var(--text); font-size: 18px; font-weight: 500; }
+.home-summary { margin: 10px 0 0; color: var(--muted); font-size: 16px; line-height: 1.9; word-break: keep-all; }
+.home-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.home-primary, .home-secondary { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 9px; padding: 0 16px; border: 1px solid var(--line); border-radius: 4px; font-size: 14px; font-weight: 500; text-decoration: none; }
+.home-primary { border-color: var(--blue); color: #08111f; background: var(--blue); }
+.home-primary:hover { background: #79adff; }
+.home-secondary { color: var(--text); background: var(--panel); }
+.home-secondary:hover { border-color: var(--blue); }
+.home-primary:focus-visible, .home-secondary:focus-visible { outline-offset: 3px; }
 .site-header { height: 68px; border-bottom: 1px solid var(--line); background: var(--bar); }
 .site-header nav { min-height: 68px; }
 .brand-lockup { font-family: var(--mono); }
@@ -178,13 +158,12 @@ a { text-underline-offset: 4px; }
   .markdown-body { font-size: 16px; }
 }
 @media (max-width: 480px) {
-  .shell-desktop { padding: 8px; }
-  .shell-screen { height: calc(100svh - 65px); font-size: 14px; min-height: 280px; }
-  .shell-prompt { flex-wrap: wrap; gap: 4px 10px; }
-  .shell-prompt label { width: 100%; }
-  .shell-prompt input { font-size: 16px; }
-  .shell-facts { grid-template-columns: 1fr; gap: 4px; }
-  .shell-facts dd { margin-bottom: 12px; }
+  .home-page { min-height: calc(100svh - 62px); padding-inline: 22px; }
+  .home-hero { padding-left: 18px; }
+  .home-affiliation { font-size: 16px; }
+  .home-summary { font-size: 15px; }
+  .home-actions { align-items: stretch; }
+  .home-primary, .home-secondary { min-height: 42px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }

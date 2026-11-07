@@ -14,8 +14,7 @@ const writeupsDirectory = join(projectRoot, 'src', 'writeups')
 const portfolio = JSON.parse(
   readFileSync(join(projectRoot, 'src', 'data', 'portfolio.json'), 'utf8'),
 )
-const { activities, contactLinks, externalProfiles, interests, profile, projects } =
-  portfolio
+const { activities, interests, profile } = portfolio
 
 const HOME_DESCRIPTION = profile.description
 const WRITEUPS_DESCRIPTION =
@@ -290,14 +289,12 @@ function renderHead(route) {
 }
 
 function renderStaticHeader() {
-  return `<header class="border-b border-white/10 bg-[#050711]">
+  return `<header class="border-b border-white/10 bg-[#262c35]">
       <nav aria-label="주요 메뉴" class="section-shell flex flex-wrap items-center gap-5 py-5">
-        <a class="font-semibold text-white" href="/">정민기 포트폴리오</a>
-        <a href="/#about">소개</a>
-        <a href="/#projects">프로젝트</a>
-        <a href="/#activities">수상 및 활동</a>
+        <a class="font-semibold text-white" href="/">luxferre@kali</a>
         <a href="/writeups/">연구 노트</a>
-        <a href="/#contact">연락</a>
+        <a href="${profile.github}" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:${profile.email}">연락</a>
       </nav>
     </header>`
 }
@@ -309,81 +306,18 @@ function renderStaticFooter() {
 }
 
 function renderHome() {
-  const projectCards = projects
-    .filter((project) => project.featured)
-    .map(
-      (project) => `<article class="project-card">
-          <p class="text-sm text-cyan-200">${escapeHtml(project.eyebrow)}</p>
-          <h3 class="mt-2 text-2xl font-semibold text-white">${escapeHtml(project.name)}</h3>
-          <p class="mt-5 leading-7 text-slate-300">${escapeHtml(project.description)}</p>
-          <p class="mt-5 text-sm text-slate-400">${project.stack.map(escapeHtml).join(' · ')}</p>
-        </article>`,
-    )
-    .join('\n')
-  const activityCards = activities
-    .map(
-      (activity) => `<article class="project-card">
-          <p class="text-sm text-cyan-200">${
-            activity.date && activity.displayDate
-              ? `<time datetime="${activity.date}">${escapeHtml(activity.displayDate)}</time>`
-              : '수상 기록'
-          }${activity.team ? ` · ${escapeHtml(activity.team)}` : ''}</p>
-          <h3 class="mt-2 text-2xl font-semibold text-white">${escapeHtml(activity.name)}</h3>
-          <p class="mt-5 leading-7 text-slate-300">${escapeHtml(activity.description)}</p>
-          ${
-            activity.evidenceUrl && activity.evidenceLabel
-              ? `<a class="mt-5 inline-block text-cyan-200" href="${activity.evidenceUrl}" rel="noopener noreferrer">${escapeHtml(activity.evidenceLabel)}</a>`
-              : ''
-          }
-        </article>`,
-    )
-    .join('\n')
-  const writeupLinks = writeups
-    .slice(0, 6)
-    .map(
-      (writeup) => `<li><a href="${writeupPath(writeup.slug)}">${escapeHtml(writeup.title)}</a> — ${escapeHtml(writeup.summary)}</li>`,
-    )
-    .join('\n')
-  const externalLinks = externalProfiles
-    .map(
-      (externalProfile) => `<li><a href="${externalProfile.href}" rel="noopener noreferrer">${escapeHtml(externalProfile.label)}</a></li>`,
-    )
-    .join('\n')
-  const contactItems = contactLinks
-    .map(
-      (contact) => `<li><a href="${contact.href}">${escapeHtml(contact.label)}: ${escapeHtml(contact.value)}</a></li>`,
-    )
-    .join('\n')
-
   return `${STATIC_START}
     ${renderStaticHeader()}
-    <main>
-      <section class="section-shell pt-32 pb-24">
-        <p class="text-cyan-200">정민기 공식 포트폴리오</p>
-        <h1 class="mt-4 text-5xl font-semibold text-white">${escapeHtml(profile.name)} <span class="text-slate-300">(${escapeHtml(profile.romanizedName)})</span></h1>
-        <p class="mt-4 text-xl text-cyan-100">${escapeHtml(profile.affiliation)}</p>
-        <p class="mt-6 max-w-3xl leading-8 text-slate-300">대전대학교 AISW학부 정민기의 정보보안, CTF, 인공지능 및 소프트웨어 개발 기록</p>
-      </section>
-      <section id="about" class="section-shell py-20">
-        <h2 class="text-3xl font-semibold text-white">전문 분야</h2>
-        <p class="mt-5 text-slate-300">${interests.map(escapeHtml).join(' · ')}</p>
-      </section>
-      <section id="projects" class="section-shell py-20">
-        <h2 class="text-3xl font-semibold text-white">정민기 대표 프로젝트</h2>
-        <div class="mt-10 grid gap-5 md:grid-cols-2">${projectCards}</div>
-      </section>
-      <section id="activities" class="section-shell py-20">
-        <h2 class="text-3xl font-semibold text-white">수상 및 활동</h2>
-        <div class="mt-10">${activityCards}</div>
-      </section>
-      <section class="section-shell py-20">
-        <h2 class="text-3xl font-semibold text-white">연구 노트</h2>
-        <ul class="mt-6 space-y-4">${writeupLinks}</ul>
-        <a class="mt-8 inline-block text-cyan-200" href="/writeups/">전체 연구 노트</a>
-      </section>
-      <section id="contact" class="section-shell py-20">
-        <h2 class="text-3xl font-semibold text-white">외부 공식 프로필과 공개 연락 수단</h2>
-        <ul class="mt-6 space-y-3">${externalLinks}${contactItems}</ul>
+    <main class="section-shell home-static min-h-[calc(100svh-68px)] px-6 py-24">
+      <section class="max-w-3xl border-l-2 border-cyan-300 pl-6 sm:pl-10">
+        <p class="text-sm tracking-widest text-cyan-200">KALI · SECURITY RESEARCH</p>
+        <h1 class="mt-7 text-5xl font-semibold leading-tight text-white">${escapeHtml(profile.name)}</h1>
+        <p class="mt-4 text-lg text-slate-200">${escapeHtml(profile.affiliation)}</p>
+        <p class="mt-3 leading-8 text-slate-300">정보보안 연구 · 취약점 분석 · CTF · AI 프로젝트</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a class="inline-flex min-h-11 items-center rounded border border-cyan-300 bg-cyan-300 px-4 font-medium text-slate-950" href="/writeups/">연구 노트 보기</a>
+          <a class="inline-flex min-h-11 items-center rounded border border-white/15 px-4 font-medium text-white" href="${profile.github}" rel="noopener noreferrer">GitHub 프로필</a>
+        </div>
       </section>
     </main>
     ${renderStaticFooter()}

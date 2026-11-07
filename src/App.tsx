@@ -1,4 +1,5 @@
 import {
+  ArrowRight,
   BookOpen,
   ExternalLink,
   GitBranch,
@@ -10,16 +11,11 @@ import {
 } from 'lucide-react'
 import { useEffect, useMemo, useState, type MouseEvent } from 'react'
 import ReactMarkdown from 'react-markdown'
-import TerminalHome from './TerminalHome'
 import remarkGfm from 'remark-gfm'
 import {
   activities,
-  contactLinks,
-  externalProfiles,
   interests,
   profile,
-  projects,
-  skills,
 } from './data/portfolio'
 import {
   WRITEUP_CATEGORIES,
@@ -40,8 +36,6 @@ const categoryOptions: CategoryFilter[] = [
   ...WRITEUP_CATEGORIES,
 ]
 
-const featuredProjects = projects.filter((project) => project.featured)
-
 function readRoute(): Route {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
 
@@ -57,15 +51,6 @@ function readRoute(): Route {
   }
 
   return { page: 'home' }
-}
-
-function scrollToSection(id: string) {
-  requestAnimationFrame(() => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
-  })
 }
 
 function formatDate(value: string) {
@@ -228,24 +213,11 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
 
-  useEffect(() => {
-    if (route.page === 'home' && window.location.hash) {
-      scrollToSection(window.location.hash.slice(1))
-    }
-  }, [route])
-
-  const goHome = (event: MouseEvent<HTMLAnchorElement>, targetId?: string) => {
+  const goHome = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
-    const nextPath = targetId ? `/#${targetId}` : '/'
-    window.history.pushState({}, '', nextPath)
+    window.history.pushState({}, '', '/')
     setRoute({ page: 'home' })
     setMenuOpen(false)
-
-    if (targetId) {
-      scrollToSection(targetId)
-      return
-    }
-
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -262,19 +234,15 @@ function App() {
       <a className="skip-link" href="#main-content">본문으로 바로가기</a>
       <Seo route={route} />
       {route.page === 'writeups' && <BackgroundFX />}
-      {route.page === 'writeups' && <Header
+      <Header
         menuOpen={menuOpen}
         route={route}
         onHome={goHome}
         onMenuToggle={() => setMenuOpen((isOpen) => !isOpen)}
         onWriteups={goWriteups}
-      />}
-      {route.page === 'writeups' ? (
-        <WriteupsPage route={route} />
-      ) : (
-        <TerminalHome sections={{ whoami: <About />, projects: <Projects />, activities: <Activities />, contact: <Contact /> }} />
-      )}
-      {route.page === 'writeups' && <Footer />}
+      />
+      {route.page === 'writeups' ? <WriteupsPage route={route} /> : <HomePage onWriteups={goWriteups} />}
+      <Footer />
     </div>
   )
 }
@@ -282,9 +250,30 @@ function App() {
 type HeaderProps = {
   menuOpen: boolean
   route: Route
-  onHome: (event: MouseEvent<HTMLAnchorElement>, targetId?: string) => void
+  onHome: (event: MouseEvent<HTMLAnchorElement>) => void
   onMenuToggle: () => void
   onWriteups: (event: MouseEvent<HTMLAnchorElement>) => void
+}
+
+function HomePage({ onWriteups }: { onWriteups: (event: MouseEvent<HTMLAnchorElement>) => void }) {
+  return (
+    <main id="main-content" className="home-page">
+      <section className="home-hero">
+        <p className="home-eyebrow"><span aria-hidden="true" /> KALI · SECURITY RESEARCH</p>
+        <h1>{profile.name}</h1>
+        <p className="home-affiliation">{profile.affiliation}</p>
+        <p className="home-summary">정보보안 연구 · 취약점 분석 · CTF · AI 프로젝트</p>
+        <div className="home-actions">
+          <a className="home-primary" href="/writeups/" onClick={onWriteups}>
+            연구 노트 보기 <ArrowRight className="size-4" aria-hidden="true" />
+          </a>
+          <a className="home-secondary" href={profile.github} rel="noopener noreferrer" target="_blank">
+            <GitBranch className="size-4" aria-hidden="true" /> GitHub 프로필
+          </a>
+        </div>
+      </section>
+    </main>
+  )
 }
 
 function Header({
@@ -323,39 +312,14 @@ function Header({
             <span aria-hidden="true">~/</span> 홈
           </a>
           <a
-            className={navClass}
-            href="/#about"
-            onClick={(event) => onHome(event, 'about')}
-          >
-            <span aria-hidden="true">$</span> 소개
-          </a>
-          <a
-            className={navClass}
-            href="/#projects"
-            onClick={(event) => onHome(event, 'projects')}
-          >
-            <span aria-hidden="true">./</span> 프로젝트
-          </a>
-          <a
-            className={navClass}
-            href="/#activities"
-            onClick={(event) => onHome(event, 'activities')}
-          >
-            <span aria-hidden="true">#</span> 수상·활동
-          </a>
-          <a
             className={`${navClass} ${route.page === 'writeups' ? 'is-active' : ''}`}
             href="/writeups/"
             onClick={onWriteups}
           >
-            <span aria-hidden="true">&gt;</span> 연구·글
+            <span aria-hidden="true">&gt;</span> 연구 노트
           </a>
-          <a
-            className={navClass}
-            href="/#contact"
-            onClick={(event) => onHome(event, 'contact')}
-          >
-            <span aria-hidden="true">@</span> 연락
+          <a className={navClass} href={`mailto:${profile.email}`}>
+            @ 연락
           </a>
         </div>
 
@@ -391,35 +355,13 @@ function Header({
             <a className={navClass} href="/" onClick={(event) => onHome(event)}>
               ~/ 홈
             </a>
-            <a
-              className={navClass}
-              href="/#about"
-              onClick={(event) => onHome(event, 'about')}
-            >
-              $ 소개
-            </a>
-            <a
-              className={navClass}
-              href="/#projects"
-              onClick={(event) => onHome(event, 'projects')}
-            >
-              ./ 프로젝트
-            </a>
-            <a
-              className={navClass}
-              href="/#activities"
-              onClick={(event) => onHome(event, 'activities')}
-            >
-              # 수상·활동
-            </a>
             <a className={navClass} href="/writeups/" onClick={onWriteups}>
-              &gt; 연구·글
+              &gt; 연구 노트
             </a>
-            <a
-              className={navClass}
-              href="/#contact"
-              onClick={(event) => onHome(event, 'contact')}
-            >
+            <a className={navClass} href={profile.github} rel="noopener noreferrer" target="_blank">
+              git://github
+            </a>
+            <a className={navClass} href={`mailto:${profile.email}`}>
               @ 연락
             </a>
           </div>
@@ -429,52 +371,6 @@ function Header({
   )
 }
 
-
-function About() {
-  return <section id="about" className="shell-document">
-    <h2>{profile.name} · {profile.affiliation}</h2>
-    <p>정보보안·AI 학부 연구 · Supabase RLS 보안 정책 연구</p>
-    <dl className="shell-facts">
-      <dt>관심 분야</dt><dd>{interests.join(' · ')}</dd>
-      <dt>기술 및 도구</dt><dd>{skills.join(' · ')}</dd>
-    </dl>
-    <a href={profile.departmentUrl} target="_blank" rel="noopener noreferrer">대전대학교 AI소프트웨어학부</a>
-  </section>
-}
-
-function Projects() {
-  return <section id="projects" className="shell-document">
-    <h2>개발 프로젝트</h2>
-    {featuredProjects.length ? featuredProjects.map(project => <article key={project.name}>
-      <h3>{project.name}</h3><p>{project.description}</p>
-      <p className="shell-muted">{project.stack.join(' · ')} / {project.status}</p>
-    </article>) : <p className="shell-muted">프로젝트 목록 준비 중</p>}
-    <a href="/writeups/">연구 및 개발 기록</a>
-  </section>
-}
-
-function Activities() {
-  return <section id="activities" className="shell-document">
-    <h2>수상 및 활동</h2>
-    {activities.map(activity => <article key={activity.name}>
-      {activity.displayDate && <p className="shell-muted">{activity.displayDate}</p>}
-      <h3>{activity.name}</h3>
-      <p>{activity.description}</p>
-      {activity.evidenceUrl && <a href={activity.evidenceUrl} target="_blank" rel="noopener noreferrer">{activity.evidenceLabel}</a>}
-    </article>)}
-    <h3>공식 프로필</h3>
-    {externalProfiles.map(link => <p key={link.href}><a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></p>)}
-  </section>
-}
-
-function Contact() {
-  return <section id="contact" className="shell-document">
-    <h2>연락처</h2>
-    <dl className="shell-facts">{contactLinks.map(link => <div key={link.label}>
-      <dt>{link.label}</dt><dd><a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{link.value}</a></dd>
-    </div>)}</dl>
-  </section>
-}
 
 type WriteupsPageProps = {
   route: Route
