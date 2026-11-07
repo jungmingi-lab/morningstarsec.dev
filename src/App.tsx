@@ -35,6 +35,7 @@ const categoryOptions: CategoryFilter[] = [
   '전체',
   ...WRITEUP_CATEGORIES,
 ]
+const achievementCategories = ['CTF/Wargame', '공모전/자격증'] as const
 
 function readRoute(): Route {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
@@ -258,20 +259,36 @@ type HeaderProps = {
 function HomePage({ onWriteups }: { onWriteups: (event: MouseEvent<HTMLAnchorElement>) => void }) {
   return (
     <main id="main-content" className="home-page">
-      <section className="home-hero">
-        <p className="home-eyebrow"><span aria-hidden="true" /> KALI · SECURITY RESEARCH</p>
-        <h1>{profile.name}</h1>
-        <p className="home-affiliation">{profile.affiliation}</p>
-        <p className="home-summary">정보보안 연구 · 취약점 분석 · CTF · AI 프로젝트</p>
-        <div className="home-actions">
-          <a className="home-primary" href="/writeups/" onClick={onWriteups}>
-            연구 노트 보기 <ArrowRight className="size-4" aria-hidden="true" />
-          </a>
-          <a className="home-secondary" href={profile.github} rel="noopener noreferrer" target="_blank">
-            <GitBranch className="size-4" aria-hidden="true" /> GitHub 프로필
-          </a>
-        </div>
-      </section>
+      <div className="home-content">
+        <section className="home-hero">
+          <p className="home-eyebrow"><span aria-hidden="true" /> KALI · SECURITY RESEARCH</p>
+          <h1>{profile.name}</h1>
+          <p className="home-affiliation">{profile.affiliation}</p>
+          <p className="home-summary">정보보안 연구 · 취약점 분석 · CTF · AI 프로젝트</p>
+          <div className="home-actions">
+            <a className="home-primary" href="/writeups/" onClick={onWriteups}>
+              연구 노트 보기 <ArrowRight className="size-4" aria-hidden="true" />
+            </a>
+            <a className="home-secondary" href={profile.github} rel="noopener noreferrer" target="_blank">
+              <GitBranch className="size-4" aria-hidden="true" /> GitHub 프로필
+            </a>
+          </div>
+        </section>
+        <section className="home-results" aria-label="CTF 및 수상 기록">
+          {achievementCategories.map((category) => {
+            const results = activities.filter((activity) => activity.category === category)
+            if (!results.length) return null
+            return (
+              <div className="home-result-group" key={category}>
+                <h2>{category}</h2>
+                <ul>
+                  {results.map((result) => <li key={result.name}>{result.name}</li>)}
+                </ul>
+              </div>
+            )
+          })}
+        </section>
+      </div>
     </main>
   )
 }

@@ -41,8 +41,9 @@ a { text-underline-offset: 4px; }
 .skip-link:focus { top: 12px; }
 
 /* Kali desktop panel and research notebook. */
-.home-page { min-height: calc(100svh - 68px); display: grid; place-items: center; padding: clamp(40px, 8vw, 100px) 24px; }
-.home-hero { width: min(100%, 780px); margin: auto; padding: 8px 0 8px clamp(20px, 4vw, 38px); border-left: 2px solid var(--blue); }
+.home-page { min-height: calc(100svh - 68px); display: grid; place-items: center; padding: clamp(40px, 8vw, 88px) 24px; }
+.home-content { width: min(100%, 980px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); align-items: center; gap: clamp(32px, 6vw, 70px); margin: auto; }
+.home-hero { width: 100%; margin: auto; padding: 8px 0 8px clamp(20px, 4vw, 38px); border-left: 2px solid var(--blue); }
 .home-eyebrow { display: flex; align-items: center; gap: 10px; color: var(--blue); font: 12px var(--mono); letter-spacing: .08em; }
 .home-eyebrow > span { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
 .home-hero h1 { margin: 28px 0 0; color: var(--text); font-size: clamp(42px, 8vw, 72px); font-weight: 600; letter-spacing: -.055em; line-height: 1.15; }
@@ -55,6 +56,11 @@ a { text-underline-offset: 4px; }
 .home-secondary { color: var(--text); background: var(--panel); }
 .home-secondary:hover { border-color: var(--blue); }
 .home-primary:focus-visible, .home-secondary:focus-visible { outline-offset: 3px; }
+.home-results { min-width: 0; padding-left: clamp(24px, 4vw, 46px); border-left: 1px solid var(--line); }
+.home-result-group + .home-result-group { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.home-result-group h2 { margin: 0; color: var(--blue); font: 12px var(--mono); }
+.home-result-group ul { margin: 10px 0 0; padding: 0; list-style: none; }
+.home-result-group li { margin: 8px 0; color: var(--text); font-size: 14px; line-height: 1.7; word-break: keep-all; }
 .site-header { height: 68px; border-bottom: 1px solid var(--line); background: var(--bar); }
 .site-header nav { min-height: 68px; }
 .brand-lockup { font-family: var(--mono); }
@@ -159,7 +165,9 @@ a { text-underline-offset: 4px; }
 }
 @media (max-width: 480px) {
   .home-page { min-height: calc(100svh - 62px); padding-inline: 22px; }
+  .home-content { grid-template-columns: minmax(0, 1fr); gap: 30px; }
   .home-hero { padding-left: 18px; }
+  .home-results { padding: 22px 0 0; border-top: 1px solid var(--line); border-left: 0; }
   .home-affiliation { font-size: 16px; }
   .home-summary { font-size: 15px; }
   .home-actions { align-items: stretch; }

@@ -306,6 +306,17 @@ function renderStaticFooter() {
 }
 
 function renderHome() {
+  const achievementGroups = ['CTF/Wargame', '공모전/자격증']
+    .map((category) => {
+      const results = activities.filter((activity) => activity.category === category)
+      if (!results.length) return ''
+      return `<section class="border-t border-white/10 pt-5">
+          <h2 class="font-mono text-sm text-cyan-200">${escapeHtml(category)}</h2>
+          <ul class="mt-3 space-y-2 text-sm leading-6 text-slate-200">${results.map((result) => `<li>${escapeHtml(result.name)}</li>`).join('')}</ul>
+        </section>`
+    })
+    .join('')
+
   return `${STATIC_START}
     ${renderStaticHeader()}
     <main class="section-shell home-static min-h-[calc(100svh-68px)] px-6 py-24">
@@ -320,6 +331,7 @@ function renderHome() {
         </div>
       </section>
     </main>
+    <section aria-label="CTF 및 수상 기록" class="section-shell grid gap-8 pb-14 sm:grid-cols-2">${achievementGroups}</section>
     ${renderStaticFooter()}
     ${STATIC_END}`
 }
