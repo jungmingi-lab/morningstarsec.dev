@@ -6,6 +6,10 @@ import {
 } from 'node:fs'
 import { dirname, extname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const distDirectory = join(projectRoot, 'dist')
@@ -358,83 +362,29 @@ function renderWriteupList() {
     ${STATIC_END}`
 }
 
-function renderInlineMarkdown(value) {
-  return escapeHtml(value)
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-}
-
 function renderMarkdown(markdown) {
-  const lines = markdown.split('\n')
-  const output = []
-  let paragraph = []
-  let inList = false
-  let inCode = false
-  let codeLines = []
-
-  const flushParagraph = () => {
-    if (paragraph.length > 0) {
-      output.push(`<p>${renderInlineMarkdown(paragraph.join(' '))}</p>`)
-      paragraph = []
-    }
-  }
-  const closeList = () => {
-    if (inList) {
-      output.push('</ul>')
-      inList = false
-    }
-  }
-
-  for (const line of lines) {
-    if (line.startsWith('```')) {
-      flushParagraph()
-      closeList()
-      if (inCode) {
-        output.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`)
-        codeLines = []
-      }
-      inCode = !inCode
-      continue
-    }
-    if (inCode) {
-      codeLines.push(line)
-      continue
-    }
-    if (/^###\s+/.test(line)) {
-      flushParagraph()
-      closeList()
-      output.push(`<h3>${renderInlineMarkdown(line.replace(/^###\s+/, ''))}</h3>`)
-      continue
-    }
-    if (/^##\s+/.test(line)) {
-      flushParagraph()
-      closeList()
-      output.push(`<h2>${renderInlineMarkdown(line.replace(/^##\s+/, ''))}</h2>`)
-      continue
-    }
-    if (/^-\s+/.test(line)) {
-      flushParagraph()
-      if (!inList) {
-        output.push('<ul>')
-        inList = true
-      }
-      output.push(`<li>${renderInlineMarkdown(line.replace(/^-\s+/, ''))}</li>`)
-      continue
-    }
-    if (!line.trim()) {
-      flushParagraph()
-      closeList()
-      continue
-    }
-    paragraph.push(line.trim())
-  }
-
-  flushParagraph()
-  closeList()
-  if (inCode) {
-    output.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`)
-  }
-  return output.join('\n')
+  return renderToStaticMarkup(
+    createElement(
+      ReactMarkdown,
+      {
+        remarkPlugins: [remarkGfm],
+        components: {
+          table: ({ children, ...props }) =>
+            createElement(
+              'div',
+              {
+                className: 'markdown-table-scroll',
+                role: 'region',
+                'aria-label': '본문 표 · 좌우 스크롤',
+                tabIndex: 0,
+              },
+              createElement('table', props, children),
+            ),
+        },
+      },
+      markdown,
+    ),
+  )
 }
 
 function renderArticle(writeup) {
