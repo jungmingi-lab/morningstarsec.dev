@@ -8,6 +8,8 @@ readTime: "1 min read"
 summary: "파크골프 웰니스 앱 Bareungrip의 개발 · 첫 출시 준비 기록"
 ---
 
+> **2026-11-23 업데이트:** 바른그립 Android 앱이 Google Play에 공개되고 공식 웹사이트도 열렸다. 현재 상태와 링크는 [출시 기록](/writeups/bareungrip-google-play-launch/)에서 확인할 수 있다.
+
 ## 작성 당시 상태
 
 **출시 대기 중**
