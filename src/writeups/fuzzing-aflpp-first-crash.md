@@ -62,6 +62,8 @@ AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 AFL_SKIP_CPUFREQ=1 \
 
 WSL의 `core_pattern` 검사 때문에 처음 실행이 중단돼, 이 연습 환경에서만 `AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1`을 사용했다. 이 설정은 검사를 건너뛰므로 크래시 감지가 지연되거나 누락될 수 있다.
 
+![AFL++가 실행 중이며 크래시 1개를 저장한 터미널 화면](/writeups/aflpp-first-crash-terminal.png)
+
 실행 결과, 약 113초 동안 323,425회 실행했고 코퍼스에 입력 5개가 남았으며 크래시 입력 1개가 저장됐다. 퍼저 화면의 `saved crashes: 1`은 저장된 입력의 수이지 서로 다른 취약점이 하나 확인됐다는 뜻은 아니다.
 
 저장된 입력은 45바이트였고 `FUZZ`로 시작했다. `afl-tmin`으로 같은 크래시를 유지하며 불필요한 부분을 지우니 4바이트 `FUZZ`만 남았다. 이 입력을 다시 `./target`에 넣었을 때 `abort()`가 재현됐다.
