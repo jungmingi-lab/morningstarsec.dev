@@ -5,7 +5,7 @@ category: "블로그/기술문서"
 tags: [Fuzzing, AFL++, Jackalope, libFuzzer]
 difficulty: "Beginner"
 readTime: "6 min read"
-summary: "퍼징의 기본 개념과 AFL++, Jackalope, Google의 퍼징 자료를 비교하고, AFL++ 실습에서 크래시를 찾고 최소화한 과정을 기록했다."
+summary: "퍼징의 기본 개념과 AFL++, Jackalope, libFuzzer의 차이를 살펴보고, AFL++ 실습에서 크래시를 찾고 최소화한 과정을 기록했다."
 ---
 
 퍼징을 글로만 읽을 때는 “입력을 많이 넣어 본다” 정도로 이해했다. 직접 해보니 중요한 것은 무작위 입력의 양보다 **프로그램의 새로운 동작을 찾아 다음 입력에 반영하는 과정**이었다. 이번에는 작은 C 프로그램으로 AFL++를 실행하고, 저장된 크래시가 어떤 조건에서 발생했는지 확인했다.
@@ -23,15 +23,16 @@ summary: "퍼징의 기본 개념과 AFL++, Jackalope, Google의 퍼징 자료�
 3. 새로운 실행 경로를 만든 입력은 보관하고 다시 변형한다.
 4. 충돌이나 시간 초과가 나면 해당 입력을 따로 저장한다.
 
-## 받은 자료 세 가지는 무엇이 다른가
+## 받은 자료에서 살펴본 퍼저는 무엇이 다른가
 
 | 자료 | 정체와 특징 | 살펴볼 때의 관점 |
 | --- | --- | --- |
 | [AFL++](https://github.com/AFLplusplus/AFLplusplus) | 커버리지 피드백을 활용하는 퍼징 도구 모음. 소스 코드를 계측해 컴파일할 수 있고, QEMU·FRIDA 등을 통한 바이너리 대상 방식도 지원한다. | 시드, 커버리지, 크래시 파일이 실제로 어떻게 이어지는지 실습하기 좋다. |
 | [Jackalope](https://github.com/googleprojectzero/Jackalope) | Google Project Zero의 커스터마이즈 가능한 커버리지 기반 퍼저. TinyInst를 이용해 소스가 없는 바이너리도 대상으로 삼을 수 있고, 입력 전달 방식과 변이기를 바꿀 수 있다. | 바이너리 대상 분석이나 대상 프로그램에 맞춘 구성 요소가 필요할 때의 선택지를 보여준다. |
+| [libFuzzer](https://llvm.org/docs/LibFuzzer.html) | 프로그램에 연결해 퍼징 대상 함수를 한 프로세스 안에서 반복 호출하는 커버리지 기반 퍼저다. Clang의 계측 정보를 이용한다. | 라이브러리 함수에 입력을 직접 전달하는 퍼징 대상 함수를 작성할 때 살펴볼 수 있다. |
 | [google/fuzzing](https://github.com/google/fuzzing) | 퍼저 하나가 아니라 튜토리얼과 예제, 개념 문서의 모음이다. libFuzzer 튜토리얼과 좋은 퍼징 대상 작성법 등을 담고 있다. | 퍼저를 고르기 전에 퍼징 대상 함수를 어떻게 만들지 공부할 수 있다. |
 
-따라서 셋을 동일한 퍼저로 놓고 속도를 비교하는 것은 맞지 않는다. 특히 AFL++도 바이너리 대상 모드가 있으므로, “AFL++는 소스 코드가 필요하고 Jackalope는 필요 없다”처럼 단정할 수 없다. 이번 실습은 세 자료 중 **AFL++만 직접 실행**했다.
+세 퍼저 모두 실행 결과의 커버리지를 다음 입력에 활용하지만, 대상을 실행하고 계측하는 방식이 다르다. 이번 실습에서는 AFL++가 계측한 실행 파일에 표준 입력을 전달했다. libFuzzer는 프로그램에 연결된 대상 함수를 같은 프로세스에서 반복 호출한다. Jackalope는 TinyInst를 이용한 바이너리 계측과 사용자 정의 입력 전달 방식을 제공한다. 특히 AFL++도 바이너리 대상 모드가 있으므로, “AFL++는 소스 코드가 필요하고 Jackalope는 필요 없다”처럼 단정할 수 없다. `google/fuzzing`은 이 퍼저들을 비교할 때 참고할 학습 자료이지, 네 번째 퍼저가 아니다. 이번 실습에서 **직접 실행한 것은 AFL++뿐**이다.
 
 ## AFL++로 직접 실행해 보기
 
@@ -83,4 +84,5 @@ WSL의 `core_pattern` 검사 때문에 처음 실행이 중단돼, 이 **연습 
 - [AFL++ 공식 문서: 기능과 계측 방식](https://aflplus.plus/docs/features/)
 - [AFL++ 공식 문서: 환경 변수](https://aflplus.plus/docs/env_variables/)
 - [Jackalope 저장소와 사용 설명](https://github.com/googleprojectzero/Jackalope)
+- [LLVM 공식 문서: libFuzzer](https://llvm.org/docs/LibFuzzer.html)
 - [Google Fuzzing 자료 모음](https://github.com/google/fuzzing)
