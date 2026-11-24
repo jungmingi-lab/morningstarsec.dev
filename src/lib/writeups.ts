@@ -1,7 +1,7 @@
 export const WRITEUP_CATEGORIES = [
   '개발',
   'CTF/Wargame',
-  'BugbBounty',
+  'BugBounty',
   '블로그/기술문서',
   '논문/컨퍼런스',
   '경력/공모전',

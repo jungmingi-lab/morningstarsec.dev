@@ -36,6 +36,26 @@ const categoryOptions: CategoryFilter[] = [
   ...WRITEUP_CATEGORIES,
 ]
 const achievementCategories = ['CTF/Wargame', '경력/공모전'] as const
+const writeupsDescription =
+  '직접 만든 서비스, 분석한 취약점, 읽은 보안 논문과 실습 기록을 모았습니다. 무엇을 시도했고 어디서 막혔으며 어떻게 확인했는지 기록합니다.'
+
+const suggestedWriteups = [
+  {
+    slug: 'go-png-file-share',
+    label: '개발',
+    reason: 'PNG 업로드 서버를 만들며 파일 검증, 저장 경로, 공유 링크를 어떻게 처리했는지',
+  },
+  {
+    slug: 'pypdf-cve-2026-102996-mission-report',
+    label: '취약점 분석',
+    reason: 'pypdf 코드를 살펴본 이유부터 자원 소모 문제의 재현과 수정 확인까지',
+  },
+  {
+    slug: 'domino-effect-paper-review',
+    label: '논문 읽기',
+    reason: 'DOM Clobbering의 기본 개념과 TheThing·Hulk가 문제에 접근한 방식',
+  },
+] as const
 
 function readRoute(): Route {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
@@ -158,7 +178,7 @@ function buildStructuredData(route: Route, selectedWriteup?: Writeup) {
     '@id': `${canonical}#collection`,
     url: canonical,
     name: '연구 노트',
-    description: '취약점 분석과 프로젝트 개발 기록',
+    description: writeupsDescription,
     isPartOf: { '@id': websiteId },
     author: { '@id': personId },
     inLanguage: 'ko-KR',
@@ -178,7 +198,7 @@ function Seo({ route }: { route: Route }) {
     const description = selectedWriteup
       ? selectedWriteup.summary
       : route.page === 'writeups'
-        ? '취약점 분석과 프로젝트 개발 기록'
+        ? writeupsDescription
         : profile.description
     const canonical = canonicalForRoute(route)
 
@@ -421,8 +441,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
 
   const selectedWriteup = route.slug
     ? writeups.find((writeup) => writeup.slug === route.slug)
-    : filteredWriteups[0]
-  const ArticleHeading = route.slug ? 'h1' : 'h2'
+    : undefined
 
   const selectWriteup = (
     event: MouseEvent<HTMLAnchorElement>,
@@ -438,16 +457,16 @@ function WriteupsPage({ route }: WriteupsPageProps) {
     <main id="main-content" tabIndex={-1} className="section-shell writeups-page pt-32 pb-24">
       <SectionHeading
         icon={BookOpen}
-        eyebrow="연구 노트"
+        eyebrow="writeups"
         title="연구 노트"
-        description="보안과 개발 과정에서 확인한 기술 기록"
+        description={writeupsDescription}
         headingLevel={route.slug ? 'h2' : 'h1'}
       />
 
       <div className="writeups-layout">
         <nav aria-label="연구 노트 탐색" className="writeup-explorer">
           <div className="notebook-panel-heading">
-            <h2>노트 탐색</h2>
+            <h2>글 찾아보기</h2>
             <span>{filteredWriteups.length}건</span>
           </div>
           <div className="explorer-content">
@@ -456,7 +475,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
               <input
                 type="search"
                 aria-label="연구 노트 검색"
-                placeholder="제목 · 태그 · 기법"
+                placeholder="제목 · 태그 · 주제 검색"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
               />
@@ -491,7 +510,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
                 </a>
               ))}
               {filteredWriteups.length === 0 ? (
-                <p className="notebook-empty">검색 결과 없음</p>
+                <p className="notebook-empty">조건에 맞는 글이 없습니다. 다른 검색어나 카테고리를 선택해 보세요.</p>
               ) : null}
             </div>
           </div>
@@ -499,7 +518,7 @@ function WriteupsPage({ route }: WriteupsPageProps) {
 
         <section className="notebook-article">
           <div className="article-shell">
-          {selectedWriteup ? (
+          {route.slug && selectedWriteup ? (
             <article className="min-w-0 [overflow-wrap:anywhere]">
               <div className="notebook-article-meta">
                 <span className="notebook-category">
@@ -508,9 +527,9 @@ function WriteupsPage({ route }: WriteupsPageProps) {
                 <span>{formatDate(selectedWriteup.date)}</span>
                 <span>{selectedWriteup.readTime}</span>
               </div>
-              <ArticleHeading className="notebook-article-title">
+              <h1 className="notebook-article-title">
                 {selectedWriteup.title}
-              </ArticleHeading>
+              </h1>
               <p className="notebook-article-summary">
                 {selectedWriteup.summary}
               </p>
@@ -546,11 +565,38 @@ function WriteupsPage({ route }: WriteupsPageProps) {
                 </ReactMarkdown>
               </div>
             </article>
-          ) : (
+          ) : route.slug ? (
             <div className="grid min-h-[420px] place-items-center text-center">
               <div>
                 <Terminal className="mx-auto size-10 text-slate-500" aria-hidden="true" />
-                <p className="mt-4 text-slate-300">검색 결과 없음</p>
+                <p className="mt-4 text-slate-300">요청한 글을 찾을 수 없습니다.</p>
+                <a className="mt-3 inline-block text-blue-300 underline" href="/writeups/">글 목록으로 돌아가기</a>
+              </div>
+            </div>
+          ) : (
+            <div className="notebook-welcome">
+              <p className="notebook-welcome-kicker">처음 방문했다면</p>
+              <h2>관심 있는 글부터 읽어보세요</h2>
+              <p>
+                보안과 개발을 공부하면서 직접 해본 일을 적고 있습니다. 완성된 결과뿐 아니라
+                시작한 이유, 선택한 방법, 확인한 결과를 가능한 한 함께 남기려고 합니다.
+              </p>
+              <p>
+                왼쪽에서 분야를 선택하거나 제목·태그로 검색할 수 있습니다. 무엇을 먼저 읽을지
+                고민된다면 아래 세 글에서 시작해 보세요.
+              </p>
+              <div className="notebook-starting-points">
+                {suggestedWriteups.map(({ slug, label, reason }) => {
+                  const writeup = writeups.find((item) => item.slug === slug)
+                  return writeup ? (
+                    <a className="notebook-starting-point" href={`${writeupPath(slug)}/`} key={slug} onClick={(event) => selectWriteup(event, writeup)}>
+                      <span>{label}</span>
+                      <strong>{writeup.title}</strong>
+                      <small>{reason}</small>
+                      <span className="notebook-starting-point-action">글 읽기 <ArrowRight className="size-4" aria-hidden="true" /></span>
+                    </a>
+                  ) : null
+                })}
               </div>
             </div>
           )}

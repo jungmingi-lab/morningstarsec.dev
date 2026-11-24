@@ -22,7 +22,7 @@ const { activities, interests, profile } = portfolio
 
 const HOME_DESCRIPTION = profile.description
 const WRITEUPS_DESCRIPTION =
-  '정민기의 CTF 풀이, 취약점 분석, 디지털 포렌식, AI 보안 및 소프트웨어 개발 기록'
+  '직접 만든 서비스, 분석한 취약점, 읽은 보안 논문과 실습 기록을 모았습니다. 무엇을 시도했고 어디서 막혔으며 어떻게 확인했는지 기록합니다.'
 const ROBOTS_CONTENT =
   'User-agent: *\nAllow: /\n\nSitemap: https://luxferre.cc/sitemap.xml\n'
 const HEAD_START = '<!-- seo-head:start -->'
@@ -356,6 +356,7 @@ function renderWriteupList() {
     <main class="section-shell pt-32 pb-24">
       <h1 class="text-4xl font-semibold text-white">연구 노트</h1>
       <p class="mt-5 max-w-3xl leading-8 text-slate-300">${WRITEUPS_DESCRIPTION}</p>
+      <p class="mt-3 max-w-3xl leading-8 text-slate-300">관심 있는 분야의 글을 골라 읽어보세요. 개발, 취약점 분석, 논문 리뷰 등 실제로 살펴본 주제를 정리했습니다.</p>
       <section aria-label="연구 노트 목록" class="mt-10 grid gap-4">${cards}</section>
     </main>
     ${renderStaticFooter()}
